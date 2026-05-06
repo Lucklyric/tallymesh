@@ -3,6 +3,7 @@ pragma solidity 0.8.26;
 
 import {DepositEscrow} from "./DepositEscrow.sol";
 import {ReceiptLib} from "./lib/ReceiptLib.sol";
+import {IBatchVerifier} from "./interfaces/IBatchVerifier.sol";
 
 /// @notice Optimistic batch-settlement contract for TallyMesh receipts.
 /// @dev v2 plan: bond management with unbond-locked-during-pending-batches.
@@ -29,8 +30,11 @@ contract BatchSettlement {
     error ReceiptAlreadyClaimed();
     error NotDisputeManager();
     error InvalidationNotAllowed();
+    error VerifierNotApproved();
+    error InvalidValidityProof();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
+    enum SettlementMode { Optimistic, ZK }
 
     struct Session {
         address payer;
@@ -63,6 +67,10 @@ contract BatchSettlement {
     // Global receipt-claim key keyed by keccak256(sessionId, seq, requestHash).
     mapping(bytes32 => bool) public claimedReceipt;
     address public disputeManager;
+    mapping(bytes32 => SettlementMode) public settlementModeOf;
+    mapping(bytes32 => address) public verifierOf;
+    mapping(address => bool) public approvedVerifiers;
+    uint256 public chargedCeiling;
 
     event SubmitterAuthorized(address indexed submitter, bool authorized);
     event SubmitterBonded(address indexed submitter, uint256 amount);
@@ -78,6 +86,15 @@ contract BatchSettlement {
     event SessionReserved(bytes32 indexed sessionId, address indexed payer, address indexed recipient, uint256 amount);
     event BatchFinalized(bytes32 indexed batchId);
     event ReceiptClaimed(bytes32 indexed batchId, bytes32 indexed receiptKey, address payer, address recipient, uint256 amount);
+    event VerifierApproved(address indexed verifier, bool approved);
+    event ChargedCeilingUpdated(uint256 newCeiling);
+    event ZkBatchSubmitted(
+        bytes32 indexed batchId,
+        address indexed submitter,
+        address indexed verifier,
+        bytes32 receiptsRoot,
+        uint256 receiptCount
+    );
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -121,6 +138,16 @@ contract BatchSettlement {
 
     function setDisputeManager(address dispute_) external onlyOwner {
         disputeManager = dispute_;
+    }
+
+    function setApprovedVerifier(address verifier, bool approved) external onlyOwner {
+        approvedVerifiers[verifier] = approved;
+        emit VerifierApproved(verifier, approved);
+    }
+
+    function setChargedCeiling(uint256 newCeiling) external onlyOwner {
+        chargedCeiling = newCeiling;
+        emit ChargedCeilingUpdated(newCeiling);
     }
 
     function invalidateAndSlash(bytes32 batchId, address payable challenger) external {
@@ -171,6 +198,37 @@ contract BatchSettlement {
         });
         _pendingBatchesOf[msg.sender] += 1;
         emit BatchSubmitted(batchId, msg.sender, receiptsRoot, deltasRoot, receiptCount, deadline);
+    }
+
+    function submitZkBatch(
+        bytes32 batchId,
+        bytes32 receiptsRoot,
+        bytes32 deltasRoot,
+        uint256 receiptCount,
+        address verifier,
+        bytes calldata proof
+    ) external onlyAuthorizedSubmitter {
+        if (batches[batchId].submitter != address(0)) revert BatchAlreadyExists();
+        if (!approvedVerifiers[verifier]) revert VerifierNotApproved();
+        if (!IBatchVerifier(verifier).verifyBatch(receiptsRoot, receiptCount, chargedCeiling, proof)) {
+            revert InvalidValidityProof();
+        }
+        batches[batchId] = Batch({
+            submitter: msg.sender,
+            receiptCount: receiptCount,
+            submittedAt: uint64(block.timestamp),
+            challengeDeadline: uint64(block.timestamp), // immediate finality
+            bondAtSubmission: _bondOf[msg.sender],
+            status: BatchStatus.Finalized,
+            receiptsRoot: receiptsRoot,
+            deltasRoot: deltasRoot
+        });
+        settlementModeOf[batchId] = SettlementMode.ZK;
+        verifierOf[batchId] = verifier;
+        // Note: no _pendingBatchesOf increment; ZK batches have no pending state.
+        emit ZkBatchSubmitted(batchId, msg.sender, verifier, receiptsRoot, receiptCount);
+        emit BatchSubmitted(batchId, msg.sender, receiptsRoot, deltasRoot, receiptCount, uint64(block.timestamp));
+        emit BatchFinalized(batchId);
     }
 
     function bondOf(address submitter) external view returns (uint256) {
