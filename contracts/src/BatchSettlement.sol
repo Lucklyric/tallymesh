@@ -27,6 +27,8 @@ contract BatchSettlement {
     error ChallengeWindowOpen();
     error InvalidReceiptProof();
     error ReceiptAlreadyClaimed();
+    error NotDisputeManager();
+    error InvalidationNotAllowed();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
 
@@ -60,6 +62,7 @@ contract BatchSettlement {
     mapping(bytes32 => Session) public sessions;
     // Global receipt-claim key keyed by keccak256(sessionId, seq, requestHash).
     mapping(bytes32 => bool) public claimedReceipt;
+    address public disputeManager;
 
     event SubmitterAuthorized(address indexed submitter, bool authorized);
     event SubmitterBonded(address indexed submitter, uint256 amount);
@@ -114,6 +117,29 @@ contract BatchSettlement {
 
     function setChallengeWindow(uint64 window) external onlyOwner {
         challengeWindow = window;
+    }
+
+    function setDisputeManager(address dispute_) external onlyOwner {
+        disputeManager = dispute_;
+    }
+
+    function invalidateAndSlash(bytes32 batchId, address payable challenger) external {
+        if (msg.sender != disputeManager) revert NotDisputeManager();
+        Batch storage b = batches[batchId];
+        if (b.submitter == address(0)) revert BatchNotFound();
+        if (b.status != BatchStatus.Pending) revert InvalidationNotAllowed();
+        b.status = BatchStatus.Invalidated;
+        if (_pendingBatchesOf[b.submitter] > 0) {
+            _pendingBatchesOf[b.submitter] -= 1;
+        }
+        uint256 slashed = _bondOf[b.submitter];
+        _bondOf[b.submitter] = 0;
+        totalBondedStake -= slashed;
+        emit SubmitterUnbonded(b.submitter, slashed);
+        if (slashed > 0) {
+            (bool ok,) = challenger.call{value: slashed}("");
+            if (!ok) revert TransferFailed();
+        }
     }
 
     function reserveSession(bytes32 sessionId, address payable recipient, uint256 amount) external {
