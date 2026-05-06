@@ -60,3 +60,15 @@ Files committed:
 - `eval/data/derived/e11_sweep.csv` (E11 trilemma sweep, 243 operating points)
 - `eval/data/derived/e11_archetypes.csv` (E11 archetype worked examples for the paper)
 - `eval/data/derived/security_battery.csv` (E8 §2.3 attack-coverage table, 18 attacks across crypto/core/settlement/escrow/governance/router layers; 15 covered, 3 design-level)
+
+## Paper figures + tables (added Day 8)
+
+Pure visualization / serialization layer over the committed CSV/JSON files. Plots use matplotlib via `uv run --with matplotlib python <script>`; table emitters are pure stdlib.
+
+Files committed:
+- `eval/data/figures/fig2_gas_per_call.{pdf,png}` (headline gas/call vs batch size)
+- `eval/data/figures/fig3_trilemma_frontier.{pdf,png}` (D_sub vs throughput, S_fail color)
+- `eval/data/tables/tab1_gas_usd.tex` (per-function gas + USD)
+- `eval/data/tables/tab4_storage.tex` (storage growth)
+- `eval/data/tables/tab_attacks.tex` (§2.3 attack-coverage table)
+- `eval/data/tables/tab_archetypes.tex` (E11 operating-points table)
