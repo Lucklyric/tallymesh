@@ -1,40 +1,418 @@
 No files changed, compilation skipped
 
-╭--------------------+------------------+-------------------+--------------------+---------------------╮
-| Contract           | Runtime Size (B) | Initcode Size (B) | Runtime Margin (B) | Initcode Margin (B) |
-+======================================================================================================+
-| BatchSettlement    | 6,005            | 6,179             | 18,571             | 42,973              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| DepositEscrow      | 2,389            | 2,439             | 22,187             | 46,713              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| DisputeManager     | 1,795            | 1,963             | 22,781             | 47,189              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| ECDSA              | 85               | 135               | 24,491             | 49,017              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| EIP712Domain       | 85               | 135               | 24,491             | 49,017              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| FeeSchedule        | 85               | 135               | 24,491             | 49,017              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| MockERC1271        | 875              | 1,483             | 23,701             | 47,669              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| PhantomERC1271     | 265              | 293               | 24,311             | 48,859              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| ReceiptLib         | 85               | 135               | 24,491             | 49,017              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| RolePolicyRegistry | 1,299            | 1,438             | 23,277             | 47,714              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| RouterRegistry     | 2,007            | 2,035             | 22,569             | 47,117              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| ServiceRegistry    | 1,214            | 1,242             | 23,362             | 47,910              |
-|--------------------+------------------+-------------------+--------------------+---------------------|
-| Signatures         | 85               | 135               | 24,491             | 49,017              |
-╰--------------------+------------------+-------------------+--------------------+---------------------╯
+╭------------------------------+------------------+-------------------+--------------------+---------------------╮
+| Contract                     | Runtime Size (B) | Initcode Size (B) | Runtime Margin (B) | Initcode Margin (B) |
++================================================================================================================+
+| BatchSettlement              | 7,815            | 8,003             | 16,761             | 41,149              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| BatchValidityGroth16Verifier | 1,537            | 1,565             | 23,039             | 47,587              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| CircomBatchVerifier          | 1,252            | 1,383             | 23,324             | 47,769              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| DepositEscrow                | 2,389            | 2,439             | 22,187             | 46,713              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| DisputeManager               | 1,795            | 1,963             | 22,781             | 47,189              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| ECDSA                        | 85               | 135               | 24,491             | 49,017              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| EIP712Domain                 | 85               | 135               | 24,491             | 49,017              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| FeeSchedule                  | 85               | 135               | 24,491             | 49,017              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| MockERC1271                  | 875              | 1,483             | 23,701             | 47,669              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| PhantomERC1271               | 265              | 293               | 24,311             | 48,859              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| ReceiptLib                   | 85               | 135               | 24,491             | 49,017              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| RolePolicyRegistry           | 1,299            | 1,438             | 23,277             | 47,714              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| RouterRegistry               | 2,007            | 2,035             | 22,569             | 47,117              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| ServiceRegistry              | 1,214            | 1,242             | 23,362             | 47,910              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| Signatures                   | 85               | 135               | 24,491             | 49,017              |
+|------------------------------+------------------+-------------------+--------------------+---------------------|
+| _MockVerifier                | 388              | 500               | 24,188             | 48,652              |
+╰------------------------------+------------------+-------------------+--------------------+---------------------╯
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RolePolicyRegistry.t.sol:12:35
+   │
+12 │     bytes32 constant SERVICE_ID = bytes32("svc-1");
+   │                                   ━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementSubmit.t.sol:11:33
+   │
+11 │     bytes32 constant BATCH_ID = bytes32("batch-1");
+   │                                 ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementSubmit.t.sol:20:39
+   │
+20 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementSubmit.t.sol:44:37
+   │
+44 │         assertEq(challengeDeadline, uint64(block.timestamp + CHALLENGE_WINDOW));
+   │                                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementSubmit.t.sol:73:99
+   │
+73 │ … SUBMITTER, RECEIPTS_ROOT, DELTAS_ROOT, 100, uint64(block.timestamp + CHALLENGE_WINDOW));
+   │                                               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementSubmit.t.sol:90:42
+   │
+90 │         settlement.submitOptimisticBatch(bytes32("batch-2"), RECEIPTS_ROOT, DELTAS_ROOT, 100);
+   │                                          ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╭▸ test/unit/FeeSchedule.t.sol:19:23
    │
 19 │             currency: bytes32("USDC")
    │                       ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/FeeSchedule.t.sol:33:23
+   │
+33 │             currency: bytes32("USDC")
+   │                       ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/FeeSchedule.t.sol:39:23
+   │
+39 │             currency: bytes32("USDC")
+   │                       ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/FeeSchedule.t.sol:49:23
+   │
+49 │             currency: bytes32("USDC")
+   │                       ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/FeeSchedule.t.sol:60:23
+   │
+60 │             currency: bytes32("USDC")
+   │                       ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RouterRegistry.t.sol:11:34
+   │
+11 │     bytes32 constant ROUTER_ID = bytes32("router-1");
+   │                                  ━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/BatchSettlement.sol:247:13
+    │
+247 │         if (block.timestamp < b.challengeDeadline) revert ChallengeWindowOpen();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:11:33
+   │
+11 │     bytes32 constant BATCH_ID = bytes32("batch-real");
+   │                                 ━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:19:39
+   │
+19 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:52:42
+   │
+52 │         settlement.submitOptimisticBatch(bytes32("batch-A"), RECEIPTS_ROOT, bytes32(0), 1);
+   │                                          ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:54:42
+   │
+54 │         settlement.submitOptimisticBatch(bytes32("batch-B"), RECEIPTS_ROOT, bytes32(0), 1);
+   │                                          ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RolePolicyRegistry.t.sol:13:33
+   │
+13 │     bytes32 constant RESOURCE = bytes32("inference.text");
+   │                                 ━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RolePolicyRegistry.t.sol:14:29
+   │
+14 │     bytes32 constant ROLE = bytes32("paying-customer");
+   │                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RolePolicyRegistry.t.sol:15:31
+   │
+15 │     bytes32 constant ISSUER = bytes32("issuer-1");
+   │                               ━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RolePolicyRegistry.t.sol:41:38
+   │
+41 │         policyRegistry.setRolePolicy(bytes32("unknown"), RESOURCE, ROLE, 10_000, true);
+   │                                      ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/RolePolicyRegistry.t.sol:54:68
+   │
+54 │         assertFalse(policyRegistry.isIssuerBound(SERVICE_ID, ROLE, bytes32("issuer-2")));
+   │                                                                    ━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/integration/EndToEnd.t.sol:24:35
+   │
+24 │     bytes32 constant SERVICE_ID = bytes32("svc-1");
+   │                                   ━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/security/SecurityBatteryDay3.t.sol:30:39
+   │
+30 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:58:34
+   │
+58 │         settlement.finalizeBatch(bytes32("batch-A"));
+   │                                  ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:65:34
+   │
+65 │         settlement.finalizeBatch(bytes32("batch-B"));
+   │                                  ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementZk.t.sol:33:32
+   │
+33 │     bytes32 constant SESSION = bytes32("zk-sess-1");
+   │                                ━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementZk.t.sol:34:33
+   │
+34 │     bytes32 constant BATCH_ID = bytes32("zk-batch-1");
+   │                                 ━━━━━━━━━━━━━━━━━━━━━
    │
    ├ note: consider disabling this lint if you're certain the cast is safe
    │       
@@ -52,16 +430,50 @@ warning[block-timestamp]: usage of `block.timestamp` in a comparison may be mani
    │
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
-warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-    ╭▸ src/BatchSettlement.sol:189:13
-    │
-189 │         if (block.timestamp < b.challengeDeadline) revert ChallengeWindowOpen();
-    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/invariant/DepositEscrowHandler.sol:11:39
+   │
+11 │     bytes32 public constant SESSION = bytes32("inv-sess");
+   │                                       ━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/security/SecurityBatteryDay3.t.sol:30:39
+   ╭▸ test/unit/DisputeManager.t.sol:17:33
+   │
+17 │     bytes32 constant BATCH_ID = bytes32("batch-1");
+   │                                 ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/DisputeManager.t.sol:18:32
+   │
+18 │     bytes32 constant SESSION = bytes32("sess-1");
+   │                                ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/DisputeManager.t.sol:30:39
    │
 30 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
    │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
@@ -75,10 +487,276 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/integration/EndToEnd.t.sol:25:32
+   │
+25 │     bytes32 constant SESSION = bytes32("sess-1");
+   │                                ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/integration/EndToEnd.t.sol:26:33
+   │
+26 │     bytes32 constant BATCH_ID = bytes32("batch-1");
+   │                                 ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/integration/EndToEnd.t.sol:42:39
+   │
+42 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/DisputeManager.t.sol:47:25
+   │
+47 │             statusCode: bytes32("OK"),
+   │                         ━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/unit/DisputeManager.t.sol:103:25
+    │
+103 │             statusCode: bytes32("OK"),
+    │                         ━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes32' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/unit/DisputeManager.t.sol:118:25
+    │
+118 │             statusCode: bytes32("OK"),
+    │                         ━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes32' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/ServiceRegistry.t.sol:12:35
+   │
+12 │     bytes32 constant SERVICE_ID = bytes32("svc-1");
+   │                                   ━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementReserveSession.t.sol:14:32
+   │
+14 │     bytes32 constant SESSION = bytes32("sess-1");
+   │                                ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementFinalize.t.sol:16:33
+   │
+16 │     bytes32 constant BATCH_ID = bytes32("batch-1");
+   │                                 ━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementFinalize.t.sol:17:32
+   │
+17 │     bytes32 constant SESSION = bytes32("sess-1");
+   │                                ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementFinalize.t.sol:26:39
+   │
+26 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint64' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementFinalize.t.sol:48:25
+   │
+48 │             statusCode: bytes32("OK"),
+   │                         ━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/FeeSchedule.t.sol:67:23
+   │
+67 │             currency: bytes32("USDC")
+   │                       ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/ReceiptLib.t.sol:22:25
+   │
+22 │             statusCode: bytes32("OK"),
+   │                         ━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/ReceiptLib.t.sol:49:25
+   │
+49 │             statusCode: bytes32("OK"),
+   │                         ━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/integration/EndToEnd.t.sol:70:25
+   │
+70 │             statusCode: bytes32("OK"),
+   │                         ━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/ServiceRegistry.t.sol:84:46
+   │
+84 │         assertFalse(registry.isServiceSigner(bytes32("nope"), SIGNER1));
+   │                                              ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/DepositEscrow.t.sol:13:32
+   │
+13 │     bytes32 constant SESSION = bytes32("sess-1");
+   │                                ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╭▸ test/security/SecurityBatteryDay3.t.sol:44:35
    │
 44 │         settlement.reserveSession(bytes32("sess-1"), SERVICE, 1 ether);
    │                                   ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes32' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/unit/BatchSettlementFinalize.t.sol:76:34
+   │
+76 │         settlement.finalizeBatch(bytes32("none"));
+   │                                  ━━━━━━━━━━━━━━━
    │
    ├ note: consider disabling this lint if you're certain the cast is safe
    │       
@@ -173,230 +851,6 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RolePolicyRegistry.t.sol:12:35
-   │
-12 │     bytes32 constant SERVICE_ID = bytes32("svc-1");
-   │                                   ━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementFinalize.t.sol:16:33
-   │
-16 │     bytes32 constant BATCH_ID = bytes32("batch-1");
-   │                                 ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:11:33
-   │
-11 │     bytes32 constant BATCH_ID = bytes32("batch-real");
-   │                                 ━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/ReceiptLib.t.sol:22:25
-   │
-22 │             statusCode: bytes32("OK"),
-   │                         ━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/ReceiptLib.t.sol:49:25
-   │
-49 │             statusCode: bytes32("OK"),
-   │                         ━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/DepositEscrow.t.sol:13:32
-   │
-13 │     bytes32 constant SESSION = bytes32("sess-1");
-   │                                ━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/FeeSchedule.t.sol:33:23
-   │
-33 │             currency: bytes32("USDC")
-   │                       ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/FeeSchedule.t.sol:39:23
-   │
-39 │             currency: bytes32("USDC")
-   │                       ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/FeeSchedule.t.sol:49:23
-   │
-49 │             currency: bytes32("USDC")
-   │                       ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/FeeSchedule.t.sol:60:23
-   │
-60 │             currency: bytes32("USDC")
-   │                       ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/FeeSchedule.t.sol:67:23
-   │
-67 │             currency: bytes32("USDC")
-   │                       ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RolePolicyRegistry.t.sol:13:33
-   │
-13 │     bytes32 constant RESOURCE = bytes32("inference.text");
-   │                                 ━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementFinalize.t.sol:17:32
-   │
-17 │     bytes32 constant SESSION = bytes32("sess-1");
-   │                                ━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementFinalize.t.sol:26:39
-   │
-26 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
-   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementFinalize.t.sol:48:25
-   │
-48 │             statusCode: bytes32("OK"),
-   │                         ━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementFinalize.t.sol:76:34
-   │
-76 │         settlement.finalizeBatch(bytes32("none"));
-   │                                  ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
     ╭▸ test/unit/BatchSettlementFinalize.t.sol:101:24
     │
 101 │             sessionId: bytes32("never-opened"),
@@ -423,286 +877,6 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
     │       
     │       
     ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/unit/BatchSettlementFinalize.t.sol:131:25
-    │
-131 │             statusCode: bytes32("OK"),
-    │                         ━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes32' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/unit/BatchSettlementFinalize.t.sol:161:42
-    │
-161 │         settlement.submitOptimisticBatch(bytes32("batch-2"), root, bytes32(0), 1);
-    │                                          ━━━━━━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes32' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/DisputeManager.t.sol:17:33
-   │
-17 │     bytes32 constant BATCH_ID = bytes32("batch-1");
-   │                                 ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/DisputeManager.t.sol:18:32
-   │
-18 │     bytes32 constant SESSION = bytes32("sess-1");
-   │                                ━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RolePolicyRegistry.t.sol:14:29
-   │
-14 │     bytes32 constant ROLE = bytes32("paying-customer");
-   │                             ━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RolePolicyRegistry.t.sol:15:31
-   │
-15 │     bytes32 constant ISSUER = bytes32("issuer-1");
-   │                               ━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RolePolicyRegistry.t.sol:41:38
-   │
-41 │         policyRegistry.setRolePolicy(bytes32("unknown"), RESOURCE, ROLE, 10_000, true);
-   │                                      ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RolePolicyRegistry.t.sol:54:68
-   │
-54 │         assertFalse(policyRegistry.isIssuerBound(SERVICE_ID, ROLE, bytes32("issuer-2")));
-   │                                                                    ━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementReserveSession.t.sol:14:32
-   │
-14 │     bytes32 constant SESSION = bytes32("sess-1");
-   │                                ━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/unit/BatchSettlementFinalize.t.sol:163:34
-    │
-163 │         settlement.finalizeBatch(bytes32("batch-2"));
-    │                                  ━━━━━━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes32' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/unit/BatchSettlementFinalize.t.sol:165:32
-    │
-165 │         settlement.claimPayout(bytes32("batch-2"), r, proof);
-    │                                ━━━━━━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes32' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/DisputeManager.t.sol:30:39
-   │
-30 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
-   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/DisputeManager.t.sol:47:25
-   │
-47 │             statusCode: bytes32("OK"),
-   │                         ━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/invariant/DepositEscrowHandler.sol:11:39
-   │
-11 │     bytes32 public constant SESSION = bytes32("inv-sess");
-   │                                       ━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:19:39
-   │
-19 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
-   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/integration/EndToEnd.t.sol:24:35
-   │
-24 │     bytes32 constant SERVICE_ID = bytes32("svc-1");
-   │                                   ━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/integration/EndToEnd.t.sol:25:32
-   │
-25 │     bytes32 constant SESSION = bytes32("sess-1");
-   │                                ━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/integration/EndToEnd.t.sol:26:33
-   │
-26 │     bytes32 constant BATCH_ID = bytes32("batch-1");
-   │                                 ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/integration/EndToEnd.t.sol:42:39
-   │
-42 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
-   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/integration/EndToEnd.t.sol:70:25
-   │
-70 │             statusCode: bytes32("OK"),
-   │                         ━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╭▸ test/security/SecurityBatteryDay3.t.sol:78:24
@@ -733,6 +907,20 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/unit/BatchSettlementFinalize.t.sol:131:25
+    │
+131 │             statusCode: bytes32("OK"),
+    │                         ━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes32' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╭▸ test/security/SecurityBatteryDay3.t.sol:88:42
    │
 88 │         settlement.submitOptimisticBatch(bytes32("batch-3"), root, bytes32(0), 1);
@@ -759,6 +947,48 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    │       
    │       
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/unit/BatchSettlementFinalize.t.sol:161:42
+    │
+161 │         settlement.submitOptimisticBatch(bytes32("batch-2"), root, bytes32(0), 1);
+    │                                          ━━━━━━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes32' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/unit/BatchSettlementFinalize.t.sol:163:34
+    │
+163 │         settlement.finalizeBatch(bytes32("batch-2"));
+    │                                  ━━━━━━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes32' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/unit/BatchSettlementFinalize.t.sol:165:32
+    │
+165 │         settlement.claimPayout(bytes32("batch-2"), r, proof);
+    │                                ━━━━━━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes32' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╭▸ test/security/SecurityBatteryDay3.t.sol:92:75
@@ -859,132 +1089,6 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
     ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/ServiceRegistry.t.sol:12:35
-   │
-12 │     bytes32 constant SERVICE_ID = bytes32("svc-1");
-   │                                   ━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementSubmit.t.sol:11:33
-   │
-11 │     bytes32 constant BATCH_ID = bytes32("batch-1");
-   │                                 ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementSubmit.t.sol:20:39
-   │
-20 │         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
-   │                                       ━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementSubmit.t.sol:44:37
-   │
-44 │         assertEq(challengeDeadline, uint64(block.timestamp + CHALLENGE_WINDOW));
-   │                                     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/unit/DisputeManager.t.sol:103:25
-    │
-103 │             statusCode: bytes32("OK"),
-    │                         ━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes32' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/RouterRegistry.t.sol:11:34
-   │
-11 │     bytes32 constant ROUTER_ID = bytes32("router-1");
-   │                                  ━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:52:42
-   │
-52 │         settlement.submitOptimisticBatch(bytes32("batch-A"), RECEIPTS_ROOT, bytes32(0), 1);
-   │                                          ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:54:42
-   │
-54 │         settlement.submitOptimisticBatch(bytes32("batch-B"), RECEIPTS_ROOT, bytes32(0), 1);
-   │                                          ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/ServiceRegistry.t.sol:84:46
-   │
-84 │         assertFalse(registry.isServiceSigner(bytes32("nope"), SIGNER1));
-   │                                              ━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
     ╭▸ test/security/SecurityBatteryDay3.t.sol:119:34
     │
 119 │         settlement.finalizeBatch(bytes32("batch-B"));
@@ -1011,74 +1115,4 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
     │       
     │       
     ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementSubmit.t.sol:73:99
-   │
-73 │ … SUBMITTER, RECEIPTS_ROOT, DELTAS_ROOT, 100, uint64(block.timestamp + CHALLENGE_WINDOW));
-   │                                               ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint64' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementSubmit.t.sol:90:42
-   │
-90 │         settlement.submitOptimisticBatch(bytes32("batch-2"), RECEIPTS_ROOT, DELTAS_ROOT, 100);
-   │                                          ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/unit/DisputeManager.t.sol:118:25
-    │
-118 │             statusCode: bytes32("OK"),
-    │                         ━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes32' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:58:34
-   │
-58 │         settlement.finalizeBatch(bytes32("batch-A"));
-   │                                  ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/unit/BatchSettlementUnbondLockRealFlow.t.sol:65:34
-   │
-65 │         settlement.finalizeBatch(bytes32("batch-B"));
-   │                                  ━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes32' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 

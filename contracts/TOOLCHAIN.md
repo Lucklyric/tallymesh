@@ -12,3 +12,19 @@ This file records the exact toolchain used to produce the committed gas snapshot
 | forge-std | v1.16.1 |
 | OS | Linux 6.1.0-44-cloud-amd64 x86_64 |
 | Captured at git commit | c98766a5cfdbf32f41f913c2078ffea5f6c67c4b (manifest landed at this commit; gas snapshot captured against parent 3fe1845b649d138c1e46120cf07f602ba35195ed) |
+
+## ZK pipeline (added Day 4b)
+
+| Tool | Version |
+|---|---|
+| circom | 2.2.3 |
+| snarkjs | ^0.7.5 |
+| circomlib | ^2.0.5 |
+| circomlibjs | ^0.1.7 |
+| node | v24.13.1 |
+| Powers-of-Tau | pot22_final (Hermez ceremony, sourced from Polygon zkEVM mirror) |
+| Verifier scheme | Groth16 over BN254 |
+| Merkle hash (ZK path) | Poseidon (arity 2, depth 10 → MAX_RECEIPTS = 1024) |
+| Merkle hash (optimistic path) | Keccak-256 (`ReceiptLib`, unchanged) |
+| Circuit constraint count | 1,148,411 |
+| Verifier on-chain gas | ~217k (measured via `CircomBatchVerifier.t.sol`) |
