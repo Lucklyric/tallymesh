@@ -4,10 +4,13 @@ build/*.sym
 build/*.wasm
 build/*_js/
 build/BatchValidity_0000.zkey
+build/BatchValidity_final.zkey
 *.ptau
+*.zkey
 yarn.lock
 package-lock.json
-# Commit only the final artifacts:
-# build/BatchValidity_final.zkey
-# build/verification_key.json
-# fixtures/*.json
+# Commit only:
+#   build/verification_key.json (4 KB; needed by on-chain verifier)
+#   fixtures/*.json (deterministic test fixtures)
+# BatchValidity_final.zkey is NOT committed (~555 MB; exceeds GitHub 100 MB limit).
+# Regenerate via: yarn install && yarn compile && yarn setup:ptau && yarn setup:zkey
