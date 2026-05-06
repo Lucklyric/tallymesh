@@ -90,24 +90,4 @@ contract BatchSettlementBondsTest is Test {
         settlement.bond{value: 1 ether}();
     }
 
-    /// @dev Bond is locked while any pending batch exists for this submitter.
-    /// The submit/finalize side of the lifecycle is covered in Tasks 4 and 6;
-    /// this test exercises the lock by directly mutating `_pendingBatchesOf`
-    /// via a debug-only setter that production deployments can disable.
-    function test_unbond_revertsWhilePendingBatches() public {
-        vm.prank(OWNER);
-        settlement.setAuthorizedSubmitter(SUBMITTER1, true);
-        vm.prank(SUBMITTER1);
-        settlement.bond{value: 2 ether}();
-        vm.prank(OWNER);
-        settlement.debugSetPendingBatches(SUBMITTER1, 1);
-        vm.prank(SUBMITTER1);
-        vm.expectRevert(BatchSettlement.PendingBatchesPreventUnbond.selector);
-        settlement.unbond(1 ether);
-        vm.prank(OWNER);
-        settlement.debugSetPendingBatches(SUBMITTER1, 0);
-        vm.prank(SUBMITTER1);
-        settlement.unbond(1 ether);
-        assertEq(settlement.bondOf(SUBMITTER1), 1 ether);
-    }
 }

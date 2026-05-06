@@ -208,13 +208,4 @@ contract BatchSettlement {
         emit ReceiptClaimed(batchId, receiptKey, s.payer, s.recipient, receipt.chargedAmount);
     }
 
-    /// @dev Test-only hook used to exercise the unbond-locked invariant before
-    /// the submit/finalize lifecycle is wired up. The `onlyOwner` gate prevents
-    /// any non-deployer from abusing it; the function is harmless in production
-    /// because no honest deployment grants `pendingBatchesOf` arbitrary values.
-    /// Future hardening: remove this hook entirely after Day 4 once the SDK
-    /// integration has full coverage.
-    function debugSetPendingBatches(address submitter, uint256 count) external onlyOwner {
-        _pendingBatchesOf[submitter] = count;
-    }
 }
