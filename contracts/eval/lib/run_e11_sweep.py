@@ -1,9 +1,9 @@
 # code/contracts/eval/lib/run_e11_sweep.py
-"""E11: Trilemma sweep over design parameters at default N=1000.
+"""E11: Trilemma sweep over design parameters across N x (τ, B, K, T_resp, f).
 
-Reads E5 gas/call data and produces a CSV with one row per (τ, B, K, T_resp, f)
-combination including computed (D_sub, T, S_fail, gas, USD/call across rollup
-× snapshot)."""
+Reads E5 gas/call data and produces a CSV with one row per
+(N, dt, τ, B, K, T_resp, f) combination including computed
+(D_sub, T, S_fail, gas, USD/call across rollup × snapshot)."""
 from __future__ import annotations
 import csv
 import sys
@@ -31,9 +31,13 @@ K_VALUES     = [3, 5, 21]
 T_RESP_VALUES = [60, 300, 900]
 F_VALUES     = [0.1, 0.2, 0.33]
 
-# Headline defaults (same source).
+# Outer sweep: batch size N matches the E5 axis; dt held fixed for now to
+# bound the grid at 3^6 = 729 rows.
+N_VALUES  = [100, 1000, 5000]
+DT_VALUES = [60.0]
+
+# Headline default (used when loading per-call gas for the row).
 N_DEFAULT = 1000
-DT_DEFAULT_SEC = 60.0
 
 
 def load_e5_gas_per_call(system: str = "TallyMeshOptReceiptsOnly", batch_size: int = N_DEFAULT) -> int:
@@ -66,17 +70,18 @@ def main() -> None:
             "feasible",
         ])
 
-        for tau, B, K, Tr, f in product(TAU_VALUES, B_VALUES, K_VALUES, T_RESP_VALUES, F_VALUES):
-            D = nakamoto_coefficient(equal_bonds(K, B))
-            tput = throughput(K, N_DEFAULT, DT_DEFAULT_SEC)
-            sfail = security_failure_prob(f, tau, Tr)
-            row = [tau, B, K, Tr, f, N_DEFAULT, DT_DEFAULT_SEC, D, tput, sfail, gas_per_call]
-            for snapshot in ["low", "median", "high"]:
-                for rollup in ["Base", "OP", "Arbitrum"]:
-                    row.append(usd_per_call(gas_per_call, rollup, snapshot))
-            # Feasibility flag: passes the paper's S_min ≤ 1e-2 default.
-            row.append("yes" if sfail <= 1e-2 else "no")
-            w.writerow(row)
+        for N, dt in product(N_VALUES, DT_VALUES):
+            for tau, B, K, Tr, f in product(TAU_VALUES, B_VALUES, K_VALUES, T_RESP_VALUES, F_VALUES):
+                D = nakamoto_coefficient(equal_bonds(K, B))
+                tput = throughput(K, N, dt)
+                sfail = security_failure_prob(f, tau, Tr)
+                row = [tau, B, K, Tr, f, N, dt, D, tput, sfail, gas_per_call]
+                for snapshot in ["low", "median", "high"]:
+                    for rollup in ["Base", "OP", "Arbitrum"]:
+                        row.append(usd_per_call(gas_per_call, rollup, snapshot))
+                # Feasibility flag: passes the paper's S_min ≤ 1e-2 default.
+                row.append("yes" if sfail <= 1e-2 else "no")
+                w.writerow(row)
 
     print(f"wrote {OUT}")
 

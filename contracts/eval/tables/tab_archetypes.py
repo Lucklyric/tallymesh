@@ -15,11 +15,11 @@ def main() -> None:
     lines = [
         r"\begin{table}[t]",
         r"\centering",
-        r"\caption{Three operating points selected by archetype-driven priority. All at $N=1000$, $\Delta t=60$\,s; gas/call from \S\,5 measurement.}",
+        r"\caption{Three operating points selected by archetype-driven priority. $\Delta t=60$\,s; $N$, $K$, $\tau$, and $f$ are picker outputs from the E11 sweep. Gas/call from \S\,5 measurement.}",
         r"\label{tab:archetypes}",
-        r"\begin{tabular}{lrrrrrr}",
+        r"\begin{tabular}{lrrrrrrr}",
         r"\hline",
-        r"Archetype & $\tau$ (s) & $K$ & $f$ & $D_{\mathrm{sub}}$ & $T$ (rps) & $S_{\mathrm{fail}}$ \\",
+        r"Archetype & $N$ & $\tau$ (s) & $K$ & $f$ & $D_{\mathrm{sub}}$ & $T$ (rps) & $S_{\mathrm{fail}}$ \\",
         r"\hline",
     ]
     for r in rows:
@@ -30,7 +30,7 @@ def main() -> None:
         exp = int(e)  # strips leading zeros + handles sign
         sfail_str = f"${m}\\times 10^{{{exp}}}$"
         lines.append(
-            f"{r['archetype']} & {r['tau_sec']} & {r['K']} & {r['f']} & {r['D_sub']} & {float(r['throughput_rps']):.0f} & {sfail_str} \\\\"
+            f"{r['archetype']} & {r['N']} & {r['tau_sec']} & {r['K']} & {r['f']} & {r['D_sub']} & {float(r['throughput_rps']):.0f} & {sfail_str} \\\\"
         )
     lines += [r"\hline", r"\end{tabular}", r"\end{table}"]
     (OUT_DIR / "tab_archetypes.tex").write_text("\n".join(lines) + "\n")

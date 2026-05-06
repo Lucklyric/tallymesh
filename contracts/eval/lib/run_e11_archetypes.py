@@ -55,12 +55,20 @@ def pick_for_archetype(rows: list[dict], a: Archetype) -> dict:
         raise RuntimeError(f"no feasible operating point for archetype {a.name}")
 
     if a.priority == "throughput":
-        candidates.sort(key=lambda r: float(r["throughput_rps"]), reverse=True)
-    elif a.priority == "security":
-        candidates.sort(key=lambda r: float(r["S_fail"]))
-    elif a.priority == "decentralization":
+        # Prefer max throughput, breaking ties toward larger N (richer batches).
         candidates.sort(
-            key=lambda r: (int(r["D_sub"]), float(r["throughput_rps"])),
+            key=lambda r: (float(r["throughput_rps"]), int(r["N"])),
+            reverse=True,
+        )
+    elif a.priority == "security":
+        # Prefer tightest S_fail; break ties toward smaller N to keep workload
+        # bounded (high-value, low-volume operator).
+        candidates.sort(key=lambda r: (float(r["S_fail"]), int(r["N"])))
+    elif a.priority == "decentralization":
+        # Prefer max D_sub, then max throughput, then larger N as a final tiebreak
+        # so the public-good archetype lands on a batch size that exercises scale.
+        candidates.sort(
+            key=lambda r: (int(r["D_sub"]), float(r["throughput_rps"]), int(r["N"])),
             reverse=True,
         )
     else:
