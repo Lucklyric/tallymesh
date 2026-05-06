@@ -3,7 +3,6 @@
 pragma solidity 0.8.26;
 
 import {Script} from "forge-std/Script.sol";
-import {Vm} from "forge-std/Vm.sol";
 import {EvalCsv} from "./lib/EvalCsv.sol";
 import {PerRequestNaive} from "../../src/baselines/PerRequestNaive.sol";
 import {PerRequestEventOnly} from "../../src/baselines/PerRequestEventOnly.sol";
@@ -13,6 +12,11 @@ import {DepositEscrow} from "../../src/DepositEscrow.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 
 /// @notice E4: opcode-gas per happy-path entry point on each of the six measured systems.
+/// @dev Uses raw `gasleft()` deltas around each call. `vm.startSnapshotGas` /
+///      `vm.stopSnapshotGas` produced inverted/inflated numbers under forge 1.6
+///      script frames (e.g., EventOnly > Naive, TallyMesh first-call > 2M),
+///      contradicting the matching forge test gas reports. `gasleft()` bypasses
+///      the cheatcode entirely and gives raw EVM gas accounting around the call.
 contract E4_PerFunctionGas is Script {
     string constant CSV = "./eval/data/raw/e4.csv";
 
@@ -35,9 +39,9 @@ contract E4_PerFunctionGas is Script {
         vm.deal(payer, 10 ether);
         address payable r = payable(address(0xB1));
         vm.startPrank(payer);
-        vm.startSnapshotGas("e4_perRequestNaive_pay");
+        uint256 g0 = gasleft();
         c.pay{value: 0.01 ether}(r, keccak256("req"));
-        uint256 gas = vm.stopSnapshotGas();
+        uint256 gas = g0 - gasleft();
         vm.stopPrank();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("PerRequestNaive", "pay", gas));
     }
@@ -47,9 +51,9 @@ contract E4_PerFunctionGas is Script {
         vm.deal(payer, 10 ether);
         address payable r = payable(address(0xB2));
         vm.startPrank(payer);
-        vm.startSnapshotGas("e4_perRequestEventOnly_pay");
+        uint256 g0 = gasleft();
         c.pay{value: 0.01 ether}(r, keccak256("req"));
-        uint256 gas = vm.stopSnapshotGas();
+        uint256 gas = g0 - gasleft();
         vm.stopPrank();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("PerRequestEventOnly", "pay", gas));
     }
@@ -69,9 +73,9 @@ contract E4_PerFunctionGas is Script {
         (uint8 vSig, bytes32 r, bytes32 s) = vm.sign(payerKey, digest);
         bytes memory sig = abi.encodePacked(r, s, vSig);
         vm.deal(address(c), 1 ether);
-        vm.startSnapshotGas("e4_signedVoucherNetting_redeem");
+        uint256 g0 = gasleft();
         c.redeem(v, sig);
-        uint256 gas = vm.stopSnapshotGas();
+        uint256 gas = g0 - gasleft();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("SignedVoucherNetting", "redeem", gas));
     }
 
@@ -92,9 +96,9 @@ contract E4_PerFunctionGas is Script {
         (uint8 vSig, bytes32 r, bytes32 s) = vm.sign(payerKey, digest);
         sigs[0] = abi.encodePacked(r, s, vSig);
         vm.deal(address(c), 1 ether);
-        vm.startSnapshotGas("e4_signedVoucherAggregate_redeem1");
+        uint256 g0 = gasleft();
         c.redeemBatch(vs, sigs);
-        uint256 gas = vm.stopSnapshotGas();
+        uint256 gas = g0 - gasleft();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("SignedVoucherAggregate", "redeemBatch[N=1]", gas));
     }
 
@@ -106,9 +110,9 @@ contract E4_PerFunctionGas is Script {
         vm.deal(submitter, 2 ether);
         vm.startPrank(submitter);
         bs.bond{value: 1 ether}();
-        vm.startSnapshotGas("e4_tallymesh_submitOptimistic_receiptsOnly");
+        uint256 g0 = gasleft();
         bs.submitOptimisticBatch(keccak256("b1"), keccak256("root"), bytes32(0), 1000);
-        uint256 gas = vm.stopSnapshotGas();
+        uint256 gas = g0 - gasleft();
         vm.stopPrank();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("TallyMeshOptReceiptsOnly", "submitOptimisticBatch", gas));
     }
@@ -121,9 +125,9 @@ contract E4_PerFunctionGas is Script {
         vm.deal(submitter, 2 ether);
         vm.startPrank(submitter);
         bs.bond{value: 1 ether}();
-        vm.startSnapshotGas("e4_tallymesh_submitOptimistic_receiptsPlusDeltas");
+        uint256 g0 = gasleft();
         bs.submitOptimisticBatch(keccak256("b2"), keccak256("rRoot"), keccak256("dRoot"), 1000);
-        uint256 gas = vm.stopSnapshotGas();
+        uint256 gas = g0 - gasleft();
         vm.stopPrank();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("TallyMeshOptReceiptsPlusDeltas", "submitOptimisticBatch", gas));
     }
