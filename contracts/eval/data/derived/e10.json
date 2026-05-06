@@ -2253,6 +2253,78 @@
       "usd_per_unit": 9.800000000000001e-05
     },
     {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Base",
+      "snapshot": "low",
+      "usd_per_unit": 0.00023551500000000005
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "OP",
+      "snapshot": "low",
+      "usd_per_unit": 0.00023551500000000005
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Arbitrum",
+      "snapshot": "low",
+      "usd_per_unit": 0.0023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Base",
+      "snapshot": "median",
+      "usd_per_unit": 0.0023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "OP",
+      "snapshot": "median",
+      "usd_per_unit": 0.0023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Arbitrum",
+      "snapshot": "median",
+      "usd_per_unit": 0.023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Base",
+      "snapshot": "high",
+      "usd_per_unit": 0.023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "OP",
+      "snapshot": "high",
+      "usd_per_unit": 0.023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsOnlyClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Arbitrum",
+      "snapshot": "high",
+      "usd_per_unit": 0.235515
+    },
+    {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
       "gas_per_call": 162317,
@@ -2611,6 +2683,78 @@
       "rollup": "Arbitrum",
       "snapshot": "high",
       "usd_per_unit": 0.00011200000000000001
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Base",
+      "snapshot": "low",
+      "usd_per_unit": 0.00023551500000000005
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "OP",
+      "snapshot": "low",
+      "usd_per_unit": 0.00023551500000000005
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Arbitrum",
+      "snapshot": "low",
+      "usd_per_unit": 0.0023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Base",
+      "snapshot": "median",
+      "usd_per_unit": 0.0023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "OP",
+      "snapshot": "median",
+      "usd_per_unit": 0.0023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Arbitrum",
+      "snapshot": "median",
+      "usd_per_unit": 0.023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Base",
+      "snapshot": "high",
+      "usd_per_unit": 0.023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "OP",
+      "snapshot": "high",
+      "usd_per_unit": 0.023551500000000003
+    },
+    {
+      "system": "TallyMeshOptReceiptsPlusDeltasClaim",
+      "batch_size": 1,
+      "gas_per_call": 67290,
+      "rollup": "Arbitrum",
+      "snapshot": "high",
+      "usd_per_unit": 0.235515
     }
   ]
 }
