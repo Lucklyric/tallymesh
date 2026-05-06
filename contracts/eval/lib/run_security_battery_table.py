@@ -107,7 +107,7 @@ ROWS = [
      "design",
      "contracts/test/unit/RouterRegistry.t.sol",
      "test_register_emitsEvent; test_addBond_*; test_deactivate_*",
-     "v1 contract surface stops at router lifecycle and bond; routing-receipt evidence handling is sdk-ts off-chain analytical (paper §6 future work)"),
+     "v1 contract surface stops at router lifecycle and bond; routing-receipt evidence handling is sdk-ts off-chain analytical and not implemented. Mark as design/future, not covered."),
 ]
 
 
