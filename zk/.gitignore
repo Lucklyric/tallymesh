@@ -1,0 +1,13 @@
+node_modules/
+build/*.r1cs
+build/*.sym
+build/*.wasm
+build/*_js/
+build/BatchValidity_0000.zkey
+*.ptau
+yarn.lock
+package-lock.json
+# Commit only the final artifacts:
+# build/BatchValidity_final.zkey
+# build/verification_key.json
+# fixtures/*.json

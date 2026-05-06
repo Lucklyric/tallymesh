@@ -1,0 +1,22 @@
+{
+  "name": "tallymesh-zk",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "TallyMesh ZK pipeline: Circom receipt-tree circuit + Groth16 prover + auto-generated Solidity verifier",
+  "scripts": {
+    "compile": "circom circuits/BatchValidity.circom --r1cs --wasm --sym -o build",
+    "setup:ptau": "node scripts/download_ptau.js",
+    "build:input": "node scripts/build_input.js",
+    "setup:zkey": "node scripts/setup_zkey.js",
+    "prove:fixture": "node scripts/prove_fixture.js",
+    "proof:to-solidity": "node scripts/proof_to_solidity.js",
+    "export:verifier": "snarkjs zkey export solidityverifier build/BatchValidity_final.zkey ../contracts/src/zk/BatchValidityGroth16Verifier.sol",
+    "all": "yarn compile && yarn setup:zkey && yarn build:input && yarn prove:fixture && yarn export:verifier"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.5",
+    "circomlibjs": "^0.1.7",
+    "snarkjs": "^0.7.5"
+  }
+}
