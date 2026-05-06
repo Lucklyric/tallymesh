@@ -28,3 +28,16 @@ This file records the exact toolchain used to produce the committed gas snapshot
 | Merkle hash (optimistic path) | Keccak-256 (`ReceiptLib`, unchanged) |
 | Circuit constraint count | 1,148,411 |
 | Verifier on-chain gas | ~217k (measured via `CircomBatchVerifier.t.sol`) |
+
+## TypeScript SDK (added Day 4c)
+
+| Tool | Version |
+|---|---|
+| node | v24.13.1 |
+| yarn | 1.x |
+| typescript | ^5.5 |
+| viem | ^2.21 |
+| vitest | ^2.1 |
+| circomlibjs | ^0.1.7 |
+
+The SDK lives in `code/sdk-ts/`. Tests are split into `test/unit/` (no chain) and `test/integration/` (spins up Anvil + runs `forge script`). Run both with `yarn test`.
