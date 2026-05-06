@@ -76,7 +76,7 @@ def main() -> None:
     )
 
     ax.set_xlabel("Batch size $N$")
-    ax.set_ylabel("Gas per settled request")
+    ax.set_ylabel("On-chain gas per receipt (commitment publication;\n claim measured separately)")
     ax.set_title("")
     ax.grid(True, which="both", linewidth=0.4, alpha=0.4)
     ax.legend(loc="lower left", frameon=False, ncols=2)

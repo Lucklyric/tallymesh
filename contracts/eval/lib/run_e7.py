@@ -1,4 +1,4 @@
-"""E7: storage growth per request, amortized over 10k requests.
+"""E7: storage growth per request, amortized over the headline batch size N=1000.
 
 These numbers are analytical, derived by examining the storage layout of
 each contract. They are NOT measured at runtime — Foundry does not expose

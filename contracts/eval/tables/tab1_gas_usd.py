@@ -91,7 +91,7 @@ def main() -> None:
     lines = [
         r"\begin{table}[t]",
         r"\centering",
-        r"\caption{Per-function gas + analytical USD per call at median gas price across three L2 rollups. The last two rows show the per-receipt \texttt{claimPayout} cost (cold storage write) used by recipients of TallyMesh receipts.}",
+        r"\caption{Per-function single-call gas (no batching: $N{=}1$) plus analytical USD per call at the median gas-price snapshot across three L2 rollups. Per-batch amortization for the headline $N{=}1000$ point is in Fig.~\ref{fig:gas_per_call} and the §Gas and Cost prose. The last two rows are the per-receipt \texttt{claimPayout} cost (cold-recipient case, single transfer) charged separately from commitment publication.}",
         r"\label{tab:gas_usd}",
         r"\begin{tabular}{lrrrr}",
         r"\hline",

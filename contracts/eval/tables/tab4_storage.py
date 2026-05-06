@@ -15,7 +15,7 @@ def main() -> None:
     lines = [
         r"\begin{table}[t]",
         r"\centering",
-        r"\caption{Storage growth per request, amortized over 10k requests.}",
+        r"\caption{Storage growth per request, amortized over the headline batch size $N{=}1000$.}",
         r"\label{tab:storage}",
         r"\begin{tabular}{lrr}",
         r"\hline",
