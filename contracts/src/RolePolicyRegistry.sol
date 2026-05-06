@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {ServiceRegistry} from "./ServiceRegistry.sol";
+import {IServiceRegistry} from "./interfaces/IServiceRegistry.sol";
 
 /// @notice Per-service role/resource policy and issuer-role binding registry.
 contract RolePolicyRegistry {
@@ -12,7 +12,7 @@ contract RolePolicyRegistry {
         bool enabled;
     }
 
-    ServiceRegistry public immutable services;
+    IServiceRegistry public immutable services;
 
     // service => resource => role => Policy
     mapping(bytes32 => mapping(bytes32 => mapping(bytes32 => Policy))) private _policy;
@@ -25,7 +25,7 @@ contract RolePolicyRegistry {
     event IssuerBindingUpdated(bytes32 indexed serviceId, bytes32 indexed role, bytes32 issuerId, bool enabled);
 
     constructor(address serviceRegistry_) {
-        services = ServiceRegistry(serviceRegistry_);
+        services = IServiceRegistry(serviceRegistry_);
     }
 
     modifier onlyServiceOwner(bytes32 serviceId) {
