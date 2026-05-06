@@ -1,25 +1,4 @@
 {
-  "../../../../../MatrixLabs/hunterclaw/dev/sourcecode": {
-    "rev": "104cda2abaef03bcb1e6fb3200be318713cd6d4e"
-  },
-  "../../../../../MatrixLabs/sui-release-monitor/sui-release-monitor": {
-    "rev": "c2ce0bb0152b10f7bf1b2665b0eab853aa4a08b0"
-  },
-  "../../../../../MatrixLabs/wai-pump/wai-pump": {
-    "rev": "d755f2649b4d106fe51740176a99c7dcbc945ec7"
-  },
-  "../../../../../NRS/dev": {
-    "rev": "655fa931e26260959d78bf641384f2dee3b3c321"
-  },
-  "../../../../mm/802Wi26/mm802w26-blockchain-tutorial": {
-    "rev": "56e08a8028c2da40b0376ee4e5db780810ff2e85"
-  },
-  "../../../ParcelETH/code": {
-    "rev": "6705845fe26c01b51fd7281b6cce4b54134bbfa4"
-  },
-  "../../../sub1-gene-image-gen/gensynth": {
-    "rev": "d5401d5949509a932c7af3b124cca53ec52d0cf1"
-  },
   "lib/forge-std": {
     "tag": {
       "name": "v1.16.1",
