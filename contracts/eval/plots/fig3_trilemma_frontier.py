@@ -2,6 +2,7 @@
 color=S_fail (log)."""
 from __future__ import annotations
 import csv
+import random
 import sys
 from pathlib import Path
 
@@ -20,23 +21,38 @@ S_MIN_FLOOR = 1e-12  # for log-scale colorbar; clamp values below this
 
 def main() -> None:
     apply()
+    # Seeded jitter: D_sub and throughput live on a coarse grid (3 K × 3 N = 9
+    # discrete (x,y) positions in the current sweep), so without a small
+    # perturbation the 729 points pile into 9 stacks that hide the S_fail
+    # gradient. Jitter is for visual readability only; archetype markers below
+    # are drawn from the unjittered archetype CSV.
+    rng = random.Random(0xE11)
     xs, ys, cs = [], [], []
     with SWEEP.open() as f:
         for r in csv.DictReader(f):
-            xs.append(int(r["D_sub"]))
-            ys.append(float(r["throughput_rps"]))
+            x = int(r["D_sub"]) + rng.uniform(-0.18, 0.18)
+            y = float(r["throughput_rps"]) * (1.0 + rng.uniform(-0.08, 0.08))
+            xs.append(x)
+            ys.append(y)
             cs.append(max(float(r["S_fail"]), S_MIN_FLOOR))
 
     fig, ax = plt.subplots(figsize=(DOUBLE_COLUMN_IN, TALL_HEIGHT_IN))
     sc = ax.scatter(xs, ys, c=cs, cmap="viridis_r", norm=LogNorm(vmin=1e-8, vmax=1.0),
-                    s=14, alpha=0.75, edgecolors="none")
+                    s=6, alpha=0.75, edgecolors="none")
     ax.set_yscale("log")
     ax.set_xlabel("Decentralization $D_{\\mathrm{sub}}$ (Nakamoto coefficient)")
     ax.set_ylabel("Throughput $T$ (requests/sec)")
     cbar = fig.colorbar(sc, ax=ax, pad=0.02)
     cbar.set_label("Security failure $S_{\\mathrm{fail}}$")
 
-    # Annotate the three archetypes.
+    # Annotate the three archetypes. LLMGateway and DeFiRouter resolve to the
+    # same (D_sub, T) point (same K and N, different f), so steer their labels
+    # to opposite sides to avoid overprint.
+    archetype_offsets = {
+        "LLMGateway": (-78, 10),
+        "OracleNode": (10, 8),
+        "DeFiRouter": (-78, -14),
+    }
     arch_xy = []
     with ARCH.open() as f:
         for r in csv.DictReader(f):
@@ -44,7 +60,8 @@ def main() -> None:
     for name, x, y in arch_xy:
         ax.annotate(
             name, (x, y),
-            xytext=(8, 6), textcoords="offset points",
+            xytext=archetype_offsets.get(name, (8, 6)),
+            textcoords="offset points",
             fontsize=8,
             arrowprops={"arrowstyle": "-", "linewidth": 0.6, "color": "black"},
         )
