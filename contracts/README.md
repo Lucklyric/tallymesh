@@ -1,66 +1,28 @@
-## Foundry
+# TallyMesh Contracts
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Solidity implementation for the BCCA 2026 paper *TallyMesh: Intent-Bound Authorization and Batched Settlement for Open Service Markets*.
 
-Foundry consists of:
+## Layout
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- `src/lib/` — `EIP712Domain`, `Signatures` (OZ ECDSA + ERC-1271), `ReceiptLib` (domain-separated leaves + Merkle), `FeeSchedule` (hash-locked commitment)
+- `src/interfaces/` — `IServiceRegistry`
+- `src/` — `ServiceRegistry`, `RolePolicyRegistry`, `DepositEscrow`, `BatchSettlement` (optimistic), `DisputeManager`
+- `src/baselines/` — added Day 5 (`PerRequestNaive`, `PerRequestEventOnly`, `SignedVoucherNetting`, `SignedVoucherAggregate`)
+- `test/unit/` — per-contract unit tests
+- `test/unit/mocks/` — `MockERC1271`, `PhantomERC1271`
+- `test/integration/` — end-to-end flow
+- `test/invariant/` — Foundry invariant tests
+- `test/security/` — adversarial battery (§2.3 of the experimental design)
 
-## Documentation
+## Build and test
 
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```bash
+forge build
+forge test -vvv
+forge test --gas-report
+forge snapshot
 ```
 
-### Test
+## Toolchain
 
-```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+See `TOOLCHAIN.md` for exact tool versions captured at the latest gas snapshot.
