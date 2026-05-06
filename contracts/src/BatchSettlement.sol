@@ -2,6 +2,7 @@
 pragma solidity 0.8.26;
 
 import {DepositEscrow} from "./DepositEscrow.sol";
+import {ReceiptLib} from "./lib/ReceiptLib.sol";
 
 /// @notice Optimistic batch-settlement contract for TallyMesh receipts.
 /// @dev v2 plan: bond management with unbond-locked-during-pending-batches.
@@ -20,6 +21,12 @@ contract BatchSettlement {
     error SessionNotFound();
     error InvalidRecipient();
     error InvalidAmount();
+    error BatchNotFound();
+    error BatchNotFinalized();
+    error BatchAlreadyFinalized();
+    error ChallengeWindowOpen();
+    error InvalidReceiptProof();
+    error ReceiptAlreadyClaimed();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
 
@@ -51,6 +58,8 @@ contract BatchSettlement {
     uint64 public challengeWindow;
     mapping(bytes32 => Batch) public batches;
     mapping(bytes32 => Session) public sessions;
+    // Global receipt-claim key keyed by keccak256(sessionId, seq, requestHash).
+    mapping(bytes32 => bool) public claimedReceipt;
 
     event SubmitterAuthorized(address indexed submitter, bool authorized);
     event SubmitterBonded(address indexed submitter, uint256 amount);
@@ -64,6 +73,8 @@ contract BatchSettlement {
         uint64 challengeDeadline
     );
     event SessionReserved(bytes32 indexed sessionId, address indexed payer, address indexed recipient, uint256 amount);
+    event BatchFinalized(bytes32 indexed batchId);
+    event ReceiptClaimed(bytes32 indexed batchId, bytes32 indexed receiptKey, address payer, address recipient, uint256 amount);
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -142,6 +153,33 @@ contract BatchSettlement {
 
     function pendingBatchesOf(address submitter) external view returns (uint256) {
         return _pendingBatchesOf[submitter];
+    }
+
+    function finalizeBatch(bytes32 batchId) external {
+        Batch storage b = batches[batchId];
+        if (b.submitter == address(0)) revert BatchNotFound();
+        if (b.status == BatchStatus.Finalized) revert BatchAlreadyFinalized();
+        if (b.status == BatchStatus.Invalidated) revert BatchNotFound();
+        if (block.timestamp < b.challengeDeadline) revert ChallengeWindowOpen();
+        b.status = BatchStatus.Finalized;
+        if (_pendingBatchesOf[b.submitter] > 0) {
+            _pendingBatchesOf[b.submitter] -= 1;
+        }
+        emit BatchFinalized(batchId);
+    }
+
+    function claimPayout(bytes32 batchId, ReceiptLib.Receipt calldata receipt, bytes32[] calldata proof) external {
+        Batch storage b = batches[batchId];
+        if (b.status != BatchStatus.Finalized) revert BatchNotFinalized();
+        Session storage s = sessions[receipt.sessionId];
+        if (!s.open) revert SessionNotFound();
+        bytes32 leaf = ReceiptLib.leafHash(receipt);
+        if (!ReceiptLib.verifyProof(proof, b.receiptsRoot, leaf)) revert InvalidReceiptProof();
+        bytes32 receiptKey = keccak256(abi.encode(receipt.sessionId, receipt.seq, receipt.requestHash));
+        if (claimedReceipt[receiptKey]) revert ReceiptAlreadyClaimed();
+        claimedReceipt[receiptKey] = true;
+        escrow.settleReserved(receipt.sessionId, s.payer, s.recipient, receipt.chargedAmount);
+        emit ReceiptClaimed(batchId, receiptKey, s.payer, s.recipient, receipt.chargedAmount);
     }
 
     /// @dev Test-only hook used to exercise the unbond-locked invariant before
