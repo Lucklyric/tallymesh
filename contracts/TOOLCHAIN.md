@@ -57,3 +57,5 @@ Files committed:
 - `eval/data/raw/e6.csv` (dispute roundtrip)
 - `eval/data/raw/e7.csv` (storage growth)
 - `eval/data/derived/e10.json` (gas-price sensitivity)
+- `eval/data/derived/e11_sweep.csv` (E11 trilemma sweep, 243 operating points)
+- `eval/data/derived/e11_archetypes.csv` (E11 archetype worked examples for the paper)
