@@ -16,8 +16,19 @@ contract BatchSettlement {
     error TransferFailed();
     error BatchAlreadyExists();
     error NoBond();
+    error SessionAlreadyOpen();
+    error SessionNotFound();
+    error InvalidRecipient();
+    error InvalidAmount();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
+
+    struct Session {
+        address payer;
+        address payable recipient;
+        uint256 amount;
+        bool open;
+    }
 
     struct Batch {
         address submitter;
@@ -39,6 +50,7 @@ contract BatchSettlement {
     uint256 public totalBondedStake;
     uint64 public challengeWindow;
     mapping(bytes32 => Batch) public batches;
+    mapping(bytes32 => Session) public sessions;
 
     event SubmitterAuthorized(address indexed submitter, bool authorized);
     event SubmitterBonded(address indexed submitter, uint256 amount);
@@ -51,6 +63,7 @@ contract BatchSettlement {
         uint256 receiptCount,
         uint64 challengeDeadline
     );
+    event SessionReserved(bytes32 indexed sessionId, address indexed payer, address indexed recipient, uint256 amount);
 
     modifier onlyOwner() {
         if (msg.sender != owner) revert NotOwner();
@@ -90,6 +103,15 @@ contract BatchSettlement {
 
     function setChallengeWindow(uint64 window) external onlyOwner {
         challengeWindow = window;
+    }
+
+    function reserveSession(bytes32 sessionId, address payable recipient, uint256 amount) external {
+        if (sessions[sessionId].open) revert SessionAlreadyOpen();
+        if (recipient == address(0)) revert InvalidRecipient();
+        if (amount == 0) revert InvalidAmount();
+        sessions[sessionId] = Session({payer: msg.sender, recipient: recipient, amount: amount, open: true});
+        escrow.reserve(sessionId, msg.sender, amount);
+        emit SessionReserved(sessionId, msg.sender, recipient, amount);
     }
 
     function submitOptimisticBatch(bytes32 batchId, bytes32 receiptsRoot, bytes32 deltasRoot, uint256 receiptCount)
