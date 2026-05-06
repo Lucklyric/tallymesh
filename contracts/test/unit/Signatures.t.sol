@@ -19,6 +19,8 @@ contract SignaturesTest is Test {
 
     /// @dev Regression for ECDSA signature malleability — attack 12 in §2.3.
     /// OZ ECDSA reverts with `ECDSAInvalidSignatureS` for any `s` above the half-order.
+    /// The library call is wrapped in `_recoverEOA` because `vm.expectRevert` only
+    /// catches reverts at external-call boundaries; library internal calls are inlined.
     function test_recoverEOA_revertsOnHighS() public {
         bytes32 digest = keccak256("hello");
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(ALICE_PK, digest);
@@ -26,13 +28,13 @@ contract SignaturesTest is Test {
         bytes32 highS = bytes32(n - uint256(s));
         uint8 flippedV = v == 27 ? 28 : 27;
         bytes memory sig = abi.encodePacked(r, highS, flippedV);
-        vm.expectRevert();
+        vm.expectRevert(abi.encodeWithSelector(ECDSA.ECDSAInvalidSignatureS.selector, highS));
         this._recoverEOA(digest, sig);
     }
 
     function test_recoverEOA_revertsOnInvalidLength() public {
         bytes memory sig = hex"0011";
-        vm.expectRevert();
+        vm.expectRevert(abi.encodeWithSelector(ECDSA.ECDSAInvalidSignatureLength.selector, sig.length));
         this._recoverEOA(keccak256("x"), sig);
     }
 
