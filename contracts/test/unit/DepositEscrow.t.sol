@@ -129,4 +129,48 @@ contract DepositEscrowTest is Test {
         assertEq(escrow.balanceOf(PAYER), 0);
         assertEq(escrow.reservedOf(SESSION, PAYER), 0.5 ether);
     }
+
+    address payable constant SERVICE = payable(address(0x5E2C1));
+
+    function test_settleReserved_paysRecipient() public {
+        vm.prank(PAYER);
+        escrow.deposit{value: 1 ether}();
+        vm.prank(SETTLER);
+        escrow.reserve(SESSION, PAYER, 0.5 ether);
+        vm.prank(SETTLER);
+        escrow.settleReserved(SESSION, PAYER, SERVICE, 0.3 ether);
+        assertEq(escrow.reservedOf(SESSION, PAYER), 0.2 ether);
+        assertEq(SERVICE.balance, 0.3 ether);
+    }
+
+    function test_settleReserved_onlyAuthorizedSettler() public {
+        vm.prank(PAYER);
+        escrow.deposit{value: 1 ether}();
+        vm.prank(SETTLER);
+        escrow.reserve(SESSION, PAYER, 0.5 ether);
+        vm.prank(SETTLER2);
+        vm.expectRevert(DepositEscrow.NotAuthorizedSettler.selector);
+        escrow.settleReserved(SESSION, PAYER, SERVICE, 0.3 ether);
+    }
+
+    function test_settleReserved_revertsOnOverPayout() public {
+        vm.prank(PAYER);
+        escrow.deposit{value: 1 ether}();
+        vm.prank(SETTLER);
+        escrow.reserve(SESSION, PAYER, 0.5 ether);
+        vm.prank(SETTLER);
+        vm.expectRevert(DepositEscrow.InsufficientReserved.selector);
+        escrow.settleReserved(SESSION, PAYER, SERVICE, 0.6 ether);
+    }
+
+    function test_settleReserved_emitsEvent() public {
+        vm.prank(PAYER);
+        escrow.deposit{value: 1 ether}();
+        vm.prank(SETTLER);
+        escrow.reserve(SESSION, PAYER, 0.5 ether);
+        vm.expectEmit(true, true, true, true);
+        emit DepositEscrow.Settled(SESSION, PAYER, SERVICE, 0.3 ether);
+        vm.prank(SETTLER);
+        escrow.settleReserved(SESSION, PAYER, SERVICE, 0.3 ether);
+    }
 }

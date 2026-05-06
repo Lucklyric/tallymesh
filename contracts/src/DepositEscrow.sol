@@ -23,6 +23,7 @@ contract DepositEscrow {
     event Withdrawn(address indexed payer, address indexed to, uint256 amount);
     event Reserved(bytes32 indexed sessionId, address indexed payer, uint256 amount);
     event Released(bytes32 indexed sessionId, address indexed payer, uint256 amount);
+    event Settled(bytes32 indexed sessionId, address indexed payer, address indexed recipient, uint256 amount);
     event SettlerAuthorized(address indexed settler, bool authorized);
 
     modifier onlyOwner() {
@@ -69,6 +70,17 @@ contract DepositEscrow {
         _reserved[sessionId][payer] -= amount;
         _free[payer] += amount;
         emit Released(sessionId, payer, amount);
+    }
+
+    function settleReserved(bytes32 sessionId, address payer, address payable recipient, uint256 amount)
+        external
+        onlySettler
+    {
+        if (_reserved[sessionId][payer] < amount) revert InsufficientReserved();
+        _reserved[sessionId][payer] -= amount;
+        (bool ok,) = recipient.call{value: amount}("");
+        if (!ok) revert TransferFailed();
+        emit Settled(sessionId, payer, recipient, amount);
     }
 
     function balanceOf(address payer) external view returns (uint256) {
