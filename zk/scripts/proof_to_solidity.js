@@ -16,9 +16,9 @@ function toHex32(x) {
 }
 
 console.log("// Public inputs:");
-console.log(`bytes32 RECEIPTS_ROOT = ${toHex32(pub[0])};`);
-console.log(`uint256 RECEIPT_COUNT = ${pub[1]};`);
-console.log(`uint256 CHARGED_CEILING = ${pub[2]};`);
+console.log(`uint256 RECEIPT_COUNT = ${pub[0]};`);
+console.log(`uint256 CHARGED_CEILING = ${pub[1]};`);
+console.log(`bytes32 RECEIPTS_ROOT = ${toHex32(pub[2])};`);
 console.log("");
 console.log("// Groth16 proof tuples (pasteable into Solidity test):");
 console.log(`uint256[2] memory a = [uint256(${a[0]}), uint256(${a[1]})];`);
