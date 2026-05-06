@@ -11,4 +11,4 @@ This file records the exact toolchain used to produce the committed gas snapshot
 | OpenZeppelin Contracts | v5.6.1 |
 | forge-std | v1.16.1 |
 | OS | Linux 6.1.0-44-cloud-amd64 x86_64 |
-| Captured at git commit | 3fe1845b649d138c1e46120cf07f602ba35195ed |
+| Captured at git commit | c98766a5cfdbf32f41f913c2078ffea5f6c67c4b (manifest landed at this commit; gas snapshot captured against parent 3fe1845b649d138c1e46120cf07f602ba35195ed) |
