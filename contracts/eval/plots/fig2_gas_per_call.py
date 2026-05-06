@@ -76,10 +76,11 @@ def main() -> None:
     )
 
     ax.set_xlabel("Batch size $N$")
-    ax.set_ylabel("On-chain gas per receipt (commitment publication;\n claim measured separately)")
+    ax.set_ylabel("Gas per receipt")
     ax.set_title("")
     ax.grid(True, which="both", linewidth=0.4, alpha=0.4)
     ax.legend(loc="lower left", frameon=False, ncols=2)
+    fig.tight_layout()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     save(fig, str(OUT))
 
