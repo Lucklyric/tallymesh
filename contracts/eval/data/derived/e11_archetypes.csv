@@ -1,0 +1,4 @@
+archetype,priority,description,tau_sec,B_eth,K,T_resp_sec,f,N,dt_sec,D_sub,throughput_rps,S_fail,gas_per_call,usd_per_call_base_median,usd_per_call_op_median,usd_per_call_arb_median
+LLMGateway,throughput,High-volume settlement aggregator; favors throughput once security floor is met,900,0.5,21,300,0.2,1000,60.0,11,350.0,0.00995741367357279,142,4.97e-06,4.97e-06,4.970000000000001e-05
+OracleNode,security,"Low-volume, high-value receipts; willing to wait long τ for tightest finality",3600,0.5,3,300,0.1,1000,60.0,2,50.0,6.14421235332821e-07,142,4.97e-06,4.97e-06,4.970000000000001e-05
+DeFiRouter,decentralization,Public-good infrastructure; maximize Nakamoto coefficient over bonded submitters,900,0.5,21,300,0.1,1000,60.0,11,350.0,0.004978706836786395,142,4.97e-06,4.97e-06,4.970000000000001e-05
