@@ -86,4 +86,6 @@ export const batchSettlementAbi = [
     type: "function", name: "challengeWindow", stateMutability: "view",
     inputs: [], outputs: [{ name: "", type: "uint64" }],
   },
+  // Custom errors — declared so viem can decode revert reasons by name.
+  { type: "error", name: "ReceiptAlreadyClaimed", inputs: [] },
 ] as const;

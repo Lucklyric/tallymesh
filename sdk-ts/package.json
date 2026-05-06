@@ -6,9 +6,9 @@
   "description": "TallyMesh off-chain SDK: EIP-712 client/service signer, Merkle aggregator (Keccak + Poseidon), Groth16 prover bridge, viem-based settlement helper",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --no-file-parallelism",
     "test:unit": "vitest run test/unit",
-    "test:integration": "vitest run test/integration --testTimeout 180000"
+    "test:integration": "vitest run test/integration --testTimeout 180000 --no-file-parallelism"
   },
   "dependencies": {
     "circomlibjs": "^0.1.7",

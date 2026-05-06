@@ -120,25 +120,23 @@ export class PoseidonAggregator {
     if (pub.length !== 3) throw new Error(`unexpected public-input length ${pub.length}`);
 
     const a: [bigint, bigint] = [BigInt(proof.pi_a[0]!), BigInt(proof.pi_a[1]!)];
-    // pi_b is in the snarkjs Solidity-friendly order: [[b00,b01],[b10,b11]]
+    // snarkjs's Groth16 Solidity verifier expects pi_b coordinates SWAPPED per pair
+    // (Fp2 element ordering convention). See zk/scripts/proof_to_solidity.js.
     const b: [[bigint, bigint], [bigint, bigint]] = [
-      [BigInt(proof.pi_b[0]![0]!), BigInt(proof.pi_b[0]![1]!)],
-      [BigInt(proof.pi_b[1]![0]!), BigInt(proof.pi_b[1]![1]!)],
+      [BigInt(proof.pi_b[0]![1]!), BigInt(proof.pi_b[0]![0]!)],
+      [BigInt(proof.pi_b[1]![1]!), BigInt(proof.pi_b[1]![0]!)],
     ];
     const c: [bigint, bigint] = [BigInt(proof.pi_c[0]!), BigInt(proof.pi_c[1]!)];
 
+    // CircomBatchVerifier.verifyBatch expects abi.encode(a, b, c) — three top-level
+    // params, NOT a tuple wrapper. Match the Forge fixture encoding.
     const proofBytes = encodeAbiParameters(
       [
-        {
-          type: "tuple",
-          components: [
-            { name: "a", type: "uint256[2]" },
-            { name: "b", type: "uint256[2][2]" },
-            { name: "c", type: "uint256[2]" },
-          ],
-        },
+        { type: "uint256[2]" },
+        { type: "uint256[2][2]" },
+        { type: "uint256[2]" },
       ],
-      [{ a, b, c }],
+      [a, b, c],
     );
 
     const root = ("0x" + BigInt(inputObj.receiptsRoot).toString(16).padStart(64, "0")) as Hex32;
