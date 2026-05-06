@@ -10,6 +10,7 @@ import {SignedVoucherNetting} from "../../src/baselines/SignedVoucherNetting.sol
 import {SignedVoucherAggregate} from "../../src/baselines/SignedVoucherAggregate.sol";
 import {DepositEscrow} from "../../src/DepositEscrow.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
+import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 
 /// @notice E5: amortized gas/call vs batch size N for the six measured systems.
 /// @dev Like E4, uses raw `gasleft()` deltas around each measured call.
@@ -150,6 +151,76 @@ contract E5_BatchSizeSweep is Script {
             vm.stopPrank();
             EvalCsv.appendRow(CSV, EvalCsv.csvRow4(system, vm.toString(n), gas, gas / n));
         }
+        // Per-receipt claimPayout cost. The voucher baselines redeem-and-transfer
+        // atomically, so the fair end-to-end comparison is submit_gas/N + claim_gas
+        // (TallyMesh) vs redeem_gas/N (voucher). Measure once for a representative
+        // single-leaf batch (root == leaf hash, empty Merkle proof); per-receipt
+        // cost is N-invariant (one Merkle verify + one storage write + one
+        // escrow.settleReserved transfer), so we tag this row as batch_size=1 and
+        // gas_per_call = total_gas to keep the CSV schema stable.
+        uint256 claimGas = _measureClaim(withDeltas);
+        EvalCsv.appendRow(
+            CSV,
+            EvalCsv.csvRow4(string.concat(system, "Claim"), "1", claimGas, claimGas)
+        );
+    }
+
+    function _measureClaim(bool withDeltas) internal returns (uint256) {
+        // Fresh deployment. Use a 1-second challenge window so we can warp past
+        // it instantly and finalize before measuring claimPayout.
+        DepositEscrow escrow = new DepositEscrow();
+        BatchSettlement bs = new BatchSettlement(address(escrow));
+        escrow.setAuthorizedSettler(address(bs), true);
+        bs.setAuthorizedSubmitter(submitter, true);
+        bs.setChallengeWindow(1);
+
+        // Bond submitter.
+        vm.deal(submitter, 2 ether);
+        vm.startPrank(submitter);
+        bs.bond{value: 1 ether}();
+        vm.stopPrank();
+
+        // Payer deposits and reserves session.
+        // Use a unique recipient per variant so that the second measurement
+        // doesn't benefit from a warm/non-empty recipient account from the
+        // first run (the 25k new-account gas would otherwise be skipped).
+        bytes32 sessionId = keccak256(abi.encode("claim-session", withDeltas));
+        address payable recipient = payable(address(uint160(uint256(keccak256(abi.encode("claim-recipient", withDeltas))))));
+        vm.deal(payer, 10 ether);
+        vm.startPrank(payer);
+        escrow.deposit{value: 1 ether}();
+        bs.reserveSession(sessionId, recipient, 0.5 ether);
+        vm.stopPrank();
+
+        // Build a single-leaf receipt; for a single-leaf Merkle tree the root
+        // equals the leaf hash and the proof is empty.
+        ReceiptLib.Receipt memory receipt = ReceiptLib.Receipt({
+            sessionId: sessionId,
+            seq: 1,
+            requestHash: keccak256("claim-req"),
+            resultHash: keccak256("claim-res"),
+            chargedAmount: 0.3 ether,
+            statusCode: bytes32("OK"),
+            serviceTimestamp: uint64(block.timestamp)
+        });
+        bytes32 leaf = ReceiptLib.leafHash(receipt);
+        bytes32[] memory proof = new bytes32[](0);
+
+        // Submit the optimistic batch (single receipt, leaf hash as root).
+        bytes32 batchId = keccak256(abi.encode("claim-batch", withDeltas));
+        bytes32 deltas = withDeltas ? keccak256("claim-deltas") : bytes32(0);
+        vm.prank(submitter);
+        bs.submitOptimisticBatch(batchId, leaf, deltas, 1);
+
+        // Warp past the (1-second) challenge window and finalize.
+        vm.warp(block.timestamp + 2);
+        bs.finalizeBatch(batchId);
+
+        // Measure claimPayout. No prank needed; claimPayout is permissionless.
+        uint256 g0 = gasleft();
+        bs.claimPayout(batchId, receipt, proof);
+        uint256 gas = g0 - gasleft();
+        return gas;
     }
 
     receive() external payable {}

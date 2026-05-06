@@ -24,8 +24,10 @@ TallyMeshOptReceiptsOnly,10,142417,14241
 TallyMeshOptReceiptsOnly,100,142417,1424
 TallyMeshOptReceiptsOnly,1000,142417,142
 TallyMeshOptReceiptsOnly,5000,142417,28
+TallyMeshOptReceiptsOnlyClaim,1,67290,67290
 TallyMeshOptReceiptsPlusDeltas,1,162317,162317
 TallyMeshOptReceiptsPlusDeltas,10,162317,16231
 TallyMeshOptReceiptsPlusDeltas,100,162317,1623
 TallyMeshOptReceiptsPlusDeltas,1000,162317,162
 TallyMeshOptReceiptsPlusDeltas,5000,162317,32
+TallyMeshOptReceiptsPlusDeltasClaim,1,67290,67290
