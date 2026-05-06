@@ -41,3 +41,19 @@ This file records the exact toolchain used to produce the committed gas snapshot
 | circomlibjs | ^0.1.7 |
 
 The SDK lives in `code/sdk-ts/`. Tests are split into `test/unit/` (no chain) and `test/integration/` (spins up Anvil + runs `forge script`). Run both with `yarn test`.
+
+## Eval harness (added Day 5)
+
+| Tool | Version |
+|---|---|
+| Python | 3.10+ via `uv` |
+| Forge gas snapshots | `vm.startSnapshotGas` / `vm.stopSnapshotGas` (forge-std v1.16+) |
+
+Eval scripts live in `eval/scripts/` (Forge) and `eval/lib/` (Python). Raw measurement CSVs in `eval/data/raw/`; derived JSON in `eval/data/derived/`. See `eval/README.md` for full reproduction commands.
+
+Files committed:
+- `eval/data/raw/e4.csv` (per-function gas)
+- `eval/data/raw/e5.csv` (gas/call vs batch size)
+- `eval/data/raw/e6.csv` (dispute roundtrip)
+- `eval/data/raw/e7.csv` (storage growth)
+- `eval/data/derived/e10.json` (gas-price sensitivity)
