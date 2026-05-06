@@ -8,8 +8,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run --no-file-parallelism",
     "test:unit": "vitest run test/unit",
-    "test:integration": "vitest run test/integration --testTimeout 180000 --no-file-parallelism",
-    "test:eval": "vitest run test/eval --testTimeout 600000 --no-file-parallelism"
+    "test:integration": "vitest run test/integration --testTimeout 180000 --no-file-parallelism"
   },
   "dependencies": {
     "circomlibjs": "^0.1.7",
