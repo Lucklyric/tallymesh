@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Storage growth per request, amortized over 10k requests.}
+\label{tab:storage}
+\begin{tabular}{lrr}
+\hline
+System & Bytes/req (amortized) & Fixed overhead (B) \\
+\hline
+PR-Naive & 32 & 0 \\
+PR-EventOnly & 0 & 0 \\
+SV-Netting & 0 & 64 \\
+SV-Aggregate & 0 & 64 \\
+TM-ReceiptsOnly & 1 & 4096 \\
+TM-ReceiptsPlusDeltas & 1 & 4096 \\
+\hline
+\end{tabular}
+\end{table}

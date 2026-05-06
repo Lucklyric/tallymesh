@@ -1,0 +1,9 @@
+system,function,gas,usd_base_median,usd_op_median,usd_arb_median
+PerRequestNaive,pay,66355,0.002322,0.002322,0.023224
+PerRequestEventOnly,pay,43947,0.001538,0.001538,0.015381
+SignedVoucherNetting,redeem,67156,0.002350,0.002350,0.023505
+SignedVoucherAggregate,redeemBatch[N=1],67008,0.002345,0.002345,0.023453
+TallyMeshOptReceiptsOnly,submitOptimisticBatch,142164,0.004976,0.004976,0.049757
+TallyMeshOptReceiptsPlusDeltas,submitOptimisticBatch,162065,0.005672,0.005672,0.056723
+TallyMeshOptReceiptsOnlyClaim,claimPayout,67290,0.002355,0.002355,0.023551
+TallyMeshOptReceiptsPlusDeltasClaim,claimPayout,67290,0.002355,0.002355,0.023551
