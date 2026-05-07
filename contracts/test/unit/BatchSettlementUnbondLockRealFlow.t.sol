@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 
-contract BatchSettlementUnbondLockRealFlowTest is Test {
+contract BatchSettlementUnbondLockRealFlowTest is BlobHashHelper {
     BatchSettlement settlement;
     address constant OWNER = address(0xDEEDA);
     address constant SUBMITTER = address(0x5BB1);
@@ -29,8 +29,9 @@ contract BatchSettlementUnbondLockRealFlowTest is Test {
     /// the challenge window expires and `finalizeBatch` runs, the counter
     /// drops to zero and unbond is allowed again.
     function test_unbond_lockedAfterRealSubmit_clearedAfterFinalize() public {
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, bytes32(0), 1, TEST_BLOB_HASH);
         assertEq(settlement.pendingBatchesOf(SUBMITTER), 1);
 
         vm.prank(SUBMITTER);
@@ -48,10 +49,12 @@ contract BatchSettlementUnbondLockRealFlowTest is Test {
 
     /// @dev Multiple pending batches block unbond until ALL are resolved.
     function test_unbond_remainsLockedWhileAnyBatchPending() public {
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-A"), RECEIPTS_ROOT, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-A"), RECEIPTS_ROOT, bytes32(0), 1, TEST_BLOB_HASH);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-B"), RECEIPTS_ROOT, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-B"), RECEIPTS_ROOT, bytes32(0), 1, TEST_BLOB_HASH);
         assertEq(settlement.pendingBatchesOf(SUBMITTER), 2);
 
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);

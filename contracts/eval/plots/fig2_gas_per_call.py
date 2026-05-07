@@ -26,13 +26,22 @@ ROOT = Path(__file__).resolve().parent.parent
 CSV  = ROOT / "data" / "raw" / "e5.csv"
 OUT  = ROOT / "data" / "figures" / "fig2_gas_per_call.pdf"
 
-CLAIM_REF_GAS = 67_290  # cold per-receipt claimPayout from TallyMeshOpt*Claim rows
 CLAIM_REF_LABEL = "TallyMesh per-receipt claim (cold)"
+
+
+def _claim_ref_gas() -> int:
+    with CSV.open() as f:
+        return max(
+            int(r["gas_per_call"])
+            for r in csv.DictReader(f)
+            if r["system"].endswith("Claim")
+        )
 
 
 def main() -> None:
     apply()
     series: dict[str, list[tuple[int, int]]] = defaultdict(list)
+    claim_ref_gas = _claim_ref_gas()
     with CSV.open() as f:
         for r in csv.DictReader(f):
             system = r["system"]
@@ -59,7 +68,7 @@ def main() -> None:
     # the curves so it sits on top; dashed + grey to read as "context, not a
     # sweep".
     ax.axhline(
-        CLAIM_REF_GAS,
+        claim_ref_gas,
         color="#555555",
         linestyle="--",
         linewidth=0.9,
@@ -68,8 +77,8 @@ def main() -> None:
     )
     # Right-anchored label to avoid colliding with the curves.
     ax.text(
-        0.985, CLAIM_REF_GAS,
-        f" {CLAIM_REF_LABEL} ({CLAIM_REF_GAS:,} gas)",
+        0.985, claim_ref_gas,
+        f" {CLAIM_REF_LABEL} ({claim_ref_gas:,} gas)",
         transform=ax.get_yaxis_transform(),
         ha="right", va="bottom",
         fontsize=7, color="#333333",

@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 import {DepositEscrow} from "../../src/DepositEscrow.sol";
 import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 
-contract BatchSettlementFinalizeTest is Test {
+contract BatchSettlementFinalizeTest is BlobHashHelper {
     BatchSettlement settlement;
     DepositEscrow escrow;
     address constant OWNER = address(0xDEEDA);
@@ -55,8 +55,9 @@ contract BatchSettlementFinalizeTest is Test {
 
     function test_finalize_marksFinalizedAndDecrementsPending() public {
         (bytes32 root,) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         assertEq(settlement.pendingBatchesOf(SUBMITTER), 1);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
@@ -67,8 +68,9 @@ contract BatchSettlementFinalizeTest is Test {
 
     function test_finalize_revertsBeforeWindow() public {
         (bytes32 root,) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.expectRevert(BatchSettlement.ChallengeWindowOpen.selector);
         settlement.finalizeBatch(BATCH_ID);
     }
@@ -80,8 +82,9 @@ contract BatchSettlementFinalizeTest is Test {
 
     function test_claimPayout_paysSessionRecipient() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
         bytes32[] memory proof = new bytes32[](0);
@@ -91,8 +94,9 @@ contract BatchSettlementFinalizeTest is Test {
 
     function test_claimPayout_revertsWhenNotFinalized() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         vm.expectRevert(BatchSettlement.BatchNotFinalized.selector);
         settlement.claimPayout(BATCH_ID, r, proof);
@@ -109,8 +113,9 @@ contract BatchSettlementFinalizeTest is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(orphan);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
         bytes32[] memory proof = new bytes32[](0);
@@ -120,8 +125,9 @@ contract BatchSettlementFinalizeTest is Test {
 
     function test_claimPayout_revertsOnInvalidProof() public {
         (bytes32 root,) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
         ReceiptLib.Receipt memory tampered = ReceiptLib.Receipt({
@@ -140,8 +146,9 @@ contract BatchSettlementFinalizeTest is Test {
 
     function test_claimPayout_rejectsSameReceiptInSameBatch() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
         bytes32[] memory proof = new bytes32[](0);
@@ -153,14 +160,16 @@ contract BatchSettlementFinalizeTest is Test {
     /// @dev Cross-batch global double-claim defense (Codex finding 3).
     function test_claimPayout_rejectsCrossBatchDoubleClaim() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _singleReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
         bytes32[] memory proof = new bytes32[](0);
         settlement.claimPayout(BATCH_ID, r, proof);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-2"), root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-2"), root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(bytes32("batch-2"));
         vm.expectRevert(BatchSettlement.ReceiptAlreadyClaimed.selector);

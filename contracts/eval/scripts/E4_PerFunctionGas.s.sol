@@ -19,6 +19,7 @@ import {BatchSettlement} from "../../src/BatchSettlement.sol";
 ///      the cheatcode entirely and gives raw EVM gas accounting around the call.
 contract E4_PerFunctionGas is Script {
     string constant CSV = "./eval/data/raw/e4.csv";
+    bytes32 constant BLOB_HASH = bytes32(uint256(0x01020304));
 
     address payer     = address(0xA1);
     uint256 payerKey  = 0xA0A0;
@@ -110,8 +111,9 @@ contract E4_PerFunctionGas is Script {
         vm.deal(submitter, 2 ether);
         vm.startPrank(submitter);
         bs.bond{value: 1 ether}();
+        _setBlobHash(BLOB_HASH);
         uint256 g0 = gasleft();
-        bs.submitOptimisticBatch(keccak256("b1"), keccak256("root"), bytes32(0), 1000);
+        bs.submitOptimisticBatch(keccak256("b1"), keccak256("root"), bytes32(0), 1000, BLOB_HASH);
         uint256 gas = g0 - gasleft();
         vm.stopPrank();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("TallyMeshOptReceiptsOnly", "submitOptimisticBatch", gas));
@@ -125,12 +127,19 @@ contract E4_PerFunctionGas is Script {
         vm.deal(submitter, 2 ether);
         vm.startPrank(submitter);
         bs.bond{value: 1 ether}();
+        _setBlobHash(BLOB_HASH);
         uint256 g0 = gasleft();
-        bs.submitOptimisticBatch(keccak256("b2"), keccak256("rRoot"), keccak256("dRoot"), 1000);
+        bs.submitOptimisticBatch(keccak256("b2"), keccak256("rRoot"), keccak256("dRoot"), 1000, BLOB_HASH);
         uint256 gas = g0 - gasleft();
         vm.stopPrank();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("TallyMeshOptReceiptsPlusDeltas", "submitOptimisticBatch", gas));
     }
 
     receive() external payable {}
+
+    function _setBlobHash(bytes32 blobHash) internal {
+        bytes32[] memory blobHashes = new bytes32[](1);
+        blobHashes[0] = blobHash;
+        vm.blobhashes(blobHashes);
+    }
 }

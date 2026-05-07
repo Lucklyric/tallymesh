@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 
-contract BatchSettlementSubmitTest is Test {
+contract BatchSettlementSubmitTest is BlobHashHelper {
     BatchSettlement settlement;
     address constant OWNER = address(0xDEEDA);
     address constant SUBMITTER = address(0x5BB1);
@@ -26,8 +26,9 @@ contract BatchSettlementSubmitTest is Test {
     }
 
     function test_submitBatch_storesHeader() public {
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
         (
             address submitter,
             uint256 receiptCount,
@@ -49,30 +50,35 @@ contract BatchSettlementSubmitTest is Test {
     }
 
     function test_submitBatch_incrementsPendingBatches() public {
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
         assertEq(settlement.pendingBatchesOf(SUBMITTER), 1);
     }
 
     function test_submitBatch_onlyAuthorizedSubmitter() public {
         vm.prank(address(0xBAD));
         vm.expectRevert(BatchSettlement.NotAuthorizedSubmitter.selector);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
     }
 
     function test_submitBatch_rejectsDuplicate() public {
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
         vm.expectRevert(BatchSettlement.BatchAlreadyExists.selector);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
     }
 
     function test_submitBatch_emitsEvent() public {
         vm.expectEmit(true, true, false, true);
-        emit BatchSettlement.BatchSubmitted(BATCH_ID, SUBMITTER, RECEIPTS_ROOT, DELTAS_ROOT, 100, uint64(block.timestamp + CHALLENGE_WINDOW));
+        emit BatchSettlement.BatchSubmitted(
+            BATCH_ID, SUBMITTER, RECEIPTS_ROOT, DELTAS_ROOT, 100, uint64(block.timestamp + CHALLENGE_WINDOW)
+        );
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(BATCH_ID, RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
     }
 
     function test_setChallengeWindow_onlyOwner() public {
@@ -87,6 +93,6 @@ contract BatchSettlementSubmitTest is Test {
         settlement.setAuthorizedSubmitter(submitter2, true);
         vm.prank(submitter2);
         vm.expectRevert(BatchSettlement.NoBond.selector);
-        settlement.submitOptimisticBatch(bytes32("batch-2"), RECEIPTS_ROOT, DELTAS_ROOT, 100);
+        settlement.submitOptimisticBatch(bytes32("batch-2"), RECEIPTS_ROOT, DELTAS_ROOT, 100, TEST_BLOB_HASH);
     }
 }

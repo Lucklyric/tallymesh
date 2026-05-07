@@ -61,14 +61,19 @@ export class Settlement {
     return await this.cfg.walletClient.writeContract(request);
   }
 
+  /**
+   * Submits an optimistic receipt batch bound to the EIP-4844 blob at index 0.
+   * This SDK does not derive KZG commitments; callers should provide the blob's
+   * versioned hash externally, for example from the blob transaction/block data.
+   */
   async submitOptimisticBatch(args: {
-    batchId: Hex32; receiptsRoot: Hex32; deltasRoot: Hex32; receiptCount: bigint;
+    batchId: Hex32; receiptsRoot: Hex32; deltasRoot: Hex32; receiptCount: bigint; expectedBlobHash: Hex32;
   }): Promise<Hex> {
     const { request } = await this.cfg.publicClient.simulateContract({
       address: this.cfg.batchSettlement,
       abi: batchSettlementAbi,
       functionName: "submitOptimisticBatch",
-      args: [args.batchId, args.receiptsRoot, args.deltasRoot, args.receiptCount],
+      args: [args.batchId, args.receiptsRoot, args.deltasRoot, args.receiptCount, args.expectedBlobHash],
       account: this.cfg.walletClient.account!,
     });
     return await this.cfg.walletClient.writeContract(request);

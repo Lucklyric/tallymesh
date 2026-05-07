@@ -19,7 +19,9 @@ import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 ///      so we bypass the cheatcode entirely.
 contract E5_BatchSizeSweep is Script {
     string constant CSV = "./eval/data/raw/e5.csv";
+    bytes32 constant BLOB_HASH = bytes32(uint256(0x01020304));
     uint256[5] BATCHES = [uint256(1), 10, 100, 1000, 5000];
+    uint256[8] AGGREGATE_BATCHES = [uint256(1), 10, 50, 100, 200, 500, 1000, 5000];
 
     address payer     = address(0xA1);
     uint256 payerKey  = 0xA0A0;
@@ -94,21 +96,35 @@ contract E5_BatchSizeSweep is Script {
 
     function _sweepAggregate() internal {
         // Aggregate: gas grows linearly in N (one ECDSA recover + one storage write per voucher).
-        // We measure N=1 and N=10 and linearly extrapolate. For large N (1000, 5000) the
-        // contract call would exceed Anvil block gas; the linear model captures the same shape.
+        // We anchor the linear model at N=1 and N=10, then directly measure intermediate
+        // points when they fit. Large N falls back to the same extrapolation.
         SignedVoucherAggregate c = new SignedVoucherAggregate();
-        uint256 g1 = _aggregateRunN(c, 1, 1);
-        uint256 g10 = _aggregateRunN(c, 10, 100);
+        (bool ok1, uint256 g1) = _tryAggregateRunN(c, 1, 1);
+        (bool ok10, uint256 g10) = _tryAggregateRunN(c, 10, 100);
+        require(ok1 && ok10, "aggregate anchors failed");
         uint256 marginal = (g10 - g1) / 9;
-        for (uint256 i = 0; i < BATCHES.length; i++) {
-            uint256 n = BATCHES[i];
-            uint256 total = g1 + marginal * (n - 1);
+        for (uint256 i = 0; i < AGGREGATE_BATCHES.length; i++) {
+            uint256 n = AGGREGATE_BATCHES[i];
+            uint256 total;
+            if (n == 1) {
+                total = g1;
+            } else if (n == 10) {
+                total = g10;
+            } else if (n <= 500) {
+                (bool ok, uint256 measured) = _tryAggregateRunN(c, n, n * 1000);
+                total = ok ? measured : _extrapolateAggregate(g1, marginal, n);
+            } else {
+                total = _extrapolateAggregate(g1, marginal, n);
+            }
             uint256 perCall = total / n;
             EvalCsv.appendRow(CSV, EvalCsv.csvRow4("SignedVoucherAggregate", vm.toString(n), total, perCall));
         }
     }
 
-    function _aggregateRunN(SignedVoucherAggregate c, uint256 n, uint256 nonceStart) internal returns (uint256) {
+    function _tryAggregateRunN(SignedVoucherAggregate c, uint256 n, uint256 nonceStart)
+        internal
+        returns (bool ok, uint256 gasUsed)
+    {
         SignedVoucherAggregate.Voucher[] memory vs = new SignedVoucherAggregate.Voucher[](n);
         bytes[] memory sigs = new bytes[](n);
         address signer = vm.addr(payerKey);
@@ -126,8 +142,15 @@ contract E5_BatchSizeSweep is Script {
         }
         vm.deal(address(c), 100 ether);
         uint256 g0 = gasleft();
-        c.redeemBatch(vs, sigs);
-        return g0 - gasleft();
+        try c.redeemBatch(vs, sigs) {
+            return (true, g0 - gasleft());
+        } catch {
+            return (false, 0);
+        }
+    }
+
+    function _extrapolateAggregate(uint256 g1, uint256 marginal, uint256 n) internal pure returns (uint256) {
+        return g1 + marginal * (n - 1);
     }
 
     function _sweepTallyMesh(string memory system, bool withDeltas) internal {
@@ -145,8 +168,9 @@ contract E5_BatchSizeSweep is Script {
             bs.bond{value: 1 ether}();
             bytes32 batchId = keccak256(abi.encode(system, n));
             bytes32 deltas = withDeltas ? keccak256(abi.encode("d", n)) : bytes32(0);
+            _setBlobHash(BLOB_HASH);
             uint256 g0 = gasleft();
-            bs.submitOptimisticBatch(batchId, keccak256(abi.encode("r", n)), deltas, n);
+            bs.submitOptimisticBatch(batchId, keccak256(abi.encode("r", n)), deltas, n, BLOB_HASH);
             uint256 gas = g0 - gasleft();
             vm.stopPrank();
             EvalCsv.appendRow(CSV, EvalCsv.csvRow4(system, vm.toString(n), gas, gas / n));
@@ -210,8 +234,9 @@ contract E5_BatchSizeSweep is Script {
         // Submit the optimistic batch (single receipt, leaf hash as root).
         bytes32 batchId = keccak256(abi.encode("claim-batch", withDeltas));
         bytes32 deltas = withDeltas ? keccak256("claim-deltas") : bytes32(0);
+        _setBlobHash(BLOB_HASH);
         vm.prank(submitter);
-        bs.submitOptimisticBatch(batchId, leaf, deltas, 1);
+        bs.submitOptimisticBatch(batchId, leaf, deltas, 1, BLOB_HASH);
 
         // Warp past the (1-second) challenge window and finalize.
         vm.warp(block.timestamp + 2);
@@ -225,4 +250,10 @@ contract E5_BatchSizeSweep is Script {
     }
 
     receive() external payable {}
+
+    function _setBlobHash(bytes32 blobHash) internal {
+        bytes32[] memory blobHashes = new bytes32[](1);
+        blobHashes[0] = blobHash;
+        vm.blobhashes(blobHashes);
+    }
 }

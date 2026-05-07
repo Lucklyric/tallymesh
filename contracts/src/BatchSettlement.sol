@@ -39,6 +39,8 @@ contract BatchSettlement {
     error SessionIntentExpired();
     error SessionIntentOverBudget();
     error LegacyReserveDisabled();
+    error BlobNotPresent();
+    error BlobHashMismatch();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
     enum SettlementMode { Optimistic, ZK }
@@ -251,13 +253,25 @@ contract BatchSettlement {
         emit SessionReserved(sessionId, payer, recipient, amount);
     }
 
-    function submitOptimisticBatch(bytes32 batchId, bytes32 receiptsRoot, bytes32 deltasRoot, uint256 receiptCount)
-        external
-        onlyAuthorizedSubmitter
-    {
+    /// @param expectedBlobHash EIP-4844 versioned hash for blob 0 in this transaction.
+    /// SDK callers that do not hold a KZG commitment helper should obtain this
+    /// externally from the blob-carrying transaction/block and pass it here.
+    function submitOptimisticBatch(
+        bytes32 batchId,
+        bytes32 receiptsRoot,
+        bytes32 deltasRoot,
+        uint256 receiptCount,
+        bytes32 expectedBlobHash
+    ) external onlyAuthorizedSubmitter {
         if (batches[batchId].submitter != address(0)) revert BatchAlreadyExists();
         uint256 bond_ = _bondOf[msg.sender];
         if (bond_ == 0) revert NoBond();
+        bytes32 actualBlobHash;
+        assembly {
+            actualBlobHash := blobhash(0)
+        }
+        if (actualBlobHash == bytes32(0)) revert BlobNotPresent();
+        if (actualBlobHash != expectedBlobHash) revert BlobHashMismatch();
         uint64 deadline = uint64(block.timestamp) + challengeWindow;
         batches[batchId] = Batch({
             submitter: msg.sender,

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {ServiceRegistry} from "../../src/ServiceRegistry.sol";
 import {RolePolicyRegistry} from "../../src/RolePolicyRegistry.sol";
 import {DepositEscrow} from "../../src/DepositEscrow.sol";
@@ -9,7 +9,7 @@ import {BatchSettlement} from "../../src/BatchSettlement.sol";
 import {DisputeManager} from "../../src/DisputeManager.sol";
 import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 
-contract EndToEndTest is Test {
+contract EndToEndTest is BlobHashHelper {
     ServiceRegistry serviceRegistry;
     RolePolicyRegistry policyRegistry;
     DepositEscrow escrow;
@@ -75,8 +75,9 @@ contract EndToEndTest is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(r);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
 
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);

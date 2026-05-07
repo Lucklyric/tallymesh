@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {DepositEscrow} from "../../src/DepositEscrow.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 import {DisputeManager} from "../../src/DisputeManager.sol";
 import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 
-contract DisputeManagerTest is Test {
+contract DisputeManagerTest is BlobHashHelper {
     DepositEscrow escrow;
     BatchSettlement settlement;
     DisputeManager dispute;
@@ -55,8 +55,9 @@ contract DisputeManagerTest is Test {
 
     function test_challenge_emitsEventWithTimestamp() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _badReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         vm.warp(block.timestamp + 60);
         uint64 expectedAt = uint64(block.timestamp);
@@ -68,8 +69,9 @@ contract DisputeManagerTest is Test {
 
     function test_challenge_invalidatesBatchAndSlashesBondAndDecrementsPending() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _badReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         assertEq(settlement.pendingBatchesOf(SUBMITTER), 1);
         uint256 challengerBefore = CHALLENGER.balance;
         uint256 burnBefore = BURN_ADDRESS.balance;
@@ -86,8 +88,9 @@ contract DisputeManagerTest is Test {
 
     function test_challenge_revertsAfterDeadline() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _badReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         vm.prank(CHALLENGER);
@@ -97,8 +100,9 @@ contract DisputeManagerTest is Test {
 
     function test_challenge_revertsOnInvalidProof() public {
         (bytes32 root,) = _badReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         ReceiptLib.Receipt memory wrongLeaf = ReceiptLib.Receipt({
             sessionId: SESSION,
@@ -125,8 +129,9 @@ contract DisputeManagerTest is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(good);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         vm.prank(CHALLENGER);
         vm.expectRevert(DisputeManager.ChallengeFailedNoFraud.selector);
@@ -146,8 +151,9 @@ contract DisputeManagerTest is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(receipt);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         vm.prank(CHALLENGER);
         dispute.challengeReceipt(BATCH_ID, receipt, proof);
@@ -157,8 +163,9 @@ contract DisputeManagerTest is Test {
 
     function test_challenge_revertsForFinalizedBatch() public {
         (bytes32 root, ReceiptLib.Receipt memory r) = _badReceiptRoot();
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(BATCH_ID, root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(BATCH_ID);
         bytes32[] memory proof = new bytes32[](0);

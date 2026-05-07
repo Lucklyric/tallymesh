@@ -24,6 +24,7 @@ afterAll(() => { if (anvil) anvil.kill(); });
 const SESSION = ("0x" + "12".repeat(32)) as `0x${string}`;
 const BATCH   = ("0x" + "34".repeat(32)) as `0x${string}`;
 const ZERO    = ("0x" + "00".repeat(32)) as `0x${string}`;
+const BLOB_HASH = ("0x" + "01".repeat(32)) as `0x${string}`;
 
 describe("Attacks 1 + 3 closure (sdk-ts + on-chain backstop)", () => {
   it("Attack 1: replay of same SignedRequest is rejected by service AND ReceiptAlreadyClaimed on chain", async () => {
@@ -85,7 +86,7 @@ describe("Attacks 1 + 3 closure (sdk-ts + on-chain backstop)", () => {
     // Build a single-receipt batch and run the on-chain claim path twice.
     const agg = new KeccakAggregator([r0.receipt]);
     await settlementSubmitter.submitOptimisticBatch({
-      batchId: BATCH, receiptsRoot: agg.root, deltasRoot: ZERO, receiptCount: 1n,
+      batchId: BATCH, receiptsRoot: agg.root, deltasRoot: ZERO, receiptCount: 1n, expectedBlobHash: BLOB_HASH,
     });
     await fetch("http://127.0.0.1:8545", {
       method: "POST", headers: { "Content-Type": "application/json" },

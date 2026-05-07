@@ -18,6 +18,7 @@ import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 ///      script frames, so we use a separate submitter EOA + vm.startPrank.
 contract E6_DisputeCost is Script {
     string constant CSV = "./eval/data/raw/e6.csv";
+    bytes32 constant BLOB_HASH = bytes32(uint256(0x01020304));
 
     function run() external {
         EvalCsv.writeHeader(CSV, "phase,gas,latency_blocks");
@@ -38,8 +39,9 @@ contract E6_DisputeCost is Script {
 
         // Submit a placeholder batch first to measure the submit gas line item.
         bytes32 batchId = keccak256("disputed");
+        _setBlobHash(BLOB_HASH);
         uint256 g0s = gasleft();
-        bs.submitOptimisticBatch(batchId, keccak256("badRoot"), bytes32(0), 1000);
+        bs.submitOptimisticBatch(batchId, keccak256("badRoot"), bytes32(0), 1000, BLOB_HASH);
         uint256 submitGas = g0s - gasleft();
         EvalCsv.appendRow(CSV, EvalCsv.csvRow3("submit", "submitOptimisticBatch", submitGas));
 
@@ -59,7 +61,8 @@ contract E6_DisputeCost is Script {
         });
         bytes32 fraudRoot = ReceiptLib.leafHash(bad);
         bytes32 fraudBatch = keccak256("disputed-2");
-        bs.submitOptimisticBatch(fraudBatch, fraudRoot, bytes32(0), 1);
+        _setBlobHash(BLOB_HASH);
+        bs.submitOptimisticBatch(fraudBatch, fraudRoot, bytes32(0), 1, BLOB_HASH);
         vm.stopPrank();
 
         bytes32[] memory emptyProof = new bytes32[](0);
@@ -74,4 +77,10 @@ contract E6_DisputeCost is Script {
     }
 
     receive() external payable {}
+
+    function _setBlobHash(bytes32 blobHash) internal {
+        bytes32[] memory blobHashes = new bytes32[](1);
+        blobHashes[0] = blobHash;
+        vm.blobhashes(blobHashes);
+    }
 }

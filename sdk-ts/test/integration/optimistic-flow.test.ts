@@ -25,6 +25,7 @@ afterAll(() => { if (anvil) anvil.kill(); });
 const SESSION = ("0x" + "ab".repeat(32)) as `0x${string}`;
 const BATCH   = ("0x" + "cd".repeat(32)) as `0x${string}`;
 const ZERO    = ("0x" + "00".repeat(32)) as `0x${string}`;
+const BLOB_HASH = ("0x" + "01".repeat(32)) as `0x${string}`;
 
 describe("E2E optimistic flow", () => {
   it("client signs requests, service issues receipts, aggregator builds batch, claim transfers ETH", async () => {
@@ -93,7 +94,11 @@ describe("E2E optimistic flow", () => {
 
     // 6. Submitter posts the batch.
     await settlementSubmitter.submitOptimisticBatch({
-      batchId: BATCH, receiptsRoot: agg.root, deltasRoot: ZERO, receiptCount: BigInt(receipts.length),
+      batchId: BATCH,
+      receiptsRoot: agg.root,
+      deltasRoot: ZERO,
+      receiptCount: BigInt(receipts.length),
+      expectedBlobHash: BLOB_HASH,
     });
 
     // 7. Wait out the 1s challenge window, then finalize.

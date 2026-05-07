@@ -61,6 +61,7 @@ export const batchSettlementAbi = [
       { name: "receiptsRoot", type: "bytes32" },
       { name: "deltasRoot", type: "bytes32" },
       { name: "receiptCount", type: "uint256" },
+      { name: "expectedBlobHash", type: "bytes32" },
     ],
     outputs: [],
   },
@@ -105,5 +106,7 @@ export const batchSettlementAbi = [
     inputs: [], outputs: [{ name: "", type: "uint64" }],
   },
   // Custom errors — declared so viem can decode revert reasons by name.
+  { type: "error", name: "BlobHashMismatch", inputs: [] },
+  { type: "error", name: "BlobNotPresent", inputs: [] },
   { type: "error", name: "ReceiptAlreadyClaimed", inputs: [] },
 ] as const;

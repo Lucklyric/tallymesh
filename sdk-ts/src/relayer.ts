@@ -29,14 +29,16 @@ export class Relayer {
 
   /// Submit a pre-built optimistic batch on behalf of a bonded submitter.
   /// Used in E3 to drive concurrent claims through a relayer.
+  /// The caller supplies the EIP-4844 versioned hash for blob 0; this helper
+  /// does not compute KZG commitments locally.
   async submitOptimisticBatch(args: {
-    batchId: Hex32; receiptsRoot: Hex32; deltasRoot: Hex32; receiptCount: bigint;
+    batchId: Hex32; receiptsRoot: Hex32; deltasRoot: Hex32; receiptCount: bigint; expectedBlobHash: Hex32;
   }): Promise<Hex> {
     const { request } = await this.publicClient.simulateContract({
       address: this.batchSettlement,
       abi: batchSettlementAbi,
       functionName: "submitOptimisticBatch",
-      args: [args.batchId, args.receiptsRoot, args.deltasRoot, args.receiptCount],
+      args: [args.batchId, args.receiptsRoot, args.deltasRoot, args.receiptCount, args.expectedBlobHash],
       account: this.walletClient.account!,
     });
     return await this.walletClient.writeContract(request);

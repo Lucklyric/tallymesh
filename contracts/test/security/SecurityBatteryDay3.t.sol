@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {DepositEscrow} from "../../src/DepositEscrow.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 import {DisputeManager} from "../../src/DisputeManager.sol";
 import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
 
-contract SecurityBatteryDay3Test is Test {
+contract SecurityBatteryDay3Test is BlobHashHelper {
     DepositEscrow escrow;
     BatchSettlement settlement;
     DisputeManager dispute;
@@ -64,8 +64,9 @@ contract SecurityBatteryDay3Test is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(r);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-2"), root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-2"), root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(bytes32("batch-2"));
         bytes32[] memory proof = new bytes32[](0);
@@ -89,8 +90,9 @@ contract SecurityBatteryDay3Test is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(bad);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-3"), root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-3"), root, bytes32(0), 1, TEST_BLOB_HASH);
         bytes32[] memory proof = new bytes32[](0);
         uint256 challengerBefore = CHALLENGER.balance;
         uint256 burnBefore = BURN_ADDRESS.balance;
@@ -115,14 +117,16 @@ contract SecurityBatteryDay3Test is Test {
             serviceTimestamp: uint64(block.timestamp)
         });
         bytes32 root = ReceiptLib.leafHash(r);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-A"), root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-A"), root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(bytes32("batch-A"));
         bytes32[] memory proof = new bytes32[](0);
         settlement.claimPayout(bytes32("batch-A"), r, proof);
+        _setBlobHash(TEST_BLOB_HASH);
         vm.prank(SUBMITTER);
-        settlement.submitOptimisticBatch(bytes32("batch-B"), root, bytes32(0), 1);
+        settlement.submitOptimisticBatch(bytes32("batch-B"), root, bytes32(0), 1, TEST_BLOB_HASH);
         vm.warp(block.timestamp + CHALLENGE_WINDOW + 1);
         settlement.finalizeBatch(bytes32("batch-B"));
         vm.expectRevert(BatchSettlement.ReceiptAlreadyClaimed.selector);
