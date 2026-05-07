@@ -14,8 +14,8 @@ import {CircomBatchVerifier} from "../src/zk/CircomBatchVerifier.sol";
 /// @notice Deploys the full TallyMesh stack to the local broadcast target and
 /// emits a JSON-formatted address book the SDK reads at integration-test time.
 contract DeployLocal is Script {
-    /// @dev Default chargedCeiling for the local DisputeManager. Tests may
-    /// override BatchSettlement's per-receipt ceiling via setChargedCeiling.
+    /// @dev Default chargedCeiling for the local BatchSettlement. Tests may
+    /// override the per-receipt ceiling via setChargedCeiling.
     uint256 internal constant DEFAULT_CHARGED_CEILING = 1 ether;
 
     function run() external {
@@ -26,9 +26,10 @@ contract DeployLocal is Script {
         RouterRegistry routerReg     = new RouterRegistry();
         DepositEscrow escrow         = new DepositEscrow();
         BatchSettlement settlement   = new BatchSettlement(address(escrow));
-        DisputeManager dispute       = new DisputeManager(address(settlement), DEFAULT_CHARGED_CEILING);
+        DisputeManager dispute       = new DisputeManager(address(settlement));
 
         escrow.setAuthorizedSettler(address(settlement), true);
+        settlement.setChargedCeiling(DEFAULT_CHARGED_CEILING);
         settlement.setDisputeManager(address(dispute));
 
         BatchValidityGroth16Verifier g16 = new BatchValidityGroth16Verifier();

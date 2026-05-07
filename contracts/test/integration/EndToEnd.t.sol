@@ -36,10 +36,12 @@ contract EndToEndTest is Test {
         vm.prank(OWNER);
         settlement = new BatchSettlement(address(escrow));
         vm.prank(OWNER);
-        dispute = new DisputeManager(address(settlement), CHARGED_CEILING);
+        dispute = new DisputeManager(address(settlement));
 
         vm.prank(OWNER);
         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+        vm.prank(OWNER);
+        settlement.setChargedCeiling(CHARGED_CEILING);
         vm.prank(OWNER);
         settlement.setAuthorizedSubmitter(SUBMITTER, true);
         vm.prank(OWNER);

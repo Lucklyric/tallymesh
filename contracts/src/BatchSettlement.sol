@@ -3,6 +3,8 @@ pragma solidity 0.8.26;
 
 import {DepositEscrow} from "./DepositEscrow.sol";
 import {ReceiptLib} from "./lib/ReceiptLib.sol";
+import {EIP712Domain} from "./lib/EIP712Domain.sol";
+import {Signatures} from "./lib/Signatures.sol";
 import {IBatchVerifier} from "./interfaces/IBatchVerifier.sol";
 
 /// @notice Optimistic batch-settlement contract for TallyMesh receipts.
@@ -33,6 +35,9 @@ contract BatchSettlement {
     error VerifierNotApproved();
     error InvalidValidityProof();
     error ClaimRequiresOptimisticMode();
+    error InvalidSessionIntentSignature();
+    error SessionIntentExpired();
+    error SessionIntentOverBudget();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
     enum SettlementMode { Optimistic, ZK }
@@ -42,6 +47,15 @@ contract BatchSettlement {
         address payable recipient;
         uint256 amount;
         bool open;
+    }
+
+    struct SessionIntent {
+        bytes32 sessionId;
+        address payer;
+        address payable recipient;
+        uint256 amount;
+        uint256 maxAmount;
+        uint64 expiry;
     }
 
     struct Batch {
@@ -57,6 +71,15 @@ contract BatchSettlement {
 
     address public immutable owner;
     DepositEscrow public immutable escrow;
+    bytes32 public immutable DOMAIN_SEPARATOR;
+
+    bytes32 internal constant SESSION_INTENT_TYPEHASH = keccak256(
+        "SessionIntent(bytes32 sessionId,address payer,address recipient,uint256 amount,uint256 maxAmount,uint64 expiry)"
+    );
+
+    uint256 public constant BURN_BPS = 5000;
+    uint256 private constant BPS_DENOMINATOR = 10_000;
+    address public constant BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD;
 
     mapping(address => bool) public authorizedSubmitters;
     mapping(address => uint256) private _bondOf;
@@ -110,6 +133,7 @@ contract BatchSettlement {
     constructor(address escrow_) {
         owner = msg.sender;
         escrow = DepositEscrow(escrow_);
+        DOMAIN_SEPARATOR = EIP712Domain.domainSeparator("TallyMesh", "1", block.chainid, address(this));
     }
 
     function setAuthorizedSubmitter(address submitter, bool authorized) external onlyOwner {
@@ -153,6 +177,13 @@ contract BatchSettlement {
 
     function invalidateAndSlash(bytes32 batchId, address payable challenger) external {
         if (msg.sender != disputeManager) revert NotDisputeManager();
+        _invalidateBatch(batchId, challenger);
+    }
+
+    /// @notice Invalidates only `batchId` and splits the slashed bond 50/50
+    /// between the challenger and burn address. Other pending batches from the
+    /// same submitter remain in flight so disputes stay scoped per batch.
+    function _invalidateBatch(bytes32 batchId, address payable challenger) internal {
         Batch storage b = batches[batchId];
         if (b.submitter == address(0)) revert BatchNotFound();
         if (b.status != BatchStatus.Pending) revert InvalidationNotAllowed();
@@ -165,18 +196,50 @@ contract BatchSettlement {
         totalBondedStake -= slashed;
         emit SubmitterUnbonded(b.submitter, slashed);
         if (slashed > 0) {
-            (bool ok,) = challenger.call{value: slashed}("");
+            uint256 burnAmount = (slashed * BURN_BPS) / BPS_DENOMINATOR;
+            uint256 challengerAmount = slashed - burnAmount;
+            (bool ok,) = challenger.call{value: challengerAmount}("");
+            if (!ok) revert TransferFailed();
+            (ok,) = payable(BURN_ADDRESS).call{value: burnAmount}("");
             if (!ok) revert TransferFailed();
         }
     }
 
+    /// @dev v0; prefer reserveSessionWithIntent.
     function reserveSession(bytes32 sessionId, address payable recipient, uint256 amount) external {
+        _reserveSession(sessionId, msg.sender, recipient, amount);
+    }
+
+    function reserveSessionWithIntent(SessionIntent calldata intent, bytes calldata sig) external {
+        bytes32 digest = EIP712Domain.hashTypedData(DOMAIN_SEPARATOR, _hashSessionIntent(intent));
+        address signer = Signatures.recoverEOA(digest, sig);
+        if (signer != intent.payer) revert InvalidSessionIntentSignature();
+        if (block.timestamp > intent.expiry) revert SessionIntentExpired();
+        if (intent.maxAmount < intent.amount) revert SessionIntentOverBudget();
+        _reserveSession(intent.sessionId, intent.payer, intent.recipient, intent.amount);
+    }
+
+    function _hashSessionIntent(SessionIntent calldata intent) internal pure returns (bytes32) {
+        return keccak256(
+            abi.encode(
+                SESSION_INTENT_TYPEHASH,
+                intent.sessionId,
+                intent.payer,
+                intent.recipient,
+                intent.amount,
+                intent.maxAmount,
+                intent.expiry
+            )
+        );
+    }
+
+    function _reserveSession(bytes32 sessionId, address payer, address payable recipient, uint256 amount) internal {
         if (sessions[sessionId].open) revert SessionAlreadyOpen();
         if (recipient == address(0)) revert InvalidRecipient();
         if (amount == 0) revert InvalidAmount();
-        sessions[sessionId] = Session({payer: msg.sender, recipient: recipient, amount: amount, open: true});
-        escrow.reserve(sessionId, msg.sender, amount);
-        emit SessionReserved(sessionId, msg.sender, recipient, amount);
+        sessions[sessionId] = Session({payer: payer, recipient: recipient, amount: amount, open: true});
+        escrow.reserve(sessionId, payer, amount);
+        emit SessionReserved(sessionId, payer, recipient, amount);
     }
 
     function submitOptimisticBatch(bytes32 batchId, bytes32 receiptsRoot, bytes32 deltasRoot, uint256 receiptCount)

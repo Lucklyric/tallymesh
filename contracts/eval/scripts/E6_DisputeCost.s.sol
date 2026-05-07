@@ -24,7 +24,8 @@ contract E6_DisputeCost is Script {
 
         DepositEscrow escrow = new DepositEscrow();
         BatchSettlement bs = new BatchSettlement(address(escrow));
-        DisputeManager dm = new DisputeManager(address(bs), 1 ether); // chargedCeiling = 1 ether
+        DisputeManager dm = new DisputeManager(address(bs));
+        bs.setChargedCeiling(1 ether);
         bs.setDisputeManager(address(dm));
 
         // forge 1.6+ rejects address(this) in scripts; use a separate submitter EOA.

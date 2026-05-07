@@ -16,6 +16,7 @@ contract SecurityBatteryDay3Test is Test {
     address constant PAYER = address(0xA11CE);
     address payable constant SERVICE = payable(address(0x5E2C1));
     address payable constant CHALLENGER = payable(address(0xC4A));
+    address constant BURN_ADDRESS = 0x000000000000000000000000000000000000dEaD;
     uint256 constant CHALLENGE_WINDOW = 900;
     uint256 constant CHARGED_CEILING = 1 ether;
 
@@ -25,9 +26,11 @@ contract SecurityBatteryDay3Test is Test {
         vm.prank(OWNER);
         settlement = new BatchSettlement(address(escrow));
         vm.prank(OWNER);
-        dispute = new DisputeManager(address(settlement), CHARGED_CEILING);
+        dispute = new DisputeManager(address(settlement));
         vm.prank(OWNER);
         settlement.setChallengeWindow(uint64(CHALLENGE_WINDOW));
+        vm.prank(OWNER);
+        settlement.setChargedCeiling(CHARGED_CEILING);
         vm.prank(OWNER);
         settlement.setAuthorizedSubmitter(SUBMITTER, true);
         vm.prank(OWNER);
@@ -87,12 +90,15 @@ contract SecurityBatteryDay3Test is Test {
         vm.prank(SUBMITTER);
         settlement.submitOptimisticBatch(bytes32("batch-3"), root, bytes32(0), 1);
         bytes32[] memory proof = new bytes32[](0);
+        uint256 challengerBefore = CHALLENGER.balance;
+        uint256 burnBefore = BURN_ADDRESS.balance;
         vm.prank(CHALLENGER);
         dispute.challengeReceipt(bytes32("batch-3"), bad, proof);
         (,,,,, BatchSettlement.BatchStatus status,,) = settlement.batches(bytes32("batch-3"));
         assertEq(uint256(status), uint256(BatchSettlement.BatchStatus.Invalidated));
         assertEq(settlement.bondOf(SUBMITTER), 0);
-        assertEq(CHALLENGER.balance, 2 ether);
+        assertEq(CHALLENGER.balance, challengerBefore + 1 ether);
+        assertEq(BURN_ADDRESS.balance, burnBefore + 1 ether);
     }
 
     /// @dev Cross-batch global double-claim defense (Codex finding 3).
