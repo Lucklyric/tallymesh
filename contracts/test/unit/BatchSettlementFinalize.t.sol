@@ -28,6 +28,8 @@ contract BatchSettlementFinalizeTest is Test {
         settlement.setAuthorizedSubmitter(SUBMITTER, true);
         vm.prank(OWNER);
         escrow.setAuthorizedSettler(address(settlement), true);
+        vm.prank(OWNER);
+        settlement.setLegacyReserveEnabled(true);
         vm.deal(SUBMITTER, 10 ether);
         vm.prank(SUBMITTER);
         settlement.bond{value: 2 ether}();

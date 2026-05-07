@@ -20,6 +20,8 @@ contract BatchSettlementReserveSessionTest is Test {
         settlement = new BatchSettlement(address(escrow));
         vm.prank(OWNER);
         escrow.setAuthorizedSettler(address(settlement), true);
+        vm.prank(OWNER);
+        settlement.setLegacyReserveEnabled(true);
         vm.deal(PAYER, 10 ether);
         vm.prank(PAYER);
         escrow.deposit{value: 2 ether}();

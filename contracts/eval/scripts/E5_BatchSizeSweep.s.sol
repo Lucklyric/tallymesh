@@ -173,6 +173,7 @@ contract E5_BatchSizeSweep is Script {
         escrow.setAuthorizedSettler(address(bs), true);
         bs.setAuthorizedSubmitter(submitter, true);
         bs.setChallengeWindow(1);
+        bs.setLegacyReserveEnabled(true);
 
         // Bond submitter.
         vm.deal(submitter, 2 ether);

@@ -3,5 +3,5 @@ PerRequestNaive,pay,66355
 PerRequestEventOnly,pay,43947
 SignedVoucherNetting,redeem,67156
 SignedVoucherAggregate,redeemBatch[N=1],67008
-TallyMeshOptReceiptsOnly,submitOptimisticBatch,142142
-TallyMeshOptReceiptsPlusDeltas,submitOptimisticBatch,162043
+TallyMeshOptReceiptsOnly,submitOptimisticBatch,142164
+TallyMeshOptReceiptsPlusDeltas,submitOptimisticBatch,162065

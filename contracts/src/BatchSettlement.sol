@@ -38,6 +38,7 @@ contract BatchSettlement {
     error InvalidSessionIntentSignature();
     error SessionIntentExpired();
     error SessionIntentOverBudget();
+    error LegacyReserveDisabled();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
     enum SettlementMode { Optimistic, ZK }
@@ -95,6 +96,7 @@ contract BatchSettlement {
     mapping(bytes32 => address) public verifierOf;
     mapping(address => bool) public approvedVerifiers;
     uint256 public chargedCeiling;
+    bool public legacyReserveEnabled;
 
     event SubmitterAuthorized(address indexed submitter, bool authorized);
     event SubmitterBonded(address indexed submitter, uint256 amount);
@@ -112,6 +114,7 @@ contract BatchSettlement {
     event ReceiptClaimed(bytes32 indexed batchId, bytes32 indexed receiptKey, address payer, address recipient, uint256 amount);
     event VerifierApproved(address indexed verifier, bool approved);
     event ChargedCeilingUpdated(uint256 newCeiling);
+    event LegacyReserveToggled(bool enabled);
     event ZkBatchSubmitted(
         bytes32 indexed batchId,
         address indexed submitter,
@@ -175,6 +178,11 @@ contract BatchSettlement {
         emit ChargedCeilingUpdated(newCeiling);
     }
 
+    function setLegacyReserveEnabled(bool enabled) external onlyOwner {
+        legacyReserveEnabled = enabled;
+        emit LegacyReserveToggled(enabled);
+    }
+
     function invalidateAndSlash(bytes32 batchId, address payable challenger) external {
         if (msg.sender != disputeManager) revert NotDisputeManager();
         _invalidateBatch(batchId, challenger);
@@ -207,6 +215,7 @@ contract BatchSettlement {
 
     /// @dev v0; prefer reserveSessionWithIntent.
     function reserveSession(bytes32 sessionId, address payable recipient, uint256 amount) external {
+        if (!legacyReserveEnabled) revert LegacyReserveDisabled();
         _reserveSession(sessionId, msg.sender, recipient, amount);
     }
 

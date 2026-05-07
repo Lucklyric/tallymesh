@@ -38,6 +38,8 @@ contract ClaimPayoutSettlementModeTest is Test {
         settlement.setApprovedVerifier(address(verifier), true);
         vm.prank(OWNER);
         escrow.setAuthorizedSettler(address(settlement), true);
+        vm.prank(OWNER);
+        settlement.setLegacyReserveEnabled(true);
 
         vm.deal(SUBMITTER, 10 ether);
         vm.prank(SUBMITTER);

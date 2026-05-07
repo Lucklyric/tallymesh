@@ -31,6 +31,9 @@ contract DeployLocal is Script {
         escrow.setAuthorizedSettler(address(settlement), true);
         settlement.setChargedCeiling(DEFAULT_CHARGED_CEILING);
         settlement.setDisputeManager(address(dispute));
+        if (vm.envExists("LEGACY_RESERVE")) {
+            settlement.setLegacyReserveEnabled(true);
+        }
 
         BatchValidityGroth16Verifier g16 = new BatchValidityGroth16Verifier();
         CircomBatchVerifier circomVerifier = new CircomBatchVerifier(address(g16));

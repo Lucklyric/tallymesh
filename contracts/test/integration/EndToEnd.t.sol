@@ -47,6 +47,8 @@ contract EndToEndTest is Test {
         vm.prank(OWNER);
         settlement.setDisputeManager(address(dispute));
         vm.prank(OWNER);
+        settlement.setLegacyReserveEnabled(true);
+        vm.prank(OWNER);
         escrow.setAuthorizedSettler(address(settlement), true);
 
         vm.prank(SERVICE_OWNER);

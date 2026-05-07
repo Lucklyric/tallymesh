@@ -73,6 +73,8 @@ contract BatchSettlementZkTest is Test {
         settlement.setApprovedVerifier(address(mock), true);
         vm.prank(OWNER);
         settlement.setChargedCeiling(CHARGED_CEILING);
+        vm.prank(OWNER);
+        settlement.setLegacyReserveEnabled(true);
 
         vm.deal(SUBMITTER, 10 ether);
         vm.prank(SUBMITTER);
