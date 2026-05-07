@@ -32,6 +32,7 @@ contract BatchSettlement {
     error InvalidationNotAllowed();
     error VerifierNotApproved();
     error InvalidValidityProof();
+    error ClaimRequiresOptimisticMode();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
     enum SettlementMode { Optimistic, ZK }
@@ -253,6 +254,7 @@ contract BatchSettlement {
     }
 
     function claimPayout(bytes32 batchId, ReceiptLib.Receipt calldata receipt, bytes32[] calldata proof) external {
+        if (settlementModeOf[batchId] != SettlementMode.Optimistic) revert ClaimRequiresOptimisticMode();
         Batch storage b = batches[batchId];
         if (b.status != BatchStatus.Finalized) revert BatchNotFinalized();
         Session storage s = sessions[receipt.sessionId];
