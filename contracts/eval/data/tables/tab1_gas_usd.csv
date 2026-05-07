@@ -5,5 +5,5 @@ SignedVoucherNetting,redeem,67156,0.002350,0.002350,0.023505
 SignedVoucherAggregate,redeemBatch[N=1],67008,0.002345,0.002345,0.023453
 TallyMeshOptReceiptsOnly,submitOptimisticBatch,142164,0.004976,0.004976,0.049757
 TallyMeshOptReceiptsPlusDeltas,submitOptimisticBatch,162065,0.005672,0.005672,0.056723
-TallyMeshOptReceiptsOnlyClaim,claimPayout,67290,0.002355,0.002355,0.023551
-TallyMeshOptReceiptsPlusDeltasClaim,claimPayout,67290,0.002355,0.002355,0.023551
+TallyMeshOptReceiptsOnlyClaim,claimPayout,69481,0.002432,0.002432,0.024321
+TallyMeshOptReceiptsPlusDeltasClaim,claimPayout,69481,0.002432,0.002432,0.024321

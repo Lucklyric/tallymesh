@@ -309,146 +309,146 @@
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 0.0004975740000000001
+      "usd_per_unit": 0.0004974970000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 0.0004975740000000001
+      "usd_per_unit": 0.0004974970000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.00497574
+      "usd_per_unit": 0.00497497
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.00497574
+      "usd_per_unit": 0.00497497
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.00497574
+      "usd_per_unit": 0.00497497
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.04975740000000001
+      "usd_per_unit": 0.04974970000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.04975740000000001
+      "usd_per_unit": 0.04974970000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.04975740000000001
+      "usd_per_unit": 0.04974970000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "function": "submitOptimisticBatch",
-      "gas": 142164,
+      "gas": 142142,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.49757400000000007
+      "usd_per_unit": 0.49749699999999997
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 0.0005672275000000002
+      "usd_per_unit": 0.0005671505
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 0.0005672275000000002
+      "usd_per_unit": 0.0005671505
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.005672275
+      "usd_per_unit": 0.005671505
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.005672275
+      "usd_per_unit": 0.005671505
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.005672275
+      "usd_per_unit": 0.005671505
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.05672275
+      "usd_per_unit": 0.05671505000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.05672275
+      "usd_per_unit": 0.05671505000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.05672275
+      "usd_per_unit": 0.05671505000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "function": "submitOptimisticBatch",
-      "gas": 162065,
+      "gas": 162043,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.5672275
+      "usd_per_unit": 0.5671505
     }
   ],
   "e5_gas_per_call": [
@@ -1895,218 +1895,218 @@
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 0.0004984595000000001
+      "usd_per_unit": 0.0004983825000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 0.0004984595000000001
+      "usd_per_unit": 0.0004983825000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.0049845950000000005
+      "usd_per_unit": 0.004983825000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.0049845950000000005
+      "usd_per_unit": 0.004983825000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.0049845950000000005
+      "usd_per_unit": 0.004983825000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.04984595000000001
+      "usd_per_unit": 0.049838250000000014
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.04984595000000001
+      "usd_per_unit": 0.049838250000000014
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.04984595000000001
+      "usd_per_unit": 0.049838250000000014
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 1,
-      "gas_per_call": 142417,
+      "gas_per_call": 142395,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.49845950000000006
+      "usd_per_unit": 0.49838250000000006
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 4.984350000000001e-05
+      "usd_per_unit": 4.983650000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 4.984350000000001e-05
+      "usd_per_unit": 4.983650000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.0004984350000000001
+      "usd_per_unit": 0.0004983650000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.0004984350000000001
+      "usd_per_unit": 0.0004983650000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.0004984350000000001
+      "usd_per_unit": 0.0004983650000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.004984350000000001
+      "usd_per_unit": 0.004983650000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.004984350000000001
+      "usd_per_unit": 0.004983650000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.004984350000000001
+      "usd_per_unit": 0.004983650000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 10,
-      "gas_per_call": 14241,
+      "gas_per_call": 14239,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.049843500000000006
+      "usd_per_unit": 0.0498365
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 4.984000000000001e-06
+      "usd_per_unit": 4.980500000000001e-06
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 4.984000000000001e-06
+      "usd_per_unit": 4.980500000000001e-06
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 4.984000000000001e-05
+      "usd_per_unit": 4.9805e-05
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 4.984000000000001e-05
+      "usd_per_unit": 4.9805e-05
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 4.984000000000001e-05
+      "usd_per_unit": 4.9805e-05
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.0004984000000000001
+      "usd_per_unit": 0.0004980500000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.0004984000000000001
+      "usd_per_unit": 0.0004980500000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.0004984000000000001
+      "usd_per_unit": 0.0004980500000000001
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
       "batch_size": 100,
-      "gas_per_call": 1424,
+      "gas_per_call": 1423,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.004984000000000001
+      "usd_per_unit": 0.0049805000000000006
     },
     {
       "system": "TallyMeshOptReceiptsOnly",
@@ -2255,290 +2255,290 @@
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 0.00023551500000000005
+      "usd_per_unit": 0.00024318350000000004
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 0.00023551500000000005
+      "usd_per_unit": 0.00024318350000000004
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.0023551500000000003
+      "usd_per_unit": 0.0024318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.0023551500000000003
+      "usd_per_unit": 0.0024318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.0023551500000000003
+      "usd_per_unit": 0.0024318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.023551500000000003
+      "usd_per_unit": 0.024318350000000006
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.023551500000000003
+      "usd_per_unit": 0.024318350000000006
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.023551500000000003
+      "usd_per_unit": 0.024318350000000006
     },
     {
       "system": "TallyMeshOptReceiptsOnlyClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.235515
+      "usd_per_unit": 0.24318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 0.0005681095000000001
+      "usd_per_unit": 0.0005680325000000002
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 0.0005681095000000001
+      "usd_per_unit": 0.0005680325000000002
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.005681095000000001
+      "usd_per_unit": 0.005680325
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.005681095000000001
+      "usd_per_unit": 0.005680325
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.005681095000000001
+      "usd_per_unit": 0.005680325
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.056810950000000006
+      "usd_per_unit": 0.056803250000000007
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.056810950000000006
+      "usd_per_unit": 0.056803250000000007
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.056810950000000006
+      "usd_per_unit": 0.056803250000000007
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 1,
-      "gas_per_call": 162317,
+      "gas_per_call": 162295,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.5681095
+      "usd_per_unit": 0.5680325
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 5.68085e-05
+      "usd_per_unit": 5.680150000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 5.68085e-05
+      "usd_per_unit": 5.680150000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.0005680850000000001
+      "usd_per_unit": 0.0005680150000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.0005680850000000001
+      "usd_per_unit": 0.0005680150000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.0005680850000000001
+      "usd_per_unit": 0.0005680150000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.00568085
+      "usd_per_unit": 0.005680150000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.00568085
+      "usd_per_unit": 0.005680150000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.00568085
+      "usd_per_unit": 0.005680150000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 10,
-      "gas_per_call": 16231,
+      "gas_per_call": 16229,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.056808500000000005
+      "usd_per_unit": 0.0568015
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 5.680500000000001e-06
+      "usd_per_unit": 5.677000000000002e-06
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 5.680500000000001e-06
+      "usd_per_unit": 5.677000000000002e-06
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 5.6805e-05
+      "usd_per_unit": 5.677000000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 5.6805e-05
+      "usd_per_unit": 5.677000000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 5.6805e-05
+      "usd_per_unit": 5.677000000000001e-05
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.0005680500000000001
+      "usd_per_unit": 0.0005677000000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.0005680500000000001
+      "usd_per_unit": 0.0005677000000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.0005680500000000001
+      "usd_per_unit": 0.0005677000000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
       "batch_size": 100,
-      "gas_per_call": 1623,
+      "gas_per_call": 1622,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.005680500000000001
+      "usd_per_unit": 0.005677000000000001
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltas",
@@ -2687,74 +2687,74 @@
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Base",
       "snapshot": "low",
-      "usd_per_unit": 0.00023551500000000005
+      "usd_per_unit": 0.00024318350000000004
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "OP",
       "snapshot": "low",
-      "usd_per_unit": 0.00023551500000000005
+      "usd_per_unit": 0.00024318350000000004
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Arbitrum",
       "snapshot": "low",
-      "usd_per_unit": 0.0023551500000000003
+      "usd_per_unit": 0.0024318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Base",
       "snapshot": "median",
-      "usd_per_unit": 0.0023551500000000003
+      "usd_per_unit": 0.0024318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "OP",
       "snapshot": "median",
-      "usd_per_unit": 0.0023551500000000003
+      "usd_per_unit": 0.0024318350000000002
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Arbitrum",
       "snapshot": "median",
-      "usd_per_unit": 0.023551500000000003
+      "usd_per_unit": 0.024318350000000006
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Base",
       "snapshot": "high",
-      "usd_per_unit": 0.023551500000000003
+      "usd_per_unit": 0.024318350000000006
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "OP",
       "snapshot": "high",
-      "usd_per_unit": 0.023551500000000003
+      "usd_per_unit": 0.024318350000000006
     },
     {
       "system": "TallyMeshOptReceiptsPlusDeltasClaim",
       "batch_size": 1,
-      "gas_per_call": 67290,
+      "gas_per_call": 69481,
       "rollup": "Arbitrum",
       "snapshot": "high",
-      "usd_per_unit": 0.235515
+      "usd_per_unit": 0.24318350000000002
     }
   ]
 }
