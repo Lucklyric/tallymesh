@@ -15,7 +15,7 @@ export const RECEIPT_TYPEHASH: Hex32 = keccak256(
 
 export const SESSION_INTENT_TYPEHASH: Hex32 = keccak256(
   toHex(
-    "SessionIntent(bytes32 sessionId,address payer,address recipient,uint256 maxAmount,uint64 expiresAt)",
+    "SessionIntent(bytes32 sessionId,address payer,address recipient,uint256 amount,uint256 maxAmount,uint64 expiry)",
   ),
 );
 
@@ -61,6 +61,7 @@ export function hashSessionIntent(s: SessionIntent): Hex32 {
         { type: "address" },
         { type: "address" },
         { type: "uint256" },
+        { type: "uint256" },
         { type: "uint64" },
       ],
       [
@@ -68,8 +69,9 @@ export function hashSessionIntent(s: SessionIntent): Hex32 {
         s.sessionId,
         s.payer,
         s.recipient,
+        s.amount,
         s.maxAmount,
-        s.expiresAt,
+        s.expiry,
       ],
     ),
   );

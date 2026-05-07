@@ -11,8 +11,9 @@ export interface ClientConfig {
 interface OpenSessionArgs {
   sessionId: Hex32;
   recipient: Address;
+  amount: bigint;
   maxAmount: bigint;
-  expiresAt: bigint;
+  expiry: bigint;
 }
 
 interface SignRequestArgs {
@@ -49,8 +50,9 @@ export class Client {
       sessionId: args.sessionId,
       payer: this.account.address,
       recipient: args.recipient,
+      amount: args.amount,
       maxAmount: args.maxAmount,
-      expiresAt: args.expiresAt,
+      expiry: args.expiry,
     };
     const signature = await this.account.signTypedData({
       domain: {
@@ -64,8 +66,9 @@ export class Client {
           { name: "sessionId", type: "bytes32" },
           { name: "payer", type: "address" },
           { name: "recipient", type: "address" },
+          { name: "amount", type: "uint256" },
           { name: "maxAmount", type: "uint256" },
-          { name: "expiresAt", type: "uint64" },
+          { name: "expiry", type: "uint64" },
         ],
       },
       primaryType: "SessionIntent",

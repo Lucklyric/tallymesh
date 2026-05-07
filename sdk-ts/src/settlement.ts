@@ -2,7 +2,7 @@ import {
   type Address, type Hex, type PublicClient, type WalletClient,
 } from "viem";
 import { batchSettlementAbi, depositEscrowAbi } from "./abis.js";
-import type { Hex32, Receipt } from "./types.js";
+import type { Hex32, Receipt, SessionIntent } from "./types.js";
 
 export interface SettlementConfig {
   publicClient: PublicClient;
@@ -45,6 +45,17 @@ export class Settlement {
       abi: batchSettlementAbi,
       functionName: "reserveSession",
       args: [sessionId, recipient, amount],
+      account: this.cfg.walletClient.account!,
+    });
+    return await this.cfg.walletClient.writeContract(request);
+  }
+
+  async reserveSessionWithIntent(intent: SessionIntent, signature: Hex): Promise<Hex> {
+    const { request } = await this.cfg.publicClient.simulateContract({
+      address: this.cfg.batchSettlement,
+      abi: batchSettlementAbi,
+      functionName: "reserveSessionWithIntent",
+      args: [intent, signature],
       account: this.cfg.walletClient.account!,
     });
     return await this.cfg.walletClient.writeContract(request);

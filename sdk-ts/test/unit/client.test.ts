@@ -31,8 +31,9 @@ describe("Client (wallet-side signer)", () => {
     const intent = await client.openSession({
       sessionId: ("0x" + "ab".repeat(32)) as `0x${string}`,
       recipient: RECIPIENT,
+      amount: 5n * 10n ** 18n,
       maxAmount: 5n * 10n ** 18n,
-      expiresAt: 1_999_999_999n,
+      expiry: 1_999_999_999n,
     });
     expect(intent.signer).toBe(privateKeyToAccount(PK_PAYER).address);
     expect(intent.signature.length).toBeGreaterThan(2);

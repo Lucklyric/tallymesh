@@ -37,6 +37,24 @@ export const batchSettlementAbi = [
     outputs: [],
   },
   {
+    type: "function", name: "reserveSessionWithIntent", stateMutability: "nonpayable",
+    inputs: [
+      {
+        name: "intent", type: "tuple",
+        components: [
+          { name: "sessionId", type: "bytes32" },
+          { name: "payer", type: "address" },
+          { name: "recipient", type: "address" },
+          { name: "amount", type: "uint256" },
+          { name: "maxAmount", type: "uint256" },
+          { name: "expiry", type: "uint64" },
+        ],
+      },
+      { name: "sig", type: "bytes" },
+    ],
+    outputs: [],
+  },
+  {
     type: "function", name: "submitOptimisticBatch", stateMutability: "nonpayable",
     inputs: [
       { name: "batchId", type: "bytes32" },

@@ -48,7 +48,7 @@ describe("typed-data schemas", () => {
     expect(SESSION_INTENT_TYPEHASH).toBe(
       keccak256(
         toHex(
-          "SessionIntent(bytes32 sessionId,address payer,address recipient,uint256 maxAmount,uint64 expiresAt)",
+          "SessionIntent(bytes32 sessionId,address payer,address recipient,uint256 amount,uint256 maxAmount,uint64 expiry)",
         ),
       ),
     );

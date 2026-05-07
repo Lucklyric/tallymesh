@@ -7,8 +7,9 @@ export interface SessionIntent {
   sessionId: Hex32;
   payer: Address;
   recipient: Address;
+  amount: bigint;
   maxAmount: bigint;
-  expiresAt: bigint;
+  expiry: bigint;
 }
 
 export interface SignedRequest {
