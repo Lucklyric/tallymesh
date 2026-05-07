@@ -11,7 +11,7 @@
     "setup:zkey": "node scripts/setup_zkey.js",
     "prove:fixture": "node scripts/prove_fixture.js",
     "proof:to-solidity": "node scripts/proof_to_solidity.js",
-    "export:verifier": "snarkjs zkey export solidityverifier build/BatchValidity_final.zkey ../contracts/src/zk/BatchValidityGroth16Verifier.sol",
+    "export:verifier": "snarkjs zkey export solidityverifier build/BatchValidity_final.zkey ../contracts/src/zk/BatchValidityGroth16Verifier.sol && node scripts/rename_verifier.js",
     "all": "yarn compile && yarn setup:zkey && yarn build:input && yarn prove:fixture && yarn export:verifier"
   },
   "dependencies": {

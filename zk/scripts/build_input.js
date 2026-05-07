@@ -4,6 +4,9 @@ import { buildPoseidon } from "circomlibjs";
 const N = 1024;
 const RECEIPT_COUNT = 4;
 const CHARGED_CEILING = "1000000000"; // 1 gwei (fits comfortably in uint64)
+// uint256(keccak256("TallyMesh.Receipt.v1")) mod p_BN254.
+const RECEIPT_LEAF_TAG =
+  "5199086442301873898397355965405180149571845035285111109466476274982435227430";
 
 const chargedAmounts = new Array(N).fill("0");
 const leafTags = new Array(N).fill("0");
@@ -11,10 +14,10 @@ chargedAmounts[0] = "300000000";
 chargedAmounts[1] = "150000000";
 chargedAmounts[2] = "200000000";
 chargedAmounts[3] = "450000000";
-leafTags[0] = "1";
-leafTags[1] = "2";
-leafTags[2] = "3";
-leafTags[3] = "4";
+leafTags[0] = RECEIPT_LEAF_TAG;
+leafTags[1] = RECEIPT_LEAF_TAG;
+leafTags[2] = RECEIPT_LEAF_TAG;
+leafTags[3] = RECEIPT_LEAF_TAG;
 
 const poseidon = await buildPoseidon();
 

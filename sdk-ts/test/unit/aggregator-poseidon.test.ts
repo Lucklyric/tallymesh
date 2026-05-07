@@ -3,6 +3,9 @@ import { keccak256, toHex } from "viem";
 import { PoseidonAggregator } from "../../src/aggregator-poseidon.js";
 import type { Receipt } from "../../src/types.js";
 
+const RECEIPT_LEAF_TAG =
+  "5199086442301873898397355965405180149571845035285111109466476274982435227430";
+
 function r(seq: bigint, charged: bigint): Receipt {
   return {
     sessionId: ("0x" + "ab".repeat(32)) as `0x${string}`,
@@ -42,6 +45,9 @@ describe("PoseidonAggregator (offline)", () => {
     // First two slots populated, rest zero
     expect(input.chargedAmounts[0]).toBe("50");
     expect(input.chargedAmounts[1]).toBe("75");
+    expect(input.leafTags[0]).toBe(RECEIPT_LEAF_TAG);
+    expect(input.leafTags[1]).toBe(RECEIPT_LEAF_TAG);
+    expect(input.leafTags[2]).toBe("0");
     expect(input.chargedAmounts[2]).toBe("0");
     expect(input.chargedAmounts[1023]).toBe("0");
   });

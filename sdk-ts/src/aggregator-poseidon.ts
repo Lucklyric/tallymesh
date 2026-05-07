@@ -1,4 +1,4 @@
-import { keccak256, encodePacked, encodeAbiParameters } from "viem";
+import { encodeAbiParameters } from "viem";
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -12,6 +12,11 @@ import type { Hex32, Receipt } from "./types.js";
 
 const BN254_PRIME =
   21888242871839275222246405745257275088548364400416034343698204186575808495617n;
+// uint256(keccak256("TallyMesh.Receipt.v1")) mod BN254_PRIME.
+// keccak256("TallyMesh.Receipt.v1") =
+// 0xfd741c607ee871dd249ebb60d84ca97b027fe25590ecd3993a90a4ccbc9d072b.
+export const RECEIPT_LEAF_TAG =
+  5199086442301873898397355965405180149571845035285111109466476274982435227430n;
 const MAX_RECEIPTS = 1024;
 const DEPTH = 10;
 
@@ -65,7 +70,7 @@ export class PoseidonAggregator {
         throw new Error(`receipt[${i}].chargedAmount=${r.chargedAmount} exceeds ceiling ${chargedCeiling}`);
       }
       chargedAmounts[i] = r.chargedAmount;
-      leafTags[i] = this.computeLeafTag(r);
+      leafTags[i] = RECEIPT_LEAF_TAG;
     }
 
     // Compute Poseidon Merkle root over leafEncodings.
@@ -144,16 +149,6 @@ export class PoseidonAggregator {
   }
 
   // ---- internals ----
-
-  private computeLeafTag(r: Receipt): bigint {
-    const tagDigest = keccak256(
-      encodePacked(
-        ["bytes32", "uint64", "bytes32", "bytes32", "bytes32", "uint64"],
-        [r.sessionId, r.seq, r.requestHash, r.resultHash, r.statusCode, r.serviceTimestamp],
-      ),
-    );
-    return BigInt(tagDigest) % BN254_PRIME;
-  }
 
   private poseidonField(inputs: bigint[]): bigint {
     const out = this.poseidon(inputs);

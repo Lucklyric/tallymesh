@@ -17,6 +17,13 @@ include "PoseidonMerkleRoot.circom";
 
 template BatchValidity(DEPTH, CEILING_BITS) {
     var N = 1 << DEPTH;
+    // Canonical active receipt tag:
+    // uint256(keccak256("TallyMesh.Receipt.v1")) mod p_BN254.
+    // keccak256("TallyMesh.Receipt.v1") =
+    // 0xfd741c607ee871dd249ebb60d84ca97b027fe25590ecd3993a90a4ccbc9d072b
+    // p_BN254 =
+    // 21888242871839275222246405745257275088548364400416034343698204186575808495617
+    var RECEIPT_LEAF_TAG = 5199086442301873898397355965405180149571845035285111109466476274982435227430;
 
     signal input chargedAmounts[N];
     signal input leafTags[N];
@@ -33,6 +40,9 @@ template BatchValidity(DEPTH, CEILING_BITS) {
         activeLte[i] = LessThan(DEPTH + 1);
         activeLte[i].in[0] <== i;
         activeLte[i].in[1] <== receiptCount;
+        // Active leaves must use the canonical receipt tag. Inactive leaf tags
+        // remain zero by the padding constraint below.
+        activeLte[i].out * (leafTags[i] - RECEIPT_LEAF_TAG) === 0;
         // leafEncoding = active ? Poseidon([chargedAmount, tag]) : 0
         leafHashers[i] = Poseidon(2);
         leafHashers[i].inputs[0] <== chargedAmounts[i];
