@@ -49,9 +49,6 @@ contract SecurityBatteryDay3Test is BlobHashHelper {
         settlement.reserveSession(bytes32("sess-1"), SERVICE, 1 ether);
     }
 
-    function test_attack01_replayWithinSession_deferredToDay4() public pure {
-        assertTrue(true, "deferred: attack 1 lands with sdk-ts SessionIntent in Day 4");
-    }
 
     function test_attack02_duplicateReceiptWithinBatch() public {
         ReceiptLib.Receipt memory r = ReceiptLib.Receipt({
@@ -75,9 +72,6 @@ contract SecurityBatteryDay3Test is BlobHashHelper {
         settlement.claimPayout(bytes32("batch-2"), r, proof);
     }
 
-    function test_attack03_outOfOrderSeq_deferredToDay4() public pure {
-        assertTrue(true, "deferred: attack 3 lands with sdk-ts hash-linked transcript in Day 4");
-    }
 
     function test_attack07_validChallengeSlashes() public {
         ReceiptLib.Receipt memory bad = ReceiptLib.Receipt({

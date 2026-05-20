@@ -1,32 +1,40 @@
 # TallyMesh
 
-Implementation artifact for the BCCA 2026 paper *TallyMesh: Intent-Bound Authorization and Batched Settlement for Open Service Markets*.
+Implementation artifact for the BCCA 2026 paper *TallyMesh: Hybrid Optimistic/ZK Per-Receipt Settlement for Open Service Markets*.
 
-Public submission repo (when published): `tallymesh-bcca2026`.
+This repository is the reference implementation cited in the paper's reproducibility section. It contains the Solidity contracts (optimistic batch settlement, dispute manager, ZK validity-proof admission verifier, ERC-1271/EIP-712 helpers, registries, escrow), a TypeScript SDK (typed-data signing, KeccakAggregator, Poseidon aggregator, Groth16 prover bridge, viem-based settlement helper), a Circom + snarkjs ZK pipeline, and an evaluation harness producing the gas, storage, attack-coverage, and operating-point CSV/figure data behind every numeric claim in the paper.
 
-## Layout
+## Repository layout
 
-- `contracts/` — Foundry / Solidity contracts and tests
-- `sdk-ts/` — TypeScript SDK (signing, client, service, aggregator) — added Day 4
-- `services/` — Python synthetic providers and routing harness — added Day 6
-- `eval/` — experiments, plots, tables — added Day 5
-
-## Running tests
-
-```bash
-cd contracts
-forge test -vvv
+```
+code/
+├── contracts/         Foundry workspace
+│   ├── src/           BatchSettlement, DepositEscrow, DisputeManager, registries,
+│   │                  baselines (PerRequestNaive, PerRequestEventOnly,
+│   │                  SignedVoucherNetting, SignedVoucherAggregate),
+│   │                  zk/BatchValidityGroth16Verifier + CircomBatchVerifier
+│   ├── test/          165 unit + invariant + integration + security tests
+│   └── eval/          experiment scripts (E4 per-function gas, E5 batch-size
+│                      sweep, E6 dispute cost, E7 storage growth, E10 USD model,
+│                      E11 operating-point sweep, claimPayoutBatch sweep,
+│                      ZK verifier gas, prover bench)
+├── sdk-ts/            TypeScript SDK + integration tests (vitest + Anvil)
+├── zk/                Circom circuit (BatchValidity.circom),
+│                      snarkjs scripts (compile, setup, prove, export verifier),
+│                      bench harness (bench_prover.sh, build_input_n.js)
+└── REPRODUCE.md       Step-by-step recipe for every CSV and figure in the paper
 ```
 
-## TypeScript SDK
-
-The `sdk-ts/` package provides the off-chain glue: EIP-712 typed-data signing for `SessionIntent` / `SessionAccept` / `SignedRequest` / `SignedReceipt`, a client signer + service-side handler with `prevHash`-linked transcripts, Keccak (optimistic) and Poseidon (ZK) Merkle aggregators, a Groth16 prover bridge, and a viem-based settlement helper that talks to the deployed Anvil contracts.
+## Quick start
 
 ```bash
-cd sdk-ts
-yarn install
-yarn typecheck
-yarn test          # 24 unit + 5 integration; integration tests spin up Anvil
+cd contracts && forge test -vvv          # 165 tests
+cd ../sdk-ts && yarn install && yarn test # 24 unit + 5 integration
+cd ../zk && yarn install && yarn compile  # Circom -> r1cs/wasm
 ```
 
-The integration tests deploy the full contract suite via `forge script`, exercise the optimistic and ZK end-to-end flows, and assert the §2.3 attack-1 / attack-3 closures.
+For full reproduction of every paper number, see [`REPRODUCE.md`](./REPRODUCE.md).
+
+## Citation
+
+Please use the metadata in [`CITATION.cff`](./CITATION.cff). A BibTeX entry will be added when the paper appears in the BCCA 2026 proceedings.
