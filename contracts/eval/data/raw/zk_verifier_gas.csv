@@ -1,0 +1,5 @@
+component,gas,notes
+verifyProof_groth16,202218,Pairing-only verification on snarkjs-exported verifier.
+verifyBatch_adapter,209784,CircomBatchVerifier wrapper (decode + reorder + delegate).
+submitZkBatch_median,263207,Full path: verifier external call + storage writes + events.
+submitZkBatch_max,435593,Cold-path including first-touch storage slots.

@@ -41,6 +41,9 @@ contract BatchSettlement {
     error LegacyReserveDisabled();
     error BlobNotPresent();
     error BlobHashMismatch();
+    error ArrayLengthMismatch();
+    error MixedSessionsNotAllowed();
+    error EmptyClaimBatch();
 
     enum BatchStatus { Pending, Finalized, Invalidated }
     enum SettlementMode { Optimistic, ZK }
@@ -123,6 +126,13 @@ contract BatchSettlement {
         address indexed verifier,
         bytes32 receiptsRoot,
         uint256 receiptCount
+    );
+    event ReceiptsBatchClaimed(
+        bytes32 indexed batchId,
+        bytes32 indexed sessionId,
+        address indexed recipient,
+        uint256 count,
+        uint256 totalAmount
     );
 
     modifier onlyOwner() {
@@ -352,6 +362,45 @@ contract BatchSettlement {
         claimedReceipt[receiptKey] = true;
         escrow.settleReserved(receipt.sessionId, s.payer, s.recipient, receipt.chargedAmount);
         emit ReceiptClaimed(batchId, receiptKey, s.payer, s.recipient, receipt.chargedAmount);
+    }
+
+    /// @notice Claim multiple receipts from one batch sharing a single session in one call.
+    /// All receipts must reference the same `sessionId`; the escrow settlement and the recipient
+    /// transfer happen exactly once at the end. The per-receipt `claimedReceipt[]` keys are
+    /// shared with `claimPayout`, so a receipt claimed via either path cannot be re-claimed.
+    function claimPayoutBatch(
+        bytes32 batchId,
+        ReceiptLib.Receipt[] calldata receipts,
+        bytes32[][] calldata proofs
+    ) external {
+        if (settlementModeOf[batchId] != SettlementMode.Optimistic) revert ClaimRequiresOptimisticMode();
+        uint256 n = receipts.length;
+        if (n == 0) revert EmptyClaimBatch();
+        if (n != proofs.length) revert ArrayLengthMismatch();
+        Batch storage b = batches[batchId];
+        if (b.status != BatchStatus.Finalized) revert BatchNotFinalized();
+
+        bytes32 sharedSessionId = receipts[0].sessionId;
+        Session storage s = sessions[sharedSessionId];
+        if (!s.open) revert SessionNotFound();
+        bytes32 root = b.receiptsRoot;
+        address payer = s.payer;
+        address payable recipient = s.recipient;
+        uint256 totalAmount;
+
+        for (uint256 i = 0; i < n; ++i) {
+            ReceiptLib.Receipt calldata r = receipts[i];
+            if (r.sessionId != sharedSessionId) revert MixedSessionsNotAllowed();
+            bytes32 leaf = ReceiptLib.leafHash(r);
+            if (!ReceiptLib.verifyProof(proofs[i], root, leaf)) revert InvalidReceiptProof();
+            bytes32 receiptKey = keccak256(abi.encode(r.sessionId, r.seq, r.requestHash));
+            if (claimedReceipt[receiptKey]) revert ReceiptAlreadyClaimed();
+            claimedReceipt[receiptKey] = true;
+            totalAmount += r.chargedAmount;
+        }
+
+        escrow.settleReserved(sharedSessionId, payer, recipient, totalAmount);
+        emit ReceiptsBatchClaimed(batchId, sharedSessionId, recipient, n, totalAmount);
     }
 
 }
