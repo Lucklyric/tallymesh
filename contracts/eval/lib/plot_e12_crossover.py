@@ -43,7 +43,7 @@ C_PROVER_USD = 0.0054              # 76.7 s on c3-highmem-4 at $0.27/hr
 # the crossover; the archetype windows are the operationally relevant regime.
 TAU_SEC = 900.0                    # 15-min watcher arrival window (matches LLMGateway archetype)
 T_RESP_SEC = 300                   # mean watcher arrival time (5 min)
-FRAUD_RATE = 0.1                   # subjective fraud-attempt rate
+FRAUD_RATE = 0.2                   # LLMGateway archetype f=0.2 (Tab.V); DeFiRouter uses 0.1
 EPS_ZK = 2 ** -80                  # Groth16 soundness error (negligibly small)
 RHO = 1.0                          # no risk-aversion multiplier
 ETH_USD = 3500.0
