@@ -35,7 +35,7 @@ OUTPUT_CSV = EVAL_ROOT / "data" / "derived" / "e12_crossover.csv"
 
 
 # ------- measured constants -------
-G_OPT_PER_BATCH = 142_500          # submitOptimisticBatch, N-invariant headline gas
+G_OPT_PER_BATCH = 142_530          # submitOptimisticBatch, N=1 batch-sweep measurement from e5.csv
 G_VERIFY = 263_207                 # submitZkBatch median gas
 C_PROVER_USD = 0.0054              # 76.7 s on c3-highmem-4 at $0.27/hr
 # Use the archetype-table operating point (tau in {900, 3600} s, T_resp = 300 s).
