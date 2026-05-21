@@ -9,6 +9,13 @@ Step-by-step recipe for every numeric claim and figure in the BCCA 2026 paper *T
 - Python 3.10+ with `numpy`, `matplotlib` (project-local venv recommended: `uv venv .venv && uv pip install --python .venv/bin/python matplotlib numpy`)
 - Circom 2.1.8+ and snarkjs 0.7+ (for ZK proving bench only)
 
+The paper's reported gas figures were measured with:
+- Foundry 1.6.0 (`forge` opcode-only gas at Cancun EVM target via Anvil)
+- snarkjs 0.7.6 + Circom 2.1.8
+- matplotlib 3.10 + numpy 2.0
+
+Gas measurements are EVM-version sensitive; reproducing on a different Anvil EVM target (e.g., Prague schedule for BLOBHASH/calldata) may shift values by single digits per opcode.
+
 ## 1. Contract gas measurements (Tab. I, Tab. III, Tab. IV)
 
 ```bash
@@ -19,7 +26,7 @@ forge script eval/scripts/E5_BatchSizeSweep.s.sol --tc E5_BatchSizeSweep    # ->
 forge script eval/scripts/E6_DisputeCost.s.sol --tc E6_DisputeCost          # -> eval/data/raw/e6.csv (3 rows)
 ```
 
-These produce the optimistic-mode commitment and claim costs and the four baseline rows. The `e5.csv` sweep covers `N ∈ {1, 10, 100, 1000, 5000}` for the per-function path, with extra direct-aggregate probes at `N ∈ {50, 100, 200, 500}`.
+These produce the optimistic-mode commitment and claim costs and the four baseline rows. The `e5.csv` sweep covers `N ∈ {1, 10, 100, 1000, 5000}` for the per-function path, with extra direct-aggregate probes at `N ∈ {50, 100, 200, 500}`. **Provenance note**: the `SignedVoucherAggregate` rows at `N ∈ {1000, 5000}` are linear extrapolations from the `N=1` and `N=10` direct measurements (block-gas exceeded for a single redemption); all other rows are direct Foundry measurements.
 
 ## 2. ZK verifier gas (paper §VI ZK-mode empirical costs)
 
@@ -82,7 +89,7 @@ cd contracts
 .venv/bin/python eval/lib/plot_e12_crossover.py
 ```
 
-Reads measured `G_verify`, `c_prover`, `e10.json` gas-price snapshots; emits `paper-draft/figures/fig4_crossover.pdf` and `eval/data/derived/e12_crossover.csv`. Crossover V_N: Base/OP ≈ $1.93, Arbitrum ≈ $9.57 under archetype τ=900 s.
+Reads measured `G_verify`, `c_prover`, `e10.json` gas-price snapshots; emits `paper-draft/figures/fig4_crossover.pdf` and `eval/data/derived/e12_crossover.csv`. Crossover V_N: Base/OP ≈ $0.97, Arbitrum ≈ $4.78 under archetype τ=900 s.
 
 ## 7. Storage growth + USD cost model + security battery
 
@@ -122,7 +129,7 @@ After a full run, these files exist with the listed row counts (line-counted exc
 | `contracts/eval/data/derived/e12_crossover.csv` | 1500 |
 | `contracts/eval/data/derived/security_battery.csv` | 18 |
 
-`forge test` expects 165 passing tests (160 Solidity + 5 SDK integration). `yarn test:unit` in `sdk-ts` expects 24 passing tests.
+`forge test` expects 162 passing tests including the `ClaimPayoutBatchTest` suite. `yarn test:unit` in `sdk-ts` expects 24 passing tests.
 
 ## Hardware spec for ZK bench (cite when reporting times)
 
