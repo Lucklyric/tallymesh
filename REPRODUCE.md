@@ -1,6 +1,6 @@
 # REPRODUCE.md
 
-Step-by-step recipe for every numeric claim and figure in the BCCA 2026 paper *TallyMesh: Hybrid Optimistic/ZK Per-Receipt Settlement for Open Service Markets*. Anvil-only; no live testnet required.
+Step-by-step recipe for every numeric claim and figure in the BCCA 2026 paper *TallyMesh: Hybrid Optimistic Settlement and ZK Admission for Auditable Open Service Markets*. Anvil-only; no live testnet required.
 
 ## Prerequisites
 

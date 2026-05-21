@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "TallyMesh: Hybrid Optimistic/ZK Per-Receipt Settlement for Open Service Markets"
+title: "TallyMesh: Hybrid Optimistic Settlement and ZK Admission for Auditable Open Service Markets"
 message: "If you use this software, please cite it as below."
 type: software
 authors:
@@ -20,7 +20,7 @@ repository-code: "https://github.com/Lucklyric/tallymesh"
 license: MIT
 preferred-citation:
   type: conference-paper
-  title: "TallyMesh: Hybrid Optimistic/ZK Per-Receipt Settlement for Open Service Markets"
+  title: "TallyMesh: Hybrid Optimistic Settlement and ZK Admission for Auditable Open Service Markets"
   authors:
     - family-names: Sun
       given-names: Xinyao
