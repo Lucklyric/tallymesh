@@ -21,6 +21,10 @@ from pathlib import Path
 import matplotlib
 
 matplotlib.use("Agg")
+# Embed TrueType (Type 42) fonts in PDF output to satisfy IEEE PDF eXpress
+# (default Type 3 bitmap fonts are rejected by the IEEE compliance tools).
+matplotlib.rcParams["pdf.fonttype"] = 42
+matplotlib.rcParams["ps.fonttype"] = 42
 import matplotlib.pyplot as plt
 import numpy as np
 
