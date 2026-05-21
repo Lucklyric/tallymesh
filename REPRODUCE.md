@@ -96,7 +96,7 @@ Reads measured `G_verify`, `c_prover`, `e10.json` gas-price snapshots; emits `pa
 ```bash
 cd contracts
 .venv/bin/python eval/lib/run_e7.py                       # -> eval/data/raw/e7.csv
-.venv/bin/python eval/lib/run_e10_usd_cost.py             # -> eval/data/derived/e10.json
+.venv/bin/python eval/lib/run_e10.py                      # -> eval/data/derived/e10.json
 .venv/bin/python eval/lib/run_security_battery_table.py   # -> eval/data/derived/security_battery.csv (18 rows)
 ```
 
@@ -129,7 +129,7 @@ After a full run, these files exist with the listed row counts (line-counted exc
 | `contracts/eval/data/derived/e12_crossover.csv` | 1500 |
 | `contracts/eval/data/derived/security_battery.csv` | 18 |
 
-`forge test` expects 162 passing tests including the `ClaimPayoutBatchTest` suite. `yarn test:unit` in `sdk-ts` expects 24 passing tests.
+`forge test` expects 165 passing tests (160 Solidity + 5 SDK integration) including the `ClaimPayoutBatchTest` suite. `yarn test:unit` in `sdk-ts` expects 24 passing tests.
 
 ## Hardware spec for ZK bench (cite when reporting times)
 

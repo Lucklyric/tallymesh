@@ -17,7 +17,19 @@ authors:
     given-names: Jinghan
     affiliation: MH3
 repository-code: "https://github.com/Lucklyric/tallymesh"
-license: MIT
+version: "0.1.0"
+date-released: "2026-05-21"
+license:
+  - MIT
+  - GPL-3.0
+license-url: "https://github.com/Lucklyric/tallymesh/blob/main/LICENSE"
+abstract: >-
+  Reference implementation, gas measurements, and ZK prover bench for
+  TallyMesh: an application-layer protocol that binds EIP-712 session intent,
+  signed receipts, escrow, registries, and per-batch settlement-mode dispatch
+  (optimistic Merkle-root publication or Groth16 ZK admission) into an
+  auditable off-chain transcript. Distributed under MIT except for the
+  snarkjs-generated Groth16 verifier (GPL-3.0); see NOTICE.
 preferred-citation:
   type: conference-paper
   title: "TallyMesh: Hybrid Optimistic Settlement and ZK Admission for Auditable Open Service Markets"

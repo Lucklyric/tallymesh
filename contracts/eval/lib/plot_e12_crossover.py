@@ -25,6 +25,15 @@ matplotlib.use("Agg")
 # (default Type 3 bitmap fonts are rejected by the IEEE compliance tools).
 matplotlib.rcParams["pdf.fonttype"] = 42
 matplotlib.rcParams["ps.fonttype"] = 42
+# Match the paper body font (Times-flavored) rather than Matplotlib's DejaVu default.
+matplotlib.rcParams["font.family"] = "serif"
+matplotlib.rcParams["font.serif"] = [
+    "Times",
+    "Nimbus Roman",
+    "TeX Gyre Termes",
+    "DejaVu Serif",
+]
+matplotlib.rcParams["mathtext.fontset"] = "stix"
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -107,9 +116,10 @@ def main() -> None:
     OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)
 
     chains = ["Base", "OP", "Arbitrum"]
-    colors = {"Base": "#1f77b4", "OP": "#d62728", "Arbitrum": "#2ca02c"}
+    # Colorblind-safe palette (blue / orange / purple) replacing the prior blue/red/green.
+    colors = {"Base": "#1f77b4", "OP": "#ff7f0e", "Arbitrum": "#9467bd"}
     prices = load_gas_prices()
-    v_n_array = np.logspace(-1, 6, 500)  # $0.10 .. $1M per batch (crossover lies at ~$2 under archetype τ=900s)
+    v_n_array = np.logspace(-1, 6, 500)  # $0.10 .. $1M per batch
 
     fig, ax = plt.subplots(figsize=(4.8, 3.4))
     csv_rows = ["chain,gwei,v_n_usd,c_opt_usd,c_zk_usd,crossover_v_n_usd"]
@@ -119,16 +129,22 @@ def main() -> None:
         gwei = prices[chain]
         opt = compute_curve(v_n_array, gwei, "opt")
         zk = compute_curve(v_n_array, gwei, "zk")
-        ax.plot(v_n_array, opt, color=colors[chain], linestyle="-", lw=1.2,
-                label=f"opt {chain}")
-        ax.plot(v_n_array, zk, color=colors[chain], linestyle="--", lw=1.2,
-                label=f"zk {chain}")
+        ax.plot(v_n_array, opt, color=colors[chain], linestyle="-", lw=1.4,
+                label=f"{chain} optimistic")
+        ax.plot(v_n_array, zk, color=colors[chain], linestyle="--", lw=1.4,
+                label=f"{chain} ZK admission")
         crossover = find_crossover(v_n_array, opt, zk)
         crossovers[chain] = crossover
         if crossover is not None and v_n_array[0] <= crossover <= v_n_array[-1]:
             y_at = cost_usd_per_batch(G_VERIFY, gwei) + C_PROVER_USD
-            ax.scatter([crossover], [y_at], marker="*", s=70,
-                       color=colors[chain], edgecolor="black", linewidth=0.6, zorder=5)
+            ax.scatter([crossover], [y_at], marker="*", s=110,
+                       color=colors[chain], edgecolor="black", linewidth=0.7, zorder=5)
+            # Annotate the crossover V_N next to the star
+            ax.annotate(rf"\${crossover:.2f}", xy=(crossover, y_at),
+                        xytext=(8, -10), textcoords="offset points",
+                        fontsize=7, color=colors[chain], zorder=6,
+                        bbox=dict(boxstyle="round,pad=0.15", fc="white",
+                                  ec=colors[chain], lw=0.6, alpha=0.9))
         for v in v_n_array:
             csv_rows.append(
                 f"{chain},{gwei},{v:.6g},"
@@ -139,11 +155,20 @@ def main() -> None:
 
     ax.set_xscale("log")
     ax.set_yscale("log")
-    ax.set_xlabel(r"per-batch value at risk $V_N$ (USD)")
-    ax.set_ylabel(r"per-batch expected cost (USD)")
-    ax.set_title("Optimistic vs. ZK settlement crossover")
+    ax.set_xlabel(r"per-batch value-at-risk $V_N$ (USD)")
+    ax.set_ylabel(r"per-batch admission-phase cost (USD)")
+    # Title intentionally omitted; the LaTeX figure caption carries the same
+    # parameter declaration (LLMGateway: tau=900s, f=0.2).
     ax.grid(True, which="both", ls=":", lw=0.4, alpha=0.5)
-    ax.legend(fontsize=7, ncol=3, loc="lower right", framealpha=0.85)
+    # Legend below the plot so it does not overlap curves, annotations, or
+    # title. Three columns keep it compact at the bottom margin.
+    ax.legend(fontsize=7, ncol=3, loc="upper center",
+              bbox_to_anchor=(0.5, -0.18), framealpha=0.9,
+              handlelength=2.2, columnspacing=1.0)
+    ax.text(0.98, 0.04,
+            "Base and OP curves overlap\n(same gas-price snapshot).",
+            transform=ax.transAxes, fontsize=6.5, alpha=0.75,
+            verticalalignment="bottom", horizontalalignment="right")
     plt.tight_layout()
     fig.savefig(OUTPUT_PDF, format="pdf", bbox_inches="tight")
     plt.close(fig)
