@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.26;
 
-import {Test} from "forge-std/Test.sol";
+import {Test, console2} from "forge-std/Test.sol";
 import {SignedVoucherAggregate} from "../../src/baselines/SignedVoucherAggregate.sol";
 
 contract SignedVoucherAggregateTest is Test {
@@ -73,5 +73,50 @@ contract SignedVoucherAggregateTest is Test {
         sigs[0] = _sign(vs[0], payer1Key);
         vm.expectRevert(SignedVoucherAggregate.LengthMismatch.selector);
         baseline.redeemBatch(vs, sigs);
+    }
+
+    /// @notice Apples-to-apples gas sweep for the SVA aggregate-voucher baseline.
+    /// Same N grid as the TallyMesh sweep so per-leaf gas can be compared head-to-head.
+    function test_gas_sweep_sva_aggregate() public {
+        uint256[5] memory NS = [uint256(1), uint256(4), uint256(16), uint256(64), uint256(256)];
+        for (uint256 k = 0; k < NS.length; k++) {
+            _measureOneN_sva(NS[k]);
+        }
+    }
+
+    function _signFresh(SignedVoucherAggregate.Voucher memory v, uint256 key, SignedVoucherAggregate target)
+        internal
+        view
+        returns (bytes memory)
+    {
+        bytes32 digest = target.voucherDigest(v);
+        (uint8 vSig, bytes32 r, bytes32 s) = vm.sign(key, digest);
+        return abi.encodePacked(r, s, vSig);
+    }
+
+    function _measureOneN_sva(uint256 n) internal {
+        SignedVoucherAggregate fresh = new SignedVoucherAggregate();
+        uint256 amt = 0.0001 ether;
+        bytes32 sid = keccak256(abi.encode("sweep", n));
+        SignedVoucherAggregate.Voucher[] memory vs = new SignedVoucherAggregate.Voucher[](n);
+        bytes[] memory sigs = new bytes[](n);
+        for (uint256 i = 0; i < n; i++) {
+            vs[i] = SignedVoucherAggregate.Voucher({
+                payer: payer1,
+                recipient: recipient,
+                sessionId: sid,
+                amount: amt,
+                nonce: i + 1,
+                expiresAt: type(uint64).max
+            });
+            sigs[i] = _signFresh(vs[i], payer1Key, fresh);
+        }
+        vm.deal(address(fresh), n * amt + 1 ether);
+        vm.prank(recipient);
+        uint256 g0 = gasleft();
+        fresh.redeemBatch(vs, sigs);
+        uint256 used = g0 - gasleft();
+        console2.log("SVA_REDEEM_GAS_N", n, "gas", used);
+        console2.log("                   per-leaf", used / n);
     }
 }
