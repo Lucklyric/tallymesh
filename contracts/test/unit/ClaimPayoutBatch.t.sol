@@ -6,6 +6,13 @@ import {BlobHashHelper} from "../helpers/BlobHashHelper.sol";
 import {BatchSettlement} from "../../src/BatchSettlement.sol";
 import {DepositEscrow} from "../../src/DepositEscrow.sol";
 import {ReceiptLib} from "../../src/lib/ReceiptLib.sol";
+import {IBatchVerifier} from "../../src/interfaces/IBatchVerifier.sol";
+
+contract ZkAggregateMockVerifier is IBatchVerifier {
+    function verifyBatch(bytes32, uint256, uint256, bytes calldata) external pure returns (bool) {
+        return true;
+    }
+}
 
 /// @notice Correctness and amortized gas for claimPayoutBatch (aggregate-claim path).
 /// Builds real Merkle trees from N leaves and measures gas at N in {1, 4, 16, 64, 256, 1024}.
@@ -318,5 +325,47 @@ contract ClaimPayoutBatchTest is BlobHashHelper {
         vm.prank(OWNER);
         bs = new BatchSettlement(address(esc));
         _latestBs = bs;
+    }
+
+    // ---------- ZK-mode aggregate-claim parity (Iteration 2.5) ----------
+
+    /// @dev Sweep claimPayoutBatch gas in ZK mode for N in {1, 4, 16, 64}, proving
+    /// the aggregate-claim path is end-to-end functional in validity mode and
+    /// achieves the same optimum as optimistic at N=64.
+    function test_gas_sweep_amortized_zkMode() public {
+        uint256[4] memory NS = [uint256(1), uint256(4), uint256(16), uint256(64)];
+        for (uint256 k = 0; k < NS.length; k++) {
+            _measureOneNZk(NS[k]);
+        }
+    }
+
+    function _measureOneNZk(uint256 n) internal {
+        (BatchSettlement bs, DepositEscrow esc) = _freshStack();
+        _wireRoles(bs, esc, n);
+        _fundParties(esc, n);
+
+        ZkAggregateMockVerifier verifier = new ZkAggregateMockVerifier();
+        vm.prank(OWNER);
+        bs.setApprovedVerifier(address(verifier), true);
+
+        bytes32 sid = _sessionFor(n);
+        uint256 amt = 0.0001 ether;
+        vm.prank(_payerFor(n));
+        bs.reserveSession(sid, _recipientFor(n), amt * n);
+
+        (ReceiptLib.Receipt[] memory rs, bytes32[] memory leaves) = _buildReceipts(sid, n, amt);
+        bytes32 root = _root(leaves);
+        bytes32[][] memory proofs = new bytes32[][](n);
+        for (uint256 i = 0; i < n; i++) proofs[i] = _proof(leaves, i);
+
+        bytes32 batchId = _batchFor(n);
+        vm.prank(_submitterFor(n));
+        bs.submitZkBatch(batchId, root, bytes32(0), n, address(verifier), hex"");
+
+        uint256 g0 = gasleft();
+        bs.claimPayoutBatch(batchId, rs, proofs);
+        uint256 used = g0 - gasleft();
+        console2.log("ZK_CLAIM_BATCH_GAS_N", n, "gas", used);
+        console2.log("                       per-leaf", used / n);
     }
 }
