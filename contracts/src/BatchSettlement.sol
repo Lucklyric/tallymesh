@@ -350,7 +350,6 @@ contract BatchSettlement {
     }
 
     function claimPayout(bytes32 batchId, ReceiptLib.Receipt calldata receipt, bytes32[] calldata proof) external {
-        if (settlementModeOf[batchId] != SettlementMode.Optimistic) revert ClaimRequiresOptimisticMode();
         Batch storage b = batches[batchId];
         if (b.status != BatchStatus.Finalized) revert BatchNotFinalized();
         Session storage s = sessions[receipt.sessionId];
@@ -373,7 +372,6 @@ contract BatchSettlement {
         ReceiptLib.Receipt[] calldata receipts,
         bytes32[][] calldata proofs
     ) external {
-        if (settlementModeOf[batchId] != SettlementMode.Optimistic) revert ClaimRequiresOptimisticMode();
         uint256 n = receipts.length;
         if (n == 0) revert EmptyClaimBatch();
         if (n != proofs.length) revert ArrayLengthMismatch();

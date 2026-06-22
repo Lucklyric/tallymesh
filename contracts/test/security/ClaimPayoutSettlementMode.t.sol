@@ -52,7 +52,7 @@ contract ClaimPayoutSettlementModeTest is Test {
         settlement.reserveSession(SESSION, SERVICE, 0.5 ether);
     }
 
-    function test_claimPayout_revertsForZkModeBatch() public {
+    function test_claimPayout_succeedsForZkModeBatch() public {
         ReceiptLib.Receipt memory receipt = ReceiptLib.Receipt({
             sessionId: SESSION,
             seq: 1,
@@ -68,7 +68,48 @@ contract ClaimPayoutSettlementModeTest is Test {
         settlement.submitZkBatch(BATCH_ID, root, bytes32(0), 1, address(verifier), hex"");
 
         bytes32[] memory proof = new bytes32[](0);
-        vm.expectRevert(bytes4(keccak256("ClaimRequiresOptimisticMode()")));
+        uint256 serviceBalBefore = SERVICE.balance;
+        uint256 gasBefore = gasleft();
         settlement.claimPayout(BATCH_ID, receipt, proof);
+        uint256 gasUsed = gasBefore - gasleft();
+        emit log_named_uint("claimPayout gas (ZK-mode, cold, N=1)", gasUsed);
+
+        assertEq(SERVICE.balance - serviceBalBefore, 0.3 ether, "recipient must be paid");
+
+        // shared claimedReceipt[] key — re-claim must revert
+        vm.expectRevert(bytes4(keccak256("ReceiptAlreadyClaimed()")));
+        settlement.claimPayout(BATCH_ID, receipt, proof);
+    }
+
+    /// Apples-to-apples optimistic baseline in the same fixture, so the
+    /// ZK-mode delta is comparable.
+    function test_claimPayout_optimisticBaseline_sameFixture() public {
+        ReceiptLib.Receipt memory receipt = ReceiptLib.Receipt({
+            sessionId: SESSION,
+            seq: 1,
+            requestHash: keccak256("req-1"),
+            resultHash: keccak256("res-1"),
+            chargedAmount: 0.3 ether,
+            statusCode: bytes32("OK"),
+            serviceTimestamp: uint64(block.timestamp)
+        });
+        bytes32 root = ReceiptLib.leafHash(receipt);
+
+        bytes32 testBlobHash = bytes32(uint256(1));
+        bytes32[] memory blobHashes = new bytes32[](1);
+        blobHashes[0] = testBlobHash;
+        vm.blobhashes(blobHashes);
+        vm.prank(SUBMITTER);
+        settlement.submitOptimisticBatch(
+            bytes32("opt-claim-batch"), root, bytes32(0), 1, testBlobHash
+        );
+        vm.warp(block.timestamp + 1);
+        settlement.finalizeBatch(bytes32("opt-claim-batch"));
+
+        bytes32[] memory proof = new bytes32[](0);
+        uint256 gasBefore = gasleft();
+        settlement.claimPayout(bytes32("opt-claim-batch"), receipt, proof);
+        uint256 gasUsed = gasBefore - gasleft();
+        emit log_named_uint("claimPayout gas (Optimistic, cold, N=1, same fixture)", gasUsed);
     }
 }
