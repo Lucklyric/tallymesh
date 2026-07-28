@@ -127,7 +127,7 @@ After a full run, these files exist with the listed row counts (line-counted exc
 | `contracts/eval/data/derived/e11_sweep.csv` | 729 |
 | `contracts/eval/data/derived/e11_archetypes.csv` | 3 |
 | `contracts/eval/data/derived/e12_crossover.csv` | 1500 |
-| `contracts/eval/data/derived/security_battery.csv` | 18 |
+| `contracts/eval/data/derived/security_battery.csv` | 19 |
 
 `forge test` expects 165 passing tests (160 Solidity + 5 SDK integration) including the `ClaimPayoutBatchTest` suite. `yarn test:unit` in `sdk-ts` expects 24 passing tests.
 
