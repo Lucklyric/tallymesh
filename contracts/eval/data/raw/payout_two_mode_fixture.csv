@@ -1,0 +1,5 @@
+metric,gas,source_test,notes
+claimPayout_cold_after_zk_admission,80215,contracts/test/security/ClaimPayoutSettlementMode.t.sol:test_claimPayout_succeedsForZkModeBatch,"shared two-mode fixture, Keccak root, mock verifier, N=1"
+claimPayout_cold_after_optimistic,82721,contracts/test/security/ClaimPayoutSettlementMode.t.sol,"shared two-mode fixture, N=1"
+claimPayoutBatch_per_leaf_zk_admission_n64,29863,contracts/test/unit/ClaimPayoutBatch.t.sol:368,"shared two-mode fixture, N=64"
+claimPayoutBatch_per_leaf_optimistic_n64,29867,contracts/test/unit/ClaimPayoutBatch.t.sol:267,"shared two-mode fixture, N=64"

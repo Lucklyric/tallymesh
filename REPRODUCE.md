@@ -97,7 +97,7 @@ Reads measured `G_verify`, `c_prover`, `e10.json` gas-price snapshots; emits `pa
 cd contracts
 .venv/bin/python eval/lib/run_e7.py                       # -> eval/data/raw/e7.csv
 .venv/bin/python eval/lib/run_e10.py                      # -> eval/data/derived/e10.json
-.venv/bin/python eval/lib/run_security_battery_table.py   # -> eval/data/derived/security_battery.csv (18 rows)
+.venv/bin/python eval/lib/run_security_battery_table.py   # -> eval/data/derived/security_battery.csv (19 rows)
 ```
 
 ## 8. SDK integration tests (attacks 1 and 3 closure)

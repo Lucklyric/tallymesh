@@ -1,0 +1,2 @@
+metric,gas_per_receipt,source_test,notes
+sva_redeem_direct_n64,29682,contracts/test/baselines/SignedVoucherAggregate.t.sol:119 (SVA_REDEEM_GAS_N console log),"direct measurement, N=64 probe used for the within-1% comparison"

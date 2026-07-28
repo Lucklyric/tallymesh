@@ -17,7 +17,7 @@ ROWS = [
     ("PerRequestEventOnly",             0,  0,    "events only, no storage writes on happy path"),
     ("SignedVoucherNetting",            0,  64,   "consumed[payer][nonce] = true is one slot per voucher; amortized over the requests grouped under one voucher; assume 1000 requests per voucher → ~0.032 B/req"),
     ("SignedVoucherAggregate",          0,  64,   "same as Netting; amortized over batched requests"),
-    ("TallyMeshOptReceiptsOnly",        1,  4096, "one Batch struct (~256 B) per batch of 1000 receipts → 0.256 B/req amortized; rounded to 1"),
+    ("TallyMeshOptReceiptsOnly",        1,  4096, "one Batch struct (224 B, seven slots) per batch of 1000 receipts → 0.224 B/req amortized; rounded to 1"),
     ("TallyMeshOptReceiptsPlusDeltas",  1,  4096, "same as receipts-only; deltas root is in-struct, no extra slot"),
 ]
 
