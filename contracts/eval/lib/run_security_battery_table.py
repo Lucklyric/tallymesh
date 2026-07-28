@@ -18,7 +18,7 @@ OUT  = ROOT / "data" / "derived" / "security_battery.csv"
 
 # Each tuple: (id, name, layer, expected_outcome, status, test_file, test_function, notes)
 ROWS = [
-    (1,  "Replay of settled SignedRequest",            "core",       "revert: nonce/seq",
+    (1,  "Replay of settled SignedRequest",            "core",       "revert: nonce/sequence",
      "covered",
      "sdk-ts/test/integration/attacks-1-3.test.ts; contracts/test/security/SecurityBatteryDay3.t.sol",
      "Attacks 1+3 closure (sdk-ts) + cross-batch (Forge); on-chain backstop via claimedReceipt[]",

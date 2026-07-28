@@ -57,7 +57,7 @@ Files committed:
 - `eval/data/raw/e6.csv` (dispute roundtrip)
 - `eval/data/raw/e7.csv` (storage growth)
 - `eval/data/derived/e10.json` (gas-price sensitivity)
-- `eval/data/derived/e11_sweep.csv` (E11 trilemma sweep, 243 operating points)
+- `eval/data/derived/e11_sweep.csv` (E11 trilemma sweep, 729 operating points)
 - `eval/data/derived/e11_archetypes.csv` (E11 archetype worked examples for the paper)
 - `eval/data/derived/security_battery.csv` (E8 §2.3 attack-coverage table, 19 attacks across crypto/core/settlement/escrow/governance/router layers; 14 covered, 5 design-level)
 
