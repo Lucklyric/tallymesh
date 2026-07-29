@@ -1,0 +1,29 @@
+\begin{table*}[t]
+\centering
+\caption{Security battery (\S\,2.3): attack coverage status. Status \emph{covered} = concrete test asserts the defense; \emph{design} = structural defense (no setter, off-chain enforcement, primitives owner-gated).}
+\label{tab:attacks}
+\begin{tabular}{rlllll}
+\hline
+\# & Attack & Layer & Expected outcome & Status & Test \\
+\hline
+1 & Replay of settled SignedRequest & core & revert: nonce/seq & covered & \texttt{attacks-1-3.test.ts} \\
+2 & Duplicate receipt within batch & settlement & revert: leaf-uniqueness & covered & \texttt{SecurityBatteryDay3.t.sol} \\
+3 & Out-of-order seq in linked transcript & core & revert: prevHash mismatch & covered & \texttt{attacks-1-3.test.ts} \\
+4 & Invalid role-policy proof & core & revert at session accept & design & \texttt{RolePolicyRegistry.t.sol} \\
+5 & Per-call overspend & core & revert at receipt verify & covered & \texttt{SecurityBatteryDay3.t.sol} \\
+6 & Forged service signer & core & revert at signer-set check & covered & \texttt{service.test.ts} \\
+7 & Invalid-batch fraud proof & settlement & challenge succeeds, slash & covered & \texttt{SecurityBatteryDay3.t.sol} \\
+8 & Revocation propagation & core & revert at registry check & design & \texttt{ServiceRegistry.t.sol} \\
+9 & Cross-chain replay (stale chainId) & crypto & revert: domain mismatch & covered & \texttt{CrossDomainReplay.t.sol} \\
+10 & Cross-contract replay (stale verifyingContract) & crypto & revert: domain mismatch & covered & \texttt{CrossDomainReplay.t.sol} \\
+11 & Cross-batch double-claim & settlement & revert: receipt-already-settled & covered & \texttt{SecurityBatteryDay3.t.sol} \\
+12 & ECDSA signature malleability (high-s) & crypto & revert: canonical-s enforced & covered & \texttt{Signatures.t.sol} \\
+13 & ERC-1271 phantom signer & crypto & revert: registry binding required & covered & \texttt{Erc1271ProtocolBinding.t.sol} \\
+14 & Fee-schedule poisoning (TOCTOU) & core & revert: fee-hash bound at accept & covered & \texttt{FeeScheduleImmutable.t.sol} \\
+15 & Escrow withdraw / reservation race & escrow & no double-spend & covered & \texttt{DepositEscrow.invariant.t.sol} \\
+16 & Malformed Merkle proof / leaf-type collision & settlement & revert: leaf domain-separated & covered & \texttt{ReceiptLib.t.sol} \\
+17 & Unauthorized registry/signing-key update & governance & revert: owner-gated & covered & \texttt{\{ServiceRegistry,RolePolicyRegistry,RouterRegistry\}.t.sol} \\
+18 & Router false-route evidence & router & downgrade: still settles, evidence flagged & design & \texttt{RouterRegistry.t.sol} \\
+\hline
+\end{tabular}
+\end{table*}

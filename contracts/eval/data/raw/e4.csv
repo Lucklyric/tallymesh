@@ -1,0 +1,7 @@
+system,function,gas
+PerRequestNaive,pay,66355
+PerRequestEventOnly,pay,43947
+SignedVoucherNetting,redeem,67156
+SignedVoucherAggregate,redeemBatch[N=1],67008
+TallyMeshOptReceiptsOnly,submitOptimisticBatch,142271
+TallyMeshOptReceiptsPlusDeltas,submitOptimisticBatch,162172

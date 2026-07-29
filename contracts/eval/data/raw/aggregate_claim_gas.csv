@@ -1,0 +1,7 @@
+N,total_gas,gas_per_leaf,notes
+1,70704,70704,Baseline; matches claimPayout single-leaf cost path.
+4,149234,37308,
+16,476429,29776,Sweet spot lower edge.
+64,1913724,29901,Sweet spot upper edge; ~1.13x SignedVoucherAggregate baseline (26422).
+256,12829477,50115,EVM memory-cost grows quadratically beyond N=256.
+512,66413790,129714,Beyond practical block gas; reported for completeness.
