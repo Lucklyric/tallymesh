@@ -1,0 +1,93 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/Payout.t.sol:ClaimProof1024Test
+[PASS] testCalldataSize() (gas: 61240)
+Logs:
+  claim_calldata_bytes: 356
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 4940
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 707.38µs (127.08µs CPU time)
+
+Ran 1 test for test/Payout.t.sol:ClaimProof256Test
+[PASS] testCalldataSize() (gas: 61240)
+Logs:
+  claim_calldata_bytes: 356
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 4940
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 707.04µs (118.83µs CPU time)
+
+Ran 1 test for test/Payout.t.sol:ClaimProof100Test
+[PASS] testCalldataSize() (gas: 61240)
+Logs:
+  claim_calldata_bytes: 356
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 4940
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 730.79µs (106.33µs CPU time)
+
+Ran 1 test for test/Payout.t.sol:ClaimProof64Test
+[PASS] testCalldataSize() (gas: 61240)
+Logs:
+  claim_calldata_bytes: 356
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 4940
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 548.00µs (100.13µs CPU time)
+
+Ran 1 test for test/Payout.t.sol:ClaimProof16Test
+[PASS] testCalldataSize() (gas: 61167)
+Logs:
+  claim_calldata_bytes: 356
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 4952
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 771.75µs (114.63µs CPU time)
+
+Ran 1 test for test/PerReceiptPayout.t.sol:Baseline16Test
+[PASS] testCalldataSize() (gas: 989230)
+Logs:
+  claim_calldata_bytes: 5252
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 47444
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.26ms (1.70ms CPU time)
+
+Ran 1 test for test/PerReceiptPayout.t.sol:Baseline64Test
+[PASS] testCalldataSize() (gas: 4443439)
+Logs:
+  claim_calldata_bytes: 24708
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 251640
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 7.32ms (6.98ms CPU time)
+
+Ran 1 test for test/PerReceiptPayout.t.sol:Baseline100Test
+[PASS] testCalldataSize() (gas: 7417887)
+Logs:
+  claim_calldata_bytes: 41732
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 443480
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 11.86ms (11.30ms CPU time)
+
+Ran 1 test for test/PerReceiptPayout.t.sol:Baseline256Test
+[PASS] testCalldataSize() (gas: 20151595)
+Logs:
+  claim_calldata_bytes: 114820
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 1266808
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 29.45ms (29.00ms CPU time)
+
+Ran 1 test for test/PerReceiptPayout.t.sol:Baseline1024Test
+[PASS] testCalldataSize() (gas: 92979846)
+Logs:
+  claim_calldata_bytes: 524420
+  claim_calldata_gas_at_4_per_zero_16_per_nonzero: 6128888
+  block_gaslimit_in_test_vm: 1073741824
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 124.72ms (124.30ms CPU time)
+
+Ran 10 test suites in 125.67ms (179.07ms CPU time): 10 tests passed, 0 failed, 0 skipped (10 total tests)

@@ -22,6 +22,8 @@ code/
 ├── zk/                Circom circuit (BatchValidity.circom),
 │                      snarkjs scripts (compile, setup, prove, export verifier),
 │                      bench harness (bench_prover.sh, build_input_n.js)
+├── poc-batch-payout/  Follow-up experiment: one Groth16 claim proof pays a whole
+│                      batch (gnark circuit, Foundry tests, results in RESULTS.md)
 └── REPRODUCE.md       Step-by-step recipe for every CSV and figure in the paper
 ```
 

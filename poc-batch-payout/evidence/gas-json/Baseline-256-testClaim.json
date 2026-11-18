@@ -1,0 +1,2 @@
+[{"contract":"test/PerReceiptPayout.t.sol:BaselineFixture","deployment":{"gas":402009,"size":1669},"functions":{"claim(bytes32,uint64,(uint64,uint64,bytes32,bytes32[])[])":{"calls":1,"min":9124753,"mean":9124753,"median":9124753,"max":9124753},"markFinalForTest(bytes32)":{"calls":1,"min":43975,"mean":43975,"median":43975,"max":43975},"paid(uint256)":{"calls":3,"min":2479,"mean":2479,"median":2479,"max":2479}}}]
+

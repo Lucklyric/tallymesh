@@ -1,0 +1,320 @@
+{
+  "notes": [
+    "Gas figures are forge gas report values for one call. In this forge version they include the 21000 intrinsic gas and the calldata gas of the call.",
+    "second_claim is the second claim call inside one test transaction (min of the two calls). Storage and accounts are already warm and the recipient account already exists.",
+    "Proving times include witness solving. Setup is one sample. Amounts are abstract minor units.",
+    "baseline is this repository's own per-receipt contract (src/PerReceiptPayout.sol), not the contract measured in the paper."
+  ],
+  "environment": [
+    "go version go1.24.5 darwin/arm64",
+    "forge Version: 1.5.1-stable",
+    "Commit SHA: b0a9dd9ceda36f63e2326ce530c10e6916f4b8a2",
+    "Build Timestamp: 2025-12-22T11:41:09.812070000Z (1766403669)",
+    "Build Profile: maxperf",
+    "Apple M5 Max",
+    "18",
+    "\tgithub.com/consensys/gnark v0.13.0",
+    "\tgithub.com/consensys/gnark-crypto v0.18.0"
+  ],
+  "block_gaslimit_in_test_vm": 1073741824,
+  "forge_suite_summary": [
+    "Ran 10 test suites in 131.37ms (341.22ms CPU time): 75 tests passed, 0 failed, 0 skipped (75 total tests)"
+  ],
+  "forge_failures": [],
+  "rejection_tests_passed_claim_proof": {
+    "100": [
+      "testRejectInflatedTotal",
+      "testRejectReplay",
+      "testRejectRootNotFinalized",
+      "testRejectTamperedProofWord",
+      "testRejectTotalAboveBalance",
+      "testRejectWrongStart"
+    ],
+    "256": [
+      "testRejectInflatedTotal",
+      "testRejectReplay",
+      "testRejectRootNotFinalized",
+      "testRejectTamperedProofWord",
+      "testRejectTotalAboveBalance",
+      "testRejectWrongStart"
+    ],
+    "16": [
+      "testRejectInflatedTotal",
+      "testRejectReplay",
+      "testRejectRootNotFinalized",
+      "testRejectTamperedProofWord",
+      "testRejectTotalAboveBalance",
+      "testRejectWrongStart"
+    ],
+    "1024": [
+      "testRejectInflatedTotal",
+      "testRejectReplay",
+      "testRejectRootNotFinalized",
+      "testRejectTamperedProofWord",
+      "testRejectTotalAboveBalance",
+      "testRejectWrongStart"
+    ],
+    "64": [
+      "testRejectInflatedTotal",
+      "testRejectReplay",
+      "testRejectRootNotFinalized",
+      "testRejectTamperedProofWord",
+      "testRejectTotalAboveBalance",
+      "testRejectWrongStart"
+    ]
+  },
+  "rejection_tests_passed_baseline": {
+    "64": [
+      "testRejectInflatedAmount",
+      "testRejectReplay",
+      "testRejectRootNotFinalized"
+    ],
+    "16": [
+      "testRejectInflatedAmount",
+      "testRejectReplay",
+      "testRejectRootNotFinalized"
+    ],
+    "256": [
+      "testRejectInflatedAmount",
+      "testRejectReplay",
+      "testRejectRootNotFinalized"
+    ],
+    "100": [
+      "testRejectInflatedAmount",
+      "testRejectReplay",
+      "testRejectRootNotFinalized"
+    ],
+    "1024": [
+      "testRejectInflatedAmount",
+      "testRejectReplay",
+      "testRejectRootNotFinalized"
+    ]
+  },
+  "sizes": [
+    {
+      "receipts": 16,
+      "padded_leaves": 16,
+      "constraints": 7310,
+      "setup_ms_single_sample": 164.649,
+      "prove_ms_samples": [
+        18.105,
+        16.098,
+        16.954,
+        15.909,
+        16.749
+      ],
+      "prove_ms_median": 16.749,
+      "prove_ms_min": 15.909,
+      "prove_ms_max": 18.105,
+      "native_verify_ms_samples": [
+        0.745,
+        0.72,
+        0.718,
+        0.722,
+        0.729
+      ],
+      "native_verify_ms_median": 0.722,
+      "batch_total_minor_units": 960,
+      "claim_proof": {
+        "verify_proof_gas": 214606,
+        "claim_gas": 286364,
+        "claim_gas_per_receipt": 17897.8,
+        "second_claim_gas": 261364,
+        "calldata_bytes": 356,
+        "calldata_gas_included": 4952,
+        "derived_execution_gas": 260412,
+        "derived_execution_gas_per_receipt": 16275.8
+      },
+      "baseline": {
+        "claim_gas": 541501,
+        "claim_gas_per_receipt": 33843.8,
+        "second_claim_gas": 516597,
+        "calldata_bytes": 5252,
+        "calldata_gas_included": 47444,
+        "derived_execution_gas": 473057,
+        "derived_execution_gas_per_receipt": 29566.1
+      },
+      "baseline_gas_over_claim_proof_gas": 1.89
+    },
+    {
+      "receipts": 64,
+      "padded_leaves": 64,
+      "constraints": 28286,
+      "setup_ms_single_sample": 557.029,
+      "prove_ms_samples": [
+        58.111,
+        59.922,
+        54.14,
+        57.821,
+        55.673
+      ],
+      "prove_ms_median": 57.821,
+      "prove_ms_min": 54.14,
+      "prove_ms_max": 59.922,
+      "native_verify_ms_samples": [
+        0.752,
+        0.733,
+        0.701,
+        0.705,
+        0.727
+      ],
+      "native_verify_ms_median": 0.727,
+      "batch_total_minor_units": 3840,
+      "claim_proof": {
+        "verify_proof_gas": 214606,
+        "claim_gas": 286352,
+        "claim_gas_per_receipt": 4474.2,
+        "second_claim_gas": 261340,
+        "calldata_bytes": 356,
+        "calldata_gas_included": 4940,
+        "derived_execution_gas": 260412,
+        "derived_execution_gas_per_receipt": 4068.9
+      },
+      "baseline": {
+        "claim_gas": 2144894,
+        "claim_gas_per_receipt": 33514.0,
+        "second_claim_gas": 2120494,
+        "calldata_bytes": 24708,
+        "calldata_gas_included": 251640,
+        "derived_execution_gas": 1872254,
+        "derived_execution_gas_per_receipt": 29254.0
+      },
+      "baseline_gas_over_claim_proof_gas": 7.49
+    },
+    {
+      "receipts": 100,
+      "padded_leaves": 128,
+      "constraints": 44576,
+      "setup_ms_single_sample": 914.543,
+      "prove_ms_samples": [
+        85.004,
+        88.15,
+        96.272,
+        89.843,
+        90.93
+      ],
+      "prove_ms_median": 89.843,
+      "prove_ms_min": 85.004,
+      "prove_ms_max": 96.272,
+      "native_verify_ms_samples": [
+        0.718,
+        0.735,
+        0.713,
+        0.755,
+        0.791
+      ],
+      "native_verify_ms_median": 0.735,
+      "batch_total_minor_units": 6000,
+      "claim_proof": {
+        "verify_proof_gas": 214606,
+        "claim_gas": 286352,
+        "claim_gas_per_receipt": 2863.5,
+        "second_claim_gas": 261364,
+        "calldata_bytes": 356,
+        "calldata_gas_included": 4940,
+        "derived_execution_gas": 260412,
+        "derived_execution_gas_per_receipt": 2604.1
+      },
+      "baseline": {
+        "claim_gas": 3444970,
+        "claim_gas_per_receipt": 34449.7,
+        "second_claim_gas": 3420786,
+        "calldata_bytes": 41732,
+        "calldata_gas_included": 443480,
+        "derived_execution_gas": 2980490,
+        "derived_execution_gas_per_receipt": 29804.9
+      },
+      "baseline_gas_over_claim_proof_gas": 12.03
+    },
+    {
+      "receipts": 256,
+      "padded_leaves": 256,
+      "constraints": 112190,
+      "setup_ms_single_sample": 2348.471,
+      "prove_ms_samples": [
+        177.73,
+        169.698,
+        174.513,
+        168.553,
+        179.95
+      ],
+      "prove_ms_median": 174.513,
+      "prove_ms_min": 168.553,
+      "prove_ms_max": 179.95,
+      "native_verify_ms_samples": [
+        0.833,
+        0.748,
+        0.723,
+        0.748,
+        0.77
+      ],
+      "native_verify_ms_median": 0.748,
+      "batch_total_minor_units": 15360,
+      "claim_proof": {
+        "verify_proof_gas": 214606,
+        "claim_gas": 286352,
+        "claim_gas_per_receipt": 1118.6,
+        "second_claim_gas": 261352,
+        "calldata_bytes": 356,
+        "calldata_gas_included": 4940,
+        "derived_execution_gas": 260412,
+        "derived_execution_gas_per_receipt": 1017.2
+      },
+      "baseline": {
+        "claim_gas": 9124753,
+        "claim_gas_per_receipt": 35643.6,
+        "second_claim_gas": 9105201,
+        "calldata_bytes": 114820,
+        "calldata_gas_included": 1266808,
+        "derived_execution_gas": 7836945,
+        "derived_execution_gas_per_receipt": 30613.1
+      },
+      "baseline_gas_over_claim_proof_gas": 31.87
+    },
+    {
+      "receipts": 1024,
+      "padded_leaves": 1024,
+      "constraints": 447809,
+      "setup_ms_single_sample": 9215.656,
+      "prove_ms_samples": [
+        716.644,
+        702.663,
+        698.951,
+        678.778,
+        626.082
+      ],
+      "prove_ms_median": 698.951,
+      "prove_ms_min": 626.082,
+      "prove_ms_max": 716.644,
+      "native_verify_ms_samples": [
+        0.929,
+        0.908,
+        1.003,
+        0.794,
+        0.879
+      ],
+      "native_verify_ms_median": 0.908,
+      "batch_total_minor_units": 61440,
+      "claim_proof": {
+        "verify_proof_gas": 214606,
+        "claim_gas": 286352,
+        "claim_gas_per_receipt": 279.6,
+        "second_claim_gas": 261352,
+        "calldata_bytes": 356,
+        "calldata_gas_included": 4940,
+        "derived_execution_gas": 260412,
+        "derived_execution_gas_per_receipt": 254.3
+      },
+      "baseline": {
+        "claim_gas": 41221465,
+        "claim_gas_per_receipt": 40255.3,
+        "second_claim_gas": 41205909,
+        "calldata_bytes": 524420,
+        "calldata_gas_included": 6128888,
+        "derived_execution_gas": 35071577,
+        "derived_execution_gas_per_receipt": 34249.6
+      },
+      "baseline_gas_over_claim_proof_gas": 143.95
+    }
+  ]
+}

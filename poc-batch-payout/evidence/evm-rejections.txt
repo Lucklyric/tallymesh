@@ -1,0 +1,78 @@
+No files changed, compilation skipped
+
+Ran 3 tests for test/PerReceiptPayout.t.sol:Baseline64Test
+[PASS] testRejectInflatedAmount() (gas: 2446187)
+[PASS] testRejectReplay() (gas: 2446155)
+[PASS] testRejectRootNotFinalized() (gas: 2441963)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 6.59ms (7.08ms CPU time)
+
+Ran 6 tests for test/Payout.t.sol:ClaimProof100Test
+[PASS] testRejectInflatedTotal() (gas: 495560)
+[PASS] testRejectReplay() (gas: 273153)
+[PASS] testRejectRootNotFinalized() (gas: 1609247)
+[PASS] testRejectTamperedProofWord() (gas: 8060847)
+[PASS] testRejectTotalAboveBalance() (gas: 1644794)
+[PASS] testRejectWrongStart() (gas: 505504)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 7.68ms (16.69ms CPU time)
+
+Ran 3 tests for test/PerReceiptPayout.t.sol:Baseline16Test
+[PASS] testRejectInflatedAmount() (gas: 617578)
+[PASS] testRejectReplay() (gas: 617546)
+[PASS] testRejectRootNotFinalized() (gas: 614715)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 9.06ms (1.70ms CPU time)
+
+Ran 6 tests for test/Payout.t.sol:ClaimProof256Test
+[PASS] testRejectInflatedTotal() (gas: 495560)
+[PASS] testRejectReplay() (gas: 273153)
+[PASS] testRejectRootNotFinalized() (gas: 1609447)
+[PASS] testRejectTamperedProofWord() (gas: 8060847)
+[PASS] testRejectTotalAboveBalance() (gas: 1644994)
+[PASS] testRejectWrongStart() (gas: 505504)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 9.11ms (16.89ms CPU time)
+
+Ran 6 tests for test/Payout.t.sol:ClaimProof16Test
+[PASS] testRejectInflatedTotal() (gas: 495560)
+[PASS] testRejectReplay() (gas: 273153)
+[PASS] testRejectRootNotFinalized() (gas: 1609447)
+[PASS] testRejectTamperedProofWord() (gas: 8060847)
+[PASS] testRejectTotalAboveBalance() (gas: 1644994)
+[PASS] testRejectWrongStart() (gas: 505504)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 9.93ms (13.39ms CPU time)
+
+Ran 6 tests for test/Payout.t.sol:ClaimProof1024Test
+[PASS] testRejectInflatedTotal() (gas: 495560)
+[PASS] testRejectReplay() (gas: 273153)
+[PASS] testRejectRootNotFinalized() (gas: 1609647)
+[PASS] testRejectTamperedProofWord() (gas: 8060847)
+[PASS] testRejectTotalAboveBalance() (gas: 1645194)
+[PASS] testRejectWrongStart() (gas: 505504)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 9.89ms (13.85ms CPU time)
+
+Ran 6 tests for test/Payout.t.sol:ClaimProof64Test
+[PASS] testRejectInflatedTotal() (gas: 495560)
+[PASS] testRejectReplay() (gas: 273153)
+[PASS] testRejectRootNotFinalized() (gas: 1609247)
+[PASS] testRejectTamperedProofWord() (gas: 8060847)
+[PASS] testRejectTotalAboveBalance() (gas: 1644794)
+[PASS] testRejectWrongStart() (gas: 505504)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 13.35ms (14.03ms CPU time)
+
+Ran 3 tests for test/PerReceiptPayout.t.sol:Baseline256Test
+[PASS] testRejectInflatedAmount() (gas: 10826259)
+[PASS] testRejectReplay() (gas: 10826227)
+[PASS] testRejectRootNotFinalized() (gas: 10820675)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 13.45ms (23.46ms CPU time)
+
+Ran 3 tests for test/PerReceiptPayout.t.sol:Baseline100Test
+[PASS] testRejectInflatedAmount() (gas: 3982905)
+[PASS] testRejectReplay() (gas: 3982873)
+[PASS] testRejectRootNotFinalized() (gas: 3978001)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 36.67ms (9.63ms CPU time)
+
+Ran 3 tests for test/PerReceiptPayout.t.sol:Baseline1024Test
+[PASS] testRejectInflatedAmount() (gas: 57889002)
+[PASS] testRejectReplay() (gas: 57888970)
+[PASS] testRejectRootNotFinalized() (gas: 57882057)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 36.54ms (100.92ms CPU time)
+
+Ran 10 test suites in 37.35ms (152.27ms CPU time): 45 tests passed, 0 failed, 0 skipped (45 total tests)

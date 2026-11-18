@@ -1,0 +1,16 @@
+One-off probe, run by hand in a scratch project with the same foundry.toml. Not rerun by run.sh.
+It shows that the forge gas report value of a top-level call includes 21000 intrinsic gas and calldata gas:
+f(0) and f(2**256-1) differ by 384 = 32 bytes * (16 - 4).
+
+pragma solidity ^0.8.20;
+contract Empty { function f(uint256 x) external {} }
+contract PTest {
+    Empty e;
+    function setUp() public { e = new Empty(); }
+    function testZero() public { e.f(0); }
+    function testFull() public { e.f(type(uint256).max); }
+}
+
+| Function Name               | Min             | Avg   | Median | Max   | # Calls |
+| f                           | 21379           | 21379 | 21379  | 21379 | 1       |
+| f                           | 21763           | 21763 | 21763  | 21763 | 1       |

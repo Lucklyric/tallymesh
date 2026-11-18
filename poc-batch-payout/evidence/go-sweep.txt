@@ -1,0 +1,140 @@
+09:02:46 INF compiling circuit
+09:02:46 INF parsed circuit inputs nbPublic=5 nbSecret=32
+09:02:47 INF building constraint builder nbConstraints=7310
+09:02:47 DBG constraint system solver done nbConstraints=7310 took=3.447791
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=7310 took=14.546958
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.729667
+09:02:47 DBG constraint system solver done nbConstraints=7310 took=2.79475
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=7310 took=13.23525
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.703208
+09:02:47 DBG constraint system solver done nbConstraints=7310 took=2.941583
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=7310 took=13.947291
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.701167
+09:02:47 DBG constraint system solver done nbConstraints=7310 took=3.009125
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=7310 took=12.83025
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.710792
+09:02:47 DBG constraint system solver done nbConstraints=7310 took=3.03675
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=7310 took=13.594334
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.715792
+09:02:47 DBG constraint system solver done nbConstraints=7310 took=2.763083
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=7310 took=14.631375
+09:02:47 DBG hash to field function not set, using keccak256 as default
+receipts=16 paddedLeaves=16 constraints=7310 setup=164.6ms prove(median/min/max of 5)=16.7/15.9/18.1ms verify(median)=0.722ms publicInputs=5 gnarkCompressed=164 gnarkRaw=324
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.609083
+  optimistic finality fixture: paid=960 remaining=4000 next=17
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.528458
+  validity finality fixture: paid=960 remaining=4000 next=17
+09:02:47 ERR error="constraint #7309 is not satisfied: 1 ⋅ 1796435616069697038278754419133202736098338566915023045750040799677448397554 != 6960723206338186959421101303756747173122724584595640385187153148823029238544" nbConstraints=7310
+  PASS: same-total substitution rejected by root constraint
+09:02:47 INF compiling circuit
+09:02:47 INF parsed circuit inputs nbPublic=5 nbSecret=128
+09:02:47 INF building constraint builder nbConstraints=28286
+09:02:47 DBG constraint system solver done nbConstraints=28286 took=11.024709
+09:02:47 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=28286 took=46.993167
+09:02:47 DBG verifier done backend=groth16 curve=bn254 took=0.728375
+09:02:47 DBG constraint system solver done nbConstraints=28286 took=12.130083
+09:02:48 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=28286 took=47.710292
+09:02:48 DBG verifier done backend=groth16 curve=bn254 took=0.72275
+09:02:48 DBG constraint system solver done nbConstraints=28286 took=9.960458
+09:02:48 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=28286 took=44.100667
+09:02:48 DBG verifier done backend=groth16 curve=bn254 took=0.691459
+09:02:48 DBG constraint system solver done nbConstraints=28286 took=10.452084
+09:02:48 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=28286 took=47.289333
+09:02:48 DBG verifier done backend=groth16 curve=bn254 took=0.692083
+09:02:48 DBG constraint system solver done nbConstraints=28286 took=10.258458
+09:02:48 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=28286 took=45.340541
+09:02:48 DBG verifier done backend=groth16 curve=bn254 took=0.707083
+09:02:48 DBG constraint system solver done nbConstraints=28286 took=9.721042
+09:02:48 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=28286 took=42.317958
+09:02:48 DBG hash to field function not set, using keccak256 as default
+receipts=64 paddedLeaves=64 constraints=28286 setup=557.0ms prove(median/min/max of 5)=57.8/54.1/59.9ms verify(median)=0.727ms publicInputs=5 gnarkCompressed=164 gnarkRaw=324
+09:02:48 DBG verifier done backend=groth16 curve=bn254 took=0.714208
+  optimistic finality fixture: paid=3840 remaining=4000 next=65
+09:02:48 DBG verifier done backend=groth16 curve=bn254 took=0.590875
+  validity finality fixture: paid=3840 remaining=4000 next=65
+09:02:48 ERR error="constraint #28285 is not satisfied: 1 ⋅ 5198939808745023406466738004056556659466090435475131798601159222747459351959 != 5563752347839845501397759138680700590858086912016539449272775509380608445876" nbConstraints=28286
+  PASS: same-total substitution rejected by root constraint
+09:02:48 INF compiling circuit
+09:02:48 INF parsed circuit inputs nbPublic=5 nbSecret=200
+09:02:48 INF building constraint builder nbConstraints=44576
+09:02:49 DBG constraint system solver done nbConstraints=44576 took=14.783333
+09:02:49 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=44576 took=70.14175
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.708917
+09:02:49 DBG constraint system solver done nbConstraints=44576 took=14.658625
+09:02:49 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=44576 took=73.411416
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.725708
+09:02:49 DBG constraint system solver done nbConstraints=44576 took=15.280875
+09:02:49 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=44576 took=80.901125
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.692625
+09:02:49 DBG constraint system solver done nbConstraints=44576 took=16.125375
+09:02:49 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=44576 took=73.62025
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.709334
+09:02:49 DBG constraint system solver done nbConstraints=44576 took=16.333958
+09:02:49 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=44576 took=74.508667
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.767833
+09:02:49 DBG constraint system solver done nbConstraints=44576 took=14.554917
+09:02:49 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=44576 took=70.689667
+09:02:49 DBG hash to field function not set, using keccak256 as default
+receipts=100 paddedLeaves=128 constraints=44576 setup=914.5ms prove(median/min/max of 5)=89.8/85.0/96.3ms verify(median)=0.735ms publicInputs=5 gnarkCompressed=164 gnarkRaw=324
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.652833
+  optimistic finality fixture: paid=6000 remaining=4000 next=101
+09:02:49 DBG verifier done backend=groth16 curve=bn254 took=0.643875
+  validity finality fixture: paid=6000 remaining=4000 next=101
+09:02:49 ERR error="constraint #44575 is not satisfied: 1 ⋅ 3014037798853844047473839696177629875339408290475245122383677993855425999856 != 4022587658561420606336867431284838926359606425803329302412941699815158191255" nbConstraints=44576
+  PASS: same-total substitution rejected by root constraint
+09:02:49 INF compiling circuit
+09:02:49 INF parsed circuit inputs nbPublic=5 nbSecret=512
+09:02:49 INF building constraint builder nbConstraints=112190
+09:02:52 DBG constraint system solver done nbConstraints=112190 took=30.980625
+09:02:52 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=112190 took=146.651375
+09:02:52 DBG verifier done backend=groth16 curve=bn254 took=0.812334
+09:02:52 DBG constraint system solver done nbConstraints=112190 took=28.519458
+09:02:52 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=112190 took=141.089083
+09:02:52 DBG verifier done backend=groth16 curve=bn254 took=0.729708
+09:02:52 DBG constraint system solver done nbConstraints=112190 took=27.407791
+09:02:52 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=112190 took=147.02375
+09:02:52 DBG verifier done backend=groth16 curve=bn254 took=0.713666
+09:02:52 DBG constraint system solver done nbConstraints=112190 took=29.076458
+09:02:53 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=112190 took=139.383708
+09:02:53 DBG verifier done backend=groth16 curve=bn254 took=0.738333
+09:02:53 DBG constraint system solver done nbConstraints=112190 took=32.60375
+09:02:53 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=112190 took=147.253417
+09:02:53 DBG verifier done backend=groth16 curve=bn254 took=0.75225
+09:02:53 DBG constraint system solver done nbConstraints=112190 took=30.896917
+09:02:53 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=112190 took=150.605167
+09:02:53 DBG hash to field function not set, using keccak256 as default
+receipts=256 paddedLeaves=256 constraints=112190 setup=2348.5ms prove(median/min/max of 5)=174.5/168.6/179.9ms verify(median)=0.748ms publicInputs=5 gnarkCompressed=164 gnarkRaw=324
+09:02:53 DBG verifier done backend=groth16 curve=bn254 took=0.7
+  optimistic finality fixture: paid=15360 remaining=4000 next=257
+09:02:53 DBG verifier done backend=groth16 curve=bn254 took=0.603125
+  validity finality fixture: paid=15360 remaining=4000 next=257
+09:02:53 ERR error="constraint #112189 is not satisfied: 1 ⋅ 1945165357584381808313236530417446690656291116887344895978410264274496403708 != 14825297708428236100865426351121136425406856625472431089679286940238100088524" nbConstraints=112190
+  PASS: same-total substitution rejected by root constraint
+09:02:53 INF compiling circuit
+09:02:53 INF parsed circuit inputs nbPublic=5 nbSecret=2048
+09:02:54 INF building constraint builder nbConstraints=447809
+09:03:03 DBG constraint system solver done nbConstraints=447809 took=99.726417
+09:03:04 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=447809 took=616.816875
+09:03:04 DBG verifier done backend=groth16 curve=bn254 took=0.906542
+09:03:04 DBG constraint system solver done nbConstraints=447809 took=98.653792
+09:03:04 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=447809 took=603.920834
+09:03:04 DBG verifier done backend=groth16 curve=bn254 took=0.879
+09:03:04 DBG constraint system solver done nbConstraints=447809 took=116.421666
+09:03:05 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=447809 took=582.395792
+09:03:05 DBG verifier done backend=groth16 curve=bn254 took=0.97175
+09:03:05 DBG constraint system solver done nbConstraints=447809 took=97.737791
+09:03:06 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=447809 took=580.952709
+09:03:06 DBG verifier done backend=groth16 curve=bn254 took=0.761334
+09:03:06 DBG constraint system solver done nbConstraints=447809 took=89.275708
+09:03:06 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=447809 took=536.713125
+09:03:06 DBG verifier done backend=groth16 curve=bn254 took=0.856
+09:03:06 DBG constraint system solver done nbConstraints=447809 took=89.094291
+09:03:07 DBG prover done acceleration=none backend=groth16 curve=bn254 nbConstraints=447809 took=538.181917
+09:03:07 DBG hash to field function not set, using keccak256 as default
+receipts=1024 paddedLeaves=1024 constraints=447809 setup=9215.7ms prove(median/min/max of 5)=699.0/626.1/716.6ms verify(median)=0.908ms publicInputs=5 gnarkCompressed=164 gnarkRaw=324
+09:03:07 DBG verifier done backend=groth16 curve=bn254 took=0.861959
+  optimistic finality fixture: paid=61440 remaining=4000 next=1025
+09:03:07 DBG verifier done backend=groth16 curve=bn254 took=0.768417
+  validity finality fixture: paid=61440 remaining=4000 next=1025
+09:03:07 ERR error="constraint #447808 is not satisfied: 1 ⋅ 10530166775810102258713211978086841558793346131287709045913200015540012296190 != 10053152952259492677428195543389247919433056072979164450869155460269397331837" nbConstraints=447809
+  PASS: same-total substitution rejected by root constraint

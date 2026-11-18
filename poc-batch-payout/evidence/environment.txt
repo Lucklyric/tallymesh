@@ -1,0 +1,9 @@
+go version go1.24.5 darwin/arm64
+forge Version: 1.5.1-stable
+Commit SHA: b0a9dd9ceda36f63e2326ce530c10e6916f4b8a2
+Build Timestamp: 2025-12-22T11:41:09.812070000Z (1766403669)
+Build Profile: maxperf
+Apple M5 Max
+18
+	github.com/consensys/gnark v0.13.0
+	github.com/consensys/gnark-crypto v0.18.0
